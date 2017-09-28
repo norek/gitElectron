@@ -1,0 +1,29 @@
+/*
+./src/styles.css
+*/
+*, *:before, *:after {
+    box-sizing: border-box;
+  }
+  
+  body, html {
+    margin: 0;
+    padding: 0;
+  }
+  
+  body{
+    /* background: #000; */
+  }
+  
+  .ui-autocomplete, .ui-inputtext {
+    width: 100%;
+    margin: 0;
+  }
+  
+  .ui-inputtext {
+    border-radius: 0;
+    margin: 0;
+    border: none;
+    border-bottom: 2px solid rgb(21,96,150);
+    outline: none;
+    background: rgba(255, 255, 255, 0.8);
+  }
