@@ -11,16 +11,19 @@ import { MdButtonModule, MdCheckboxModule } from '@angular/material';
 import { MaterialModule } from './material.module';
 import { StatusService } from './status/status.service';
 import { StatusListComponent } from './status/status-list.component';
+import { CommitFormComponent } from './commit/commit-form.component';
+import { CommitService } from './commit/commit.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent, BranchListComponent, StatusListComponent
+    AppComponent, BranchListComponent, StatusListComponent, CommitFormComponent
   ],
   imports: [
-    BrowserModule, BrowserAnimationsModule,
+    BrowserModule, FormsModule, BrowserAnimationsModule,
     HttpModule, MaterialModule,
   ],
-  providers: [BranchService, StatusService],
+  providers: [BranchService, StatusService, CommitService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

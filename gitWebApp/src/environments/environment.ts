@@ -8,5 +8,5 @@ export const environment = {
 };
 
 export const settings = {
-  baseApi: 'http://localhost:50034/api'
+  baseApi: 'http://localhost:50035/api'
 };

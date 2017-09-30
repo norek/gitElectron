@@ -1,0 +1,23 @@
+#commit-form{
+    margin-bottom: 20px;
+}
+
+#commit-message-input{
+    width: 100%;
+}
+
+#commit-button-container{
+    width: 100%;
+    display: inline-block;
+
+    button{
+        float: right;
+    }
+}
+
+md-spinner{
+    width: 35px;
+    height: 35px;
+    float: right;
+    margin-right: 30px;
+}
