@@ -6,3 +6,7 @@
 export const environment = {
   production: false
 };
+
+export const settings = {
+  baseApi: 'http://localhost:50034/api'
+};

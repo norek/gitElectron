@@ -1,4 +1,5 @@
 using Core.Features.Branch;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api

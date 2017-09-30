@@ -13,22 +13,33 @@ namespace api
         {
             _configuration = configuration;
         }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
+            services.AddCors(options =>
+                        {
+                            options.AddPolicy("AllowAllOrigins",
+                            builder =>
+                            {
+                                builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+                            });
+                        });
             services.RegisterServices(_configuration);
+
+           
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("AllowAllOrigins");
 
             app.UseMvc();
+
         }
     }
 }
