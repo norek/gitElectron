@@ -1,3 +1,4 @@
+using api.core.Features.Status;
 using Core.Features.Branch;
 using LibGit2Sharp;
 using Microsoft.Extensions.Configuration;
@@ -9,10 +10,12 @@ namespace api
     {
         public static IServiceCollection RegisterServices(this IServiceCollection collection, IConfiguration configuration)
         {
-            collection.AddSingleton<IRepository>((sp) => new Repository(configuration["repositoryPath"]));
-
-
-            collection.AddSingleton<IBranchProvider, BranchProvider>();
+            collection
+                .AddSingleton<IRepository>((sp) => new Repository(configuration["repositoryPath"]))
+                .AddSingleton<IBranchProvider, BranchProvider>()
+                .AddSingleton<IRepositoryStatusService, RepositoryStatusService>()
+            
+            ;
 
             return collection;
         }

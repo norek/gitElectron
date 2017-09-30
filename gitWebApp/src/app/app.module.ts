@@ -9,16 +9,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MdButtonModule, MdCheckboxModule } from '@angular/material';
 import { MaterialModule } from './material.module';
+import { StatusService } from './status/status.service';
+import { StatusListComponent } from './status/status-list.component';
 
 @NgModule({
   declarations: [
-    AppComponent, BranchListComponent
+    AppComponent, BranchListComponent, StatusListComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
     HttpModule, MaterialModule,
   ],
-  providers: [BranchService],
+  providers: [BranchService, StatusService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

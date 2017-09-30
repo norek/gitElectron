@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StatusItem } from './status/status.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+
+  onStatusSelected(status: StatusItem): void {
+    console.log(status);
+  }
+
 }

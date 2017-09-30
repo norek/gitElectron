@@ -1,0 +1,14 @@
+<md-expansion-panel>
+    <md-expansion-panel-header>
+        <md-panel-title>
+            Status
+        </md-panel-title>
+    </md-expansion-panel-header>
+
+    <md-list>
+        <md-list-item *ngFor="let status of statusList" (click)=statusSelected(status)>
+            <md-icon md-list-icon>{{getIconName(status)}}</md-icon>
+            <h4 md-line> {{status.path}}</h4>
+        </md-list-item>
+    </md-list>
+</md-expansion-panel>

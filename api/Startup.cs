@@ -25,9 +25,8 @@ namespace api
                                 builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
                             });
                         });
-            services.RegisterServices(_configuration);
 
-           
+            services.RegisterServices(_configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
