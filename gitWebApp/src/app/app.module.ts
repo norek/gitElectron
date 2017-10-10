@@ -14,6 +14,7 @@ import { StatusListComponent } from './status/status-list.component';
 import { CommitFormComponent } from './commit/commit-form.component';
 import { CommitService } from './commit/commit.service';
 import { FormsModule } from '@angular/forms';
+import { CommitBusService } from './services/commit.bus.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { FormsModule } from '@angular/forms';
     BrowserModule, FormsModule, BrowserAnimationsModule,
     HttpModule, MaterialModule,
   ],
-  providers: [BranchService, StatusService, CommitService],
+  providers: [BranchService, StatusService, CommitService, CommitBusService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

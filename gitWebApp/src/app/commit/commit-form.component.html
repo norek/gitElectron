@@ -1,14 +1,13 @@
 <div id="commit-form">
     <md-form-field id="commit-message-input">
-        <input mdInput placeholder="Commit message" 
-                required
+        <input mdInput placeholder="Commit message"
                 name="commitMessageInput" 
                 [(ngModel)]="commitMessage" 
                 #commitMessageInput="ngModel">
     </md-form-field>
     <br />
     <div id="commit-button-container">
-        <button md-raised-button [disabled]="commitMessageInput.invalid || isCommiting" color="primary" (click)="createCommit()">
+        <button md-raised-button [disabled]="!commitMessage || commitMessage === '' || isCommiting" color="primary" (click)="createCommit()">
             Commit
         </button>
         <md-spinner *ngIf="isCommiting" color="warn"></md-spinner>

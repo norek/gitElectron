@@ -6,13 +6,24 @@
     </md-expansion-panel-header>
 
     <commit-form></commit-form>
-    
+
     <md-divider></md-divider>
-    
+
     <md-list>
-        <md-list-item *ngFor="let status of statusList" (click)=statusSelected(status)>
-            <md-icon md-list-icon>{{getIconName(status)}}</md-icon>
-            <h4 md-line> {{status.path}}</h4>
+        <md-list-item *ngFor="let file of stagedFiles" (click)=statusSelected(file)>
+            <md-icon md-list-icon>{{getIconName(file)}}</md-icon>
+            <h4 md-line> {{file.path}}</h4>
+            <button md-raised-button color="warn" (click)="unStageFile(file)">-</button>
+        </md-list-item>
+    </md-list>
+
+    <md-divider *ngIf="unStagedFiles.length > 0 && stagedFiles.length > 0"></md-divider>
+
+    <md-list>
+        <md-list-item *ngFor="let file of unStagedFiles" (click)=statusSelected(file)>
+            <md-icon md-list-icon>{{getIconName(file)}}</md-icon>
+            <h4 md-line> {{file.path}}</h4>
+            <button md-raised-button color="accent" (click)="stageFile(file)">+</button>
         </md-list-item>
     </md-list>
 

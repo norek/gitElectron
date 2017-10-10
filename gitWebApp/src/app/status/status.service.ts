@@ -9,10 +9,20 @@ import { settings } from '../../environments/environment';
 export class StatusService {
     constructor(private http: Http) { }
 
-    public Get(): Observable<StatusItem[]> {
+    public get(): Observable<StatusItem[]> {
         return this.http
             .get(settings.baseApi + '/statuses')
             .map((result) => result.json());
+    }
+
+    public stage(file: StatusItem): Observable<Response> {
+        return this.http
+            .post(settings.baseApi + '/statuses/stage', file);
+    }
+
+    public unStage(file: StatusItem): Observable<Response> {
+        return this.http
+            .post(settings.baseApi + '/statuses/unstage', file);
     }
 }
 

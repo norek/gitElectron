@@ -17,5 +17,19 @@ namespace api.Controllers
         {
             return Ok(statusService.GetAll());
         }
+
+        [HttpPost("stage")]
+        public IActionResult Stage([FromBody] StatusItem statusItem)
+        {
+            statusService.Stage(statusItem);
+            return Ok();
+        }
+
+        [HttpPost("unstage")]
+        public IActionResult UnStage([FromBody] StatusItem statusItem)
+        {
+            statusService.Unstage(statusItem);
+            return Ok();
+        }
     }
 }

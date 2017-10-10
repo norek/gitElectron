@@ -22,6 +22,16 @@ namespace api.core.Features.Status
                                  .Select(d => new StatusItem()
                                  { Path = d.FilePath, Status = d.State }).ToList();
         }
+
+        public void Stage(StatusItem statusItem)
+        {
+            Commands.Stage(repository, statusItem.Path);
+        }
+
+        public void Unstage(StatusItem statusItem)
+        {
+            Commands.Unstage(repository, statusItem.Path);
+        }
     }
 
     public class StatusItem
