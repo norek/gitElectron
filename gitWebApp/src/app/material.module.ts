@@ -1,5 +1,7 @@
-import { MdButtonModule, MdCheckboxModule, MatExpansionModule,
-    MatInputModule, MatListModule, MdIconModule, MatProgressSpinnerModule } from '@angular/material';
+import {
+    MdButtonModule, MdCheckboxModule, MatExpansionModule,
+    MatInputModule, MatListModule, MdIconModule, MatProgressSpinnerModule, MdDialogModule, MatCheckboxModule, MatSnackBarModule
+} from '@angular/material';
 import { NgModule } from '@angular/core';
 
 @NgModule({
@@ -11,6 +13,9 @@ import { NgModule } from '@angular/core';
         MatListModule,
         MdIconModule,
         MatProgressSpinnerModule,
+        MdDialogModule,
+        MatCheckboxModule,
+        MatSnackBarModule
     ],
     exports:
     [MdButtonModule,
@@ -20,6 +25,9 @@ import { NgModule } from '@angular/core';
         MatListModule,
         MdIconModule,
         MatProgressSpinnerModule,
+        MdDialogModule,
+        MatCheckboxModule,
+        MatSnackBarModule
     ],
 })
 export class MaterialModule { }

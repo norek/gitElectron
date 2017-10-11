@@ -18,5 +18,12 @@ namespace api
         {
             return Ok(_branchProvider.GetAllBranches());
         }
+
+        [HttpPost("{branchName}")]
+        public IActionResult Create(string branchName)
+        {
+            _branchProvider.Create(branchName);
+            return Ok();
+        }
     }
 }

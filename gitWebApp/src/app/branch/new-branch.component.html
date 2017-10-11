@@ -1,0 +1,17 @@
+<div *ngIf="!isCreating">
+    <h1 md-dialog-title>New branch</h1>
+    <form #newBranchForm="ngForm" (ngSubmit)="onSubmit()">
+        <div md-dialog-content>
+            <md-form-field>
+                <input mdInput tabindex="1" placeholder="branch name" name="branchName" [(ngModel)]="newBranchName" required>
+            </md-form-field>
+        </div>
+        <div md-dialog-actions>
+            <button md-button type="reset" (click)="closeDialog()" tabindex="-1">Cancel</button>
+            <button md-button type="submit" color='primary' tabindex="2" [disabled]="!newBranchForm.form.valid">Create</button>
+        </div>
+    </form>
+</div>
+<div *ngIf="isCreating">
+    <md-spinner></md-spinner>
+</div>

@@ -16,38 +16,16 @@ namespace Core.Features.Branch
             _repository = repo;
         }
 
+        public void Create(string branchName)
+        {
+            _repository.CreateBranch(branchName);
+        }
+
         public IEnumerable<Branch> GetAllBranches()
         {
             return _repository.Branches
-                              .Select(b => new Branch() { IsRemote = b.IsRemote, Name = b.FriendlyName, IsHead = b.IsCurrentRepositoryHead,Tip = b.Tip.Sha })
+                              .Select(b => new Branch() { IsRemote = b.IsRemote, Name = b.FriendlyName, IsHead = b.IsCurrentRepositoryHead, Tip = b.Tip.Sha })
                               .ToList();
         }
-    }
-
-    public interface IBranchProvider
-    {
-        IEnumerable<Branch> GetAllBranches();
-    }
-
-    public class Branch
-    {
-        public Branch()
-        {
-
-        }
-
-        public Branch(string name, bool isRemote, bool isHead, string tip)
-        {
-            this.Name = name;
-            this.IsRemote = isRemote;
-            this.IsHead = isHead;
-            this.Tip = tip;
-        }
-
-        public string Name { get; set; }
-
-        public bool IsRemote { get; set; }
-        public bool IsHead { get; internal set; }
-        public string Tip { get; internal set; }
     }
 }

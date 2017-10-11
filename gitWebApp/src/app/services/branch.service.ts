@@ -10,8 +10,12 @@ export class BranchService {
     constructor(private http: Http) {
     }
 
-    public GetAll(): Observable<Branch[]> {
+    public getAll(): Observable<Branch[]> {
         return this.http.get(settings.baseApi + '/branches').map((result) => result.json());
+    }
+
+    public create(name: String): Observable<Response> {
+        return this.http.post(settings.baseApi + '/branches/' + name, {});
     }
 }
 

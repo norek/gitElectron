@@ -8,4 +8,9 @@
     <md-list>
         <md-list-item *ngFor="let branch of branchList">{{branch.name}}</md-list-item>
     </md-list>
+
+    <md-action-row>
+        <button md-button color="primary" (click)="createNew()">Create new</button>
+    </md-action-row>
+
 </md-expansion-panel>
