@@ -25,7 +25,11 @@ export class BranchListComponent implements OnInit {
         this.branchService.getAll().subscribe((branchList) => this.branchList = branchList);
     }
 
-    createNew(): void {
+    private createNew(): void {
         const dialogRef = this.dialog.open(NewBranchComponent);
+    }
+
+    private checkout(name: string): void {
+        this.branchService.checkout(name).subscribe(() => this.loadBranchList());
     }
 }

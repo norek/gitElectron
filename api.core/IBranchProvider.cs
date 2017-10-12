@@ -7,5 +7,7 @@ namespace Core.Features.Branch
         void Create(string branchName);
 
         IEnumerable<Branch> GetAllBranches();
+
+        void Checkout(string name);
     }
 }

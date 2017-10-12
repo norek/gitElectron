@@ -6,7 +6,13 @@
     </md-expansion-panel-header>
 
     <md-list>
-        <md-list-item *ngFor="let branch of branchList">{{branch.name}}</md-list-item>
+        <md-list-item *ngFor="let branch of branchList">
+            <md-icon *ngIf="branch.isHead" md-list-icon>label</md-icon>
+            <h4 md-line> {{branch.name}}</h4>
+            <button md-icon-button *ngIf="!branch.isHead" (click)="checkout(branch.name)">
+                    <md-icon class="md-24">favorite</md-icon>
+            </button>
+        </md-list-item>
     </md-list>
 
     <md-action-row>

@@ -27,5 +27,12 @@ namespace Core.Features.Branch
                               .Select(b => new Branch() { IsRemote = b.IsRemote, Name = b.FriendlyName, IsHead = b.IsCurrentRepositoryHead, Tip = b.Tip.Sha })
                               .ToList();
         }
+
+        public void Checkout(string name)
+        {
+            LibGit2Sharp.Branch branchToCheckout = _repository.Branches[name];
+       
+            Commands.Checkout(_repository, branchToCheckout);
+        }
     }
 }

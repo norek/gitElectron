@@ -17,6 +17,10 @@ export class BranchService {
     public create(name: String): Observable<Response> {
         return this.http.post(settings.baseApi + '/branches/' + name, {});
     }
+
+    public checkout(name: string): Observable<Response> {
+        return this.http.post(settings.baseApi + '/branches/' + name + '/checkout', {});
+    }
 }
 
 export class Branch {

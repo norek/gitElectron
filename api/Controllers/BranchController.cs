@@ -25,5 +25,12 @@ namespace api
             _branchProvider.Create(branchName);
             return Ok();
         }
+
+        [HttpPost("{branchName}/checkout")]
+        public IActionResult Checkout(string branchName)
+        {
+            _branchProvider.Checkout(branchName);
+            return Ok();
+        }
     }
 }
