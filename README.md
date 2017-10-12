@@ -11,7 +11,7 @@ Go to Api folder. In console run:
 Application should start.
 
 This is git gui so we need git repository to test our application. Recomended (for this moment) to use a separate repository. Create new empty repository on you computer and apply path to it in `application secrets` of API project eg. 
-```json{
+`{
   "repositoryPath": "C:\\Projects\\Repositories\\Simple"
 }`
 
