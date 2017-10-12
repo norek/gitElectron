@@ -30,6 +30,6 @@ export class BranchListComponent implements OnInit {
     }
 
     private checkout(name: string): void {
-        this.branchService.checkout(name).subscribe(() => this.loadBranchList());
+        this.branchService.checkout(name).subscribe(() => this.loadBranchList(), (error) => console.log(error));
     }
 }

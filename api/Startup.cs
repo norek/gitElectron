@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using api.Configuration;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,29 +17,26 @@ namespace api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
             services.AddCors(options =>
-                        {
-                            options.AddPolicy("AllowAllOrigins",
-                            builder =>
-                            {
-                                builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
-                            });
-                        });
+            {
+                options.AddPolicy("AllowAllOrigins",
+                builder =>
+                {
+                    builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin().AllowCredentials();
+                });
+            });
+
+            services.AddMvc();
 
             services.RegisterServices(_configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            app.UseCors("AllowAllOrigins");
-
-            app.UseMvc();
-
+            app.UseCors("AllowAllOrigins")
+             .UseMiddleware<ExceptionHandlingMiddleware>()
+             .UseMvc()
+             ;
         }
     }
 }
