@@ -1,4 +1,5 @@
 using api.core.Features.Commit;
+using api.core.Features.Configuration;
 using api.core.Features.Status;
 using Core.Features.Branch;
 using LibGit2Sharp;
@@ -16,6 +17,7 @@ namespace api
                 .AddSingleton<IBranchProvider, BranchProvider>()
                 .AddSingleton<IRepositoryStatusService, RepositoryStatusService>()
                 .AddSingleton<ICommitProvider, CommitProvider>()
+                .AddSingleton<IRepositoryOptionsProvider, RepositoryOptionsProvider>()
             ;
 
             return collection;

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace api
 {
@@ -28,6 +29,11 @@ namespace api
 
             services.AddMvc();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
+
             services.RegisterServices(_configuration);
         }
 
@@ -36,7 +42,12 @@ namespace api
             app.UseCors("AllowAllOrigins")
              .UseMiddleware<ExceptionHandlingMiddleware>()
              .UseMvc()
-             ;
+             .UseSwagger()
+             .UseSwaggerUI(c =>
+             {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+             });
+            ;
         }
     }
 }

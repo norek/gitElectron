@@ -17,6 +17,8 @@ import { CommitBusService } from './services/commit.bus.service';
 import { NewBranchComponent } from './branch/new-branch.component';
 import { NotificationService } from './services/notification.service';
 import { HeaderToolbarComponent } from './toolbar/header-toolbar.component';
+import { RepositoryOptionsService } from './services/repository-options.service';
+import { GravatarService } from './services/external/gravatar.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { HeaderToolbarComponent } from './toolbar/header-toolbar.component';
     BrowserModule, FormsModule, BrowserAnimationsModule,
     HttpModule, MaterialModule,
   ],
-  providers: [BranchService, StatusService, CommitService, CommitBusService, NotificationService],
+  providers: [BranchService, StatusService, CommitService, CommitBusService, NotificationService,
+    RepositoryOptionsService, GravatarService],
   bootstrap: [AppComponent],
   entryComponents: [NewBranchComponent]
 })

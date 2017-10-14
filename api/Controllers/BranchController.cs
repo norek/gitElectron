@@ -14,6 +14,7 @@ namespace api
             _branchProvider = branchProvider;
         }
 
+        [HttpGet("")]
         public IActionResult GetAll()
         {
             return Ok(_branchProvider.GetAllBranches());

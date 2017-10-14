@@ -13,6 +13,7 @@ namespace api.Controllers
             this.statusService = statusService;
         }
 
+        [HttpGet("")]
         public IActionResult Get()
         {
             return Ok(statusService.GetAll());
