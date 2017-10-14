@@ -19,7 +19,9 @@ export class BranchService {
     }
 
     public checkout(name: string): Observable<Response> {
-        return this.http.post(settings.baseApi + '/branches/' + name + '/checkout', {});
+        return this.http
+            .post(settings.baseApi + '/branches/' + name + '/checkout', {})
+            .map((res) => res.text() ? res.json() : {});
     }
 }
 

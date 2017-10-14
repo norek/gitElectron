@@ -3,6 +3,7 @@ import { Branch, BranchService } from '../services/branch.service';
 import { MdDialog } from '@angular/material';
 import { NewBranchComponent } from './new-branch.component';
 import { CommitBusService } from '../services/commit.bus.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
     selector: 'branch-list',
@@ -13,7 +14,9 @@ export class BranchListComponent implements OnInit {
 
     private branchList: Branch[] = [];
 
-    constructor(public dialog: MdDialog, private branchService: BranchService, private systemBus: CommitBusService) {
+    constructor(public dialog: MdDialog, private branchService: BranchService, private systemBus: CommitBusService,
+        private notificationService: NotificationService) {
+
         this.systemBus.branchCompleted$.subscribe((branchName) => this.loadBranchList());
     }
 
@@ -30,6 +33,13 @@ export class BranchListComponent implements OnInit {
     }
 
     private checkout(name: string): void {
-        this.branchService.checkout(name).subscribe(() => this.loadBranchList(), (error) => console.log(error));
+        this.branchService.checkout(name)
+            .subscribe(
+            () => {
+                this.systemBus.branchCheckoutCompleted(name);
+                this.loadBranchList();
+            }, (error) => {
+                this.notificationService.error(error, 'checkout operation');
+            });
     }
 }

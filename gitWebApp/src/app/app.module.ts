@@ -15,6 +15,7 @@ import { CommitService } from './commit/commit.service';
 import { FormsModule } from '@angular/forms';
 import { CommitBusService } from './services/commit.bus.service';
 import { NewBranchComponent } from './branch/new-branch.component';
+import { NotificationService } from './services/notification.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { NewBranchComponent } from './branch/new-branch.component';
     BrowserModule, FormsModule, BrowserAnimationsModule,
     HttpModule, MaterialModule,
   ],
-  providers: [BranchService, StatusService, CommitService, CommitBusService],
+  providers: [BranchService, StatusService, CommitService, CommitBusService, NotificationService],
   bootstrap: [AppComponent],
   entryComponents: [NewBranchComponent]
 })
