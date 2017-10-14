@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RepositoryOptionsService } from '../services/repository-options.service';
+import { RepositoryOptionsService, RepositoryConfiguration } from '../services/repository-options.service';
 import { GravatarService } from '../services/external/gravatar.service';
 
 @Component({
@@ -9,20 +9,22 @@ import { GravatarService } from '../services/external/gravatar.service';
 })
 
 export class HeaderToolbarComponent implements OnInit {
-
-    private userName: string;
     private avatarUrl: string;
     private avatarExists: boolean;
+
+    private mappedRepositories: string[] = ['repository 1', 'repository2'];
+
+    private repositoryConfiguration: RepositoryConfiguration;
 
     constructor(private repositoryOptionsService: RepositoryOptionsService, private gravatarService: GravatarService) {
     }
 
     ngOnInit() {
-        this.repositoryOptionsService.configration.subscribe(s => {
-            this.userName = s.user.name;
+        this.repositoryOptionsService.configration.subscribe(configuration => {
+            this.repositoryConfiguration = configuration;
 
-            if (s.user.email && s.user.email !== '') {
-                this.gravatarService.getAvatar(s.user.email).subscribe(result => {
+            if (configuration.user.email && configuration.user.email !== '') {
+                this.gravatarService.getAvatar(configuration.user.email).subscribe(result => {
                     if (result.status === 200) {
                         this.avatarExists = true;
                         this.avatarUrl = result.url;
@@ -32,5 +34,29 @@ export class HeaderToolbarComponent implements OnInit {
                 });
             }
         });
+    }
+
+    mapNewRepository(): void {
+        alert('xD');
+    }
+
+    private get currentRepository(): string {
+        if (this.repositoryConfiguration) {
+            return this.repositoryConfiguration.currentRepository;
+        }
+
+        return '';
+    }
+
+    private get userName(): string {
+        if (this.repositoryConfiguration) {
+            return this.repositoryConfiguration.user.name;
+        }
+
+        return '';
+    }
+
+    private get getMappedRepositories(): string[] {
+        return this.mappedRepositories;
     }
 }

@@ -27,11 +27,12 @@ export class RepositoryOptionsService {
     }
 }
 
-interface RepositoryConfiguration {
+export interface RepositoryConfiguration {
     user: UserInfo;
+    currentRepository: string;
 }
 
-interface UserInfo {
+export interface UserInfo {
     name: string;
     email: string;
 }

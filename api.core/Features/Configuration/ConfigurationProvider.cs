@@ -22,6 +22,7 @@ namespace api.core.Features.Configuration
 
             UserInfo userInfo = new UserInfo(signature.Name, signature.Email);
             repositoryConfiguration.User = userInfo;
+            repositoryConfiguration.CurrentRepository = _repository.Info.WorkingDirectory;
 
             return repositoryConfiguration;
         }
