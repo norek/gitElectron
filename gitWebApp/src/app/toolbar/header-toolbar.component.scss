@@ -1,0 +1,16 @@
+@import '../../theme.scss';
+
+
+#header-toolbar{
+    position: relative;
+    z-index: 10;
+    height: 56px;
+    background-color: #9c27b0;
+    padding: 8px 16px 8px 16px;
+
+    box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    color: white;
+}

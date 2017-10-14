@@ -16,10 +16,11 @@ import { FormsModule } from '@angular/forms';
 import { CommitBusService } from './services/commit.bus.service';
 import { NewBranchComponent } from './branch/new-branch.component';
 import { NotificationService } from './services/notification.service';
+import { HeaderToolbarComponent } from './toolbar/header-toolbar.component';
 
 @NgModule({
   declarations: [
-    AppComponent, BranchListComponent, StatusListComponent, CommitFormComponent, NewBranchComponent
+    AppComponent, BranchListComponent, StatusListComponent, CommitFormComponent, NewBranchComponent, HeaderToolbarComponent
   ],
   imports: [
     BrowserModule, FormsModule, BrowserAnimationsModule,
