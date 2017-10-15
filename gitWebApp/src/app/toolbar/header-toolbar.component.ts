@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RepositoryOptionsService, RepositoryConfiguration } from '../services/repository-options.service';
 import { GravatarService } from '../services/external/gravatar.service';
+import { MdDialog } from '@angular/material';
+import { NewRepositoryComponent } from '../repository/new-repository.component';
+import { SystemOptionsService, MappedRepository } from '../services/system-options.service';
 
 @Component({
     selector: 'header-toolbar',
@@ -12,14 +15,20 @@ export class HeaderToolbarComponent implements OnInit {
     private avatarUrl: string;
     private avatarExists: boolean;
 
-    private mappedRepositories: string[] = ['repository 1', 'repository2'];
+    private mappedRepositories: MappedRepository[];
 
     private repositoryConfiguration: RepositoryConfiguration;
 
-    constructor(private repositoryOptionsService: RepositoryOptionsService, private gravatarService: GravatarService) {
+    constructor(public dialog: MdDialog,
+        private repositoryOptionsService: RepositoryOptionsService, private gravatarService: GravatarService,
+        private systemConfigurationService: SystemOptionsService) {
     }
 
     ngOnInit() {
+
+        this.systemConfigurationService.getSystemConfiguration()
+            .subscribe(configuration => this.mappedRepositories = configuration.mappedRepositories);
+
         this.repositoryOptionsService.configration.subscribe(configuration => {
             this.repositoryConfiguration = configuration;
 
@@ -37,7 +46,9 @@ export class HeaderToolbarComponent implements OnInit {
     }
 
     mapNewRepository(): void {
-        alert('xD');
+        this.dialog.open(NewRepositoryComponent, {
+            width: '600px',
+        });
     }
 
     private get currentRepository(): string {
@@ -56,7 +67,7 @@ export class HeaderToolbarComponent implements OnInit {
         return '';
     }
 
-    private get getMappedRepositories(): string[] {
+    private get getMappedRepositories(): MappedRepository[] {
         return this.mappedRepositories;
     }
 }

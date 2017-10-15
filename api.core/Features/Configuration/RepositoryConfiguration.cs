@@ -5,6 +5,7 @@
         public UserInfo User { get; set; }
 
         public string CurrentRepository { get; set; }
+
     }
 
 }
