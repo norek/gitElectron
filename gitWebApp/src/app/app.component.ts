@@ -16,7 +16,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.repositoryOptionsService.fetChConfiguration();
   }
 
   onStatusSelected(status: StatusItem): void {

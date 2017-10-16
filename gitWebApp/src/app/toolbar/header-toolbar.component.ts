@@ -20,22 +20,14 @@ export class HeaderToolbarComponent implements OnInit {
 
     private repositoryConfiguration: RepositoryConfiguration;
 
-    constructor(public dialog: MdDialog,
-        private repositoryOptionsService: RepositoryOptionsService, private gravatarService: GravatarService,
+    constructor(public dialog: MdDialog, private repositoryOptionsService: RepositoryOptionsService,
+        private gravatarService: GravatarService,
         private systemConfigurationService: SystemOptionsService, private systemBus: CommitBusService) {
 
-        systemBus.repositoryChanged$.subscribe((branchName) => this.repositoryOptionsService.fetChConfiguration());
+        systemBus.repositoryChanged$.subscribe((branchName) => this.repositoryOptionsService.fetchConfiguration());
 
-    }
-
-    ngOnInit() {
-
-        this.systemConfigurationService.getSystemConfiguration()
-            .subscribe(configuration => this.mappedRepositories = configuration.mappedRepositories);
-
-        this.repositoryOptionsService.configration.subscribe(configuration => {
+        this.repositoryOptionsService.configurationLoaded$.subscribe(configuration => {
             this.repositoryConfiguration = configuration;
-
             if (configuration.user.email && configuration.user.email !== '') {
                 this.gravatarService.getAvatar(configuration.user.email).subscribe(result => {
                     if (result.status === 200) {
@@ -47,6 +39,13 @@ export class HeaderToolbarComponent implements OnInit {
                 });
             }
         });
+    }
+
+    ngOnInit() {
+
+        this.systemConfigurationService.getSystemConfiguration()
+            .subscribe(configuration => this.mappedRepositories = configuration.mappedRepositories);
+        this.repositoryOptionsService.fetchConfiguration();
     }
 
     mapNewRepository(): void {

@@ -52,4 +52,16 @@ export class DirectoryListComponent implements OnInit {
 
         return false;
     }
+
+    private getDirectoryIcon(directory: SubDirectoryInfo): string {
+        if (directory.isGitDirectory) {
+            if (directory.isMapped) {
+                return 'done';
+            } else {
+                return 'get_app';
+            }
+        }
+
+        return '';
+    }
 }

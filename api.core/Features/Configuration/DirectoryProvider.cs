@@ -9,8 +9,17 @@ namespace api.core.Features.Configuration
 {
     public class DirectoryProvider : IDirectoryProvider
     {
+        private readonly SystemConfigurationStorage _systemConfigurationStorage;
+
+        public DirectoryProvider(SystemConfigurationStorage systemConfigurationStorage)
+        {
+            _systemConfigurationStorage = systemConfigurationStorage;
+        }
+
         public DirectoryInfo GetDirectoryList(string path)
         {
+            var mappedPaths = _systemConfigurationStorage.GetSystemConfiguration().MappedRepositories.Select(mappedPath => mappedPath.Path);
+
             DirectoryInfo directoryInfo = new DirectoryInfo();
 
             if (string.IsNullOrEmpty(path))
@@ -20,10 +29,10 @@ namespace api.core.Features.Configuration
             }
 
             directoryInfo.Path = path;
-            directoryInfo.IsMapped = false;
+            directoryInfo.IsMapped = mappedPaths.Contains(path);
             directoryInfo.IsGitDirectory = IsGitDirectory(path);
             directoryInfo.ParentPath = Directory.GetParent(path)?.FullName;
-            directoryInfo.SubDirectories = Directory.GetDirectories(path).Select(d => new SubDirectoryInfo() { Path = d, IsMapped = false, IsGitDirectory = IsGitDirectory(d) }).ToList();
+            directoryInfo.SubDirectories = Directory.GetDirectories(path).Select(d => new SubDirectoryInfo() { Path = d, IsMapped = mappedPaths.Contains(d), IsGitDirectory = IsGitDirectory(d) }).ToList();
 
             return directoryInfo;
         }

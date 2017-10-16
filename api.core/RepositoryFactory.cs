@@ -28,10 +28,7 @@ namespace api.core
 
                 if (string.IsNullOrEmpty(repositoryPath))
                 {
-                    _currentRepository = new Repository(_defautlRout);
-                    _repositoryContainer.Add(_defautlRout, _currentRepository);
-
-                    return _currentRepository;
+                    repositoryPath = _defautlRout;
                 }
 
                 IRepository newCurrentRepository = null;

@@ -4,23 +4,31 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { settings } from '../../environments/environment';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class RepositoryOptionsService {
 
-    private repositoryConfiguration: Observable<RepositoryConfiguration>;
+    private repositoryConfiguration: RepositoryConfiguration;
+
+    private configurationLoadedSource = new Subject<RepositoryConfiguration>();
+
+    public configurationLoaded$ = this.configurationLoadedSource.asObservable();
 
     constructor(private http: Http) {
     }
 
-    public fetChConfiguration(): void {
-        this.repositoryConfiguration = this.http.get(settings.baseApi + '/options').map(res => res.json());
+    public fetchConfiguration(): void {
+        this.http.get(settings.baseApi + '/options').map(res => res.json()).subscribe(configuration => {
+            this.repositoryConfiguration = configuration;
+            this.configurationLoadedSource.next(this.repositoryConfiguration);
+        });
     }
 
-    public get configration(): Observable<RepositoryConfiguration> {
+    public get configration(): RepositoryConfiguration {
 
         if (!this.repositoryConfiguration) {
-            this.fetChConfiguration();
+            this.fetchConfiguration();
         }
 
         return this.repositoryConfiguration;

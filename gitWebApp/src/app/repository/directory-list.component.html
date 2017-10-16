@@ -9,7 +9,7 @@
     <md-list-item *ngFor="let directory of subDirectories">
         <a mdLine (click)="getChildDirectories(directory)">{{ directory.path }}</a>
         <button *ngIf="directory.isGitDirectory" md-icon-button (click)="mapRepository(directory)">
-               <md-icon>info</md-icon>
+               <md-icon>{{getDirectoryIcon(directory)}}</md-icon>
         </button>
     </md-list-item>
 </md-nav-list>
