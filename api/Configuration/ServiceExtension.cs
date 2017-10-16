@@ -1,5 +1,7 @@
 using api.core.Features.Commit;
 using api.core.Features.Configuration;
+using api.core.Features.Diff.ContentParsers.Utils;
+using api.core.Features.Diff.FileChangeInfoProvider;
 using api.core.Features.Status;
 using Core.Features.Branch;
 using LibGit2Sharp;
@@ -18,9 +20,20 @@ namespace api
                 .AddSingleton<IRepositoryStatusService, RepositoryStatusService>()
                 .AddSingleton<ICommitProvider, CommitProvider>()
                 .AddSingleton<IRepositoryOptionsProvider, RepositoryOptionsProvider>()
+
+                .RegisterDiffServices()
             ;
 
             return collection;
+        }
+
+        public static IServiceCollection RegisterDiffServices(this IServiceCollection collection)
+        {
+            return collection
+                .AddSingleton<IFileChangeInfoProvider, FileChangeInfoProvider>()
+                .AddTransient<IContentLineSplitter, ContentLineSplitter>()
+                .AddTransient<IHunkSplitter, HunkSplitter>()
+                ;
         }
     }
 }
