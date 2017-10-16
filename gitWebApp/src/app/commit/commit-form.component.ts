@@ -16,7 +16,9 @@ export class CommitFormComponent implements OnInit {
 
     @ViewChild('commitMessageInput') child: any;
 
-    constructor(private commitService: CommitService, private commitBus: CommitBusService) { }
+    constructor(private commitService: CommitService, private systemBus: CommitBusService) {
+        systemBus.repositoryChanged$.subscribe((branchName) => this.commitMessage = '');
+    }
 
     ngOnInit() { }
 
@@ -29,7 +31,7 @@ export class CommitFormComponent implements OnInit {
             })
             .subscribe((s) => {
                 console.log(s);
-                this.commitBus.commitCompleted();
+                this.systemBus.commitCompleted();
             }, (error) => {
                 console.log(error);
             });

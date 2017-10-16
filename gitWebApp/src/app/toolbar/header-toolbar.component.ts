@@ -23,6 +23,9 @@ export class HeaderToolbarComponent implements OnInit {
     constructor(public dialog: MdDialog,
         private repositoryOptionsService: RepositoryOptionsService, private gravatarService: GravatarService,
         private systemConfigurationService: SystemOptionsService, private systemBus: CommitBusService) {
+
+        systemBus.repositoryChanged$.subscribe((branchName) => this.repositoryOptionsService.fetChConfiguration());
+
     }
 
     ngOnInit() {

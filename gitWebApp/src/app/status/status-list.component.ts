@@ -13,8 +13,9 @@ export class StatusListComponent implements OnInit {
 
     @Output() onStatusSelected = new EventEmitter<StatusItem>();
 
-    constructor(private statusService: StatusService, private commitBus: CommitBusService) {
-        commitBus.comitCompleted$.subscribe(() => this.loadStatusList());
+    constructor(private statusService: StatusService, private systemBus: CommitBusService) {
+        systemBus.comitCompleted$.subscribe(() => this.loadStatusList());
+        systemBus.repositoryChanged$.subscribe((branchName) => this.loadStatusList());
     }
 
     ngOnInit() {
