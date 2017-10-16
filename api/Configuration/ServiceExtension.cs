@@ -13,15 +13,14 @@ namespace api
     {
         public static IServiceCollection RegisterServices(this IServiceCollection collection, IConfiguration configuration)
         {
-            SystemConfigurationStorage configLoader = new SystemConfigurationStorage();
             collection
-                .AddSingleton<SystemConfigurationStorage>((sp) => configLoader)
-                .AddSingleton<IRepository>((sp) => new Repository(configuration["repositoryPath"]))
-                .AddSingleton<IBranchProvider, BranchProvider>()
-                .AddSingleton<IRepositoryStatusService, RepositoryStatusService>()
-                .AddSingleton<ICommitProvider, CommitProvider>()
-                .AddSingleton<IRepositoryOptionsProvider, RepositoryOptionsProvider>()
-                .AddSingleton<IDirectoryProvider, DirectoryProvider>()
+                .AddSingleton<SystemConfigurationStorage>()
+                .AddSingleton((sp) => new RepositoryFactory(sp.GetService<SystemConfigurationStorage>(), configuration["repositoryPath"]))
+                .AddScoped<IBranchProvider, BranchProvider>()
+                .AddScoped<IRepositoryStatusService, RepositoryStatusService>()
+                .AddScoped<ICommitProvider, CommitProvider>()
+                .AddScoped<IRepositoryOptionsProvider, RepositoryOptionsProvider>()
+                .AddScoped<IDirectoryProvider, DirectoryProvider>()
             ;
 
             return collection;

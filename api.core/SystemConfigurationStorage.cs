@@ -9,10 +9,11 @@ using System.Text;
 
 namespace api.core
 {
-    public partial class SystemConfigurationStorage
+    public class SystemConfigurationStorage
     {
         private readonly string configFileName = "application.json";
         private SystemConfiguration configuration;
+        private string ConfigPath => Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), configFileName);
 
         public SystemConfigurationStorage()
         {
@@ -26,9 +27,32 @@ namespace api.core
             configuration = JsonConvert.DeserializeObject<SystemConfiguration>(File.ReadAllText(ConfigPath));
         }
 
-        public SystemConfiguration GetSystemConfiguration() => configuration;
+        internal string GetCurrentRepository()
+        {
+            var currentRepository = configuration.MappedRepositories.SingleOrDefault(mr => mr.IsCurrent);
 
-        private string ConfigPath => Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), configFileName);
+            if (currentRepository == null)
+            {
+                return string.Empty;
+            }
+
+            return currentRepository.Path;
+        }
+
+        public void SwitchRepository(string newCurrentRepository)
+        {
+            if (string.IsNullOrEmpty(newCurrentRepository)) return;
+
+            foreach (var repository in configuration.MappedRepositories.Where(s => s.IsCurrent))
+            {
+                repository.IsCurrent = false;
+            }
+
+            var mappedRepository = configuration.MappedRepositories.Single(repository => repository.Path == newCurrentRepository);
+            mappedRepository.IsCurrent = true;
+
+            File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(configuration));
+        }
 
         public void MapRepository(string repositoryToMap)
         {
@@ -37,6 +61,9 @@ namespace api.core
             if (configuration.MappedRepositories.Select(repo => repo.Path).Contains(repositoryToMap)) return;
 
             configuration.MappedRepositories.Add(new MappedRepository(repositoryToMap, false));
+            File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(configuration));
         }
+
+        public SystemConfiguration GetSystemConfiguration() => configuration;
     }
 }

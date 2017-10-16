@@ -9,9 +9,12 @@ export class CommitBusService {
     private branchCompletedSource = new Subject<string>();
     private branchCheckoutCompletedSource = new Subject<string>();
 
+    private repositoryChangedSource = new Subject();
+
     public comitCompleted$ = this.commitCompletedSource.asObservable();
     public branchCompleted$ = this.branchCompletedSource.asObservable();
     public branchCheckoutCompletedSource$ = this.branchCheckoutCompletedSource.asObservable();
+    public repositoryChanged$ = this.repositoryChangedSource.asObservable();
 
     public commitCompleted() {
         this.commitCompletedSource.next();
@@ -23,5 +26,9 @@ export class CommitBusService {
 
     public branchCheckoutCompleted(name: string) {
         this.branchCheckoutCompletedSource.next(name);
+    }
+
+    public repositoryChanged() {
+        this.repositoryChangedSource.next();
     }
 }

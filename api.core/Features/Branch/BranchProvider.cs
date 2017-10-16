@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibGit2Sharp;
+using api.core;
 
 namespace Core.Features.Branch
 {
@@ -11,9 +12,9 @@ namespace Core.Features.Branch
     {
         private readonly IRepository _repository;
 
-        public BranchProvider(IRepository repo)
+        public BranchProvider(RepositoryFactory repo)
         {
-            _repository = repo;
+            _repository = repo.GetRepository();
         }
 
         public void Create(string branchName)

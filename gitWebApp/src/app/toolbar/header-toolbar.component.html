@@ -8,7 +8,7 @@
     </button>
 
     <md-menu #repositories="mdMenu">
-        <button md-menu-item *ngFor="let repository of getMappedRepositories">{{repository.path}}</button>
+        <button md-menu-item *ngFor="let repository of getMappedRepositories" (click)="switchToSelectedRepository(repository)">{{repository.path}}</button>
         <button md-button color='warn' (click)="mapNewRepository()">
                 map new
                 <md-icon class="md-24">add</md-icon>

@@ -7,9 +7,9 @@ namespace api.core.Features.Commit
     {
         private readonly IRepository repository;
 
-        public CommitProvider(IRepository repository)
+        public CommitProvider(RepositoryFactory repository)
         {
-            this.repository = repository;
+            this.repository = repository.GetRepository();
         }
 
         public void Create(CommitParameters commitParameters)

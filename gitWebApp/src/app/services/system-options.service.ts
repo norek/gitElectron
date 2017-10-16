@@ -17,6 +17,10 @@ export class SystemOptionsService {
     public mapRepository(repositoryPath: string): Observable<Response> {
         return this.http.post(settings.baseApi + '/options/system/mappedRepositories', { repositoryToMap: repositoryPath });
     }
+
+    public switchToRepository(repositoryPath: string): Observable<Response> {
+        return this.http.post(settings.baseApi + '/options/system/switchRepository', { newCurrentRepository: repositoryPath });
+    }
 }
 
 export interface SystemConfiguration {

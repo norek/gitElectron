@@ -4,6 +4,7 @@ import { GravatarService } from '../services/external/gravatar.service';
 import { MdDialog } from '@angular/material';
 import { NewRepositoryComponent } from '../repository/new-repository.component';
 import { SystemOptionsService, MappedRepository } from '../services/system-options.service';
+import { CommitBusService } from '../services/commit.bus.service';
 
 @Component({
     selector: 'header-toolbar',
@@ -21,7 +22,7 @@ export class HeaderToolbarComponent implements OnInit {
 
     constructor(public dialog: MdDialog,
         private repositoryOptionsService: RepositoryOptionsService, private gravatarService: GravatarService,
-        private systemConfigurationService: SystemOptionsService) {
+        private systemConfigurationService: SystemOptionsService, private systemBus: CommitBusService) {
     }
 
     ngOnInit() {
@@ -49,6 +50,11 @@ export class HeaderToolbarComponent implements OnInit {
         this.dialog.open(NewRepositoryComponent, {
             width: '600px',
         });
+    }
+
+    switchToSelectedRepository(repository: MappedRepository): void {
+        this.systemConfigurationService.switchToRepository(repository.path)
+            .subscribe(result => this.systemBus.repositoryChanged());
     }
 
     private get currentRepository(): string {

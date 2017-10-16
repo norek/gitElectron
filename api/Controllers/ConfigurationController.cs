@@ -29,11 +29,23 @@ namespace api.Controllers
             return Ok();
         }
 
+        [HttpPost("system/switchRepository")]
+        public IActionResult SwitchRepository([FromBody] SwitchRepositoryParams repositoryToSwitch)
+        {
+            _systemConfiguration.SwitchRepository(repositoryToSwitch.NewCurrentRepository);
+            return Ok();
+        }
+
         [HttpGet("system")]
         public IActionResult GetSystemConfiguration()
         {
             return Ok(_systemConfiguration.GetSystemConfiguration());
         }
+    }
+
+    public class SwitchRepositoryParams
+    {
+        public string NewCurrentRepository { get; set; }
     }
 
     public class RepositoryMapParams

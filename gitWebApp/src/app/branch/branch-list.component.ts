@@ -18,6 +18,7 @@ export class BranchListComponent implements OnInit {
         private notificationService: NotificationService) {
 
         this.systemBus.branchCompleted$.subscribe((branchName) => this.loadBranchList());
+        this.systemBus.repositoryChanged$.subscribe((branchName) => this.loadBranchList());
     }
 
     ngOnInit() {

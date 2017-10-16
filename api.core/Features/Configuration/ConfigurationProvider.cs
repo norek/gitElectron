@@ -9,9 +9,9 @@ namespace api.core.Features.Configuration
     {
         private readonly IRepository _repository;
 
-        public RepositoryOptionsProvider(IRepository repository)
+        public RepositoryOptionsProvider(RepositoryFactory repository)
         {
-            _repository = repository;
+            _repository = repository.GetRepository();
         }
 
         public RepositoryConfiguration GetRepositoryConfiguration()

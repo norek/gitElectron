@@ -10,9 +10,9 @@ namespace api.core.Features.Status
     {
         private readonly IRepository repository;
 
-        public RepositoryStatusService(IRepository repository)
+        public RepositoryStatusService(RepositoryFactory repository)
         {
-            this.repository = repository;
+            this.repository = repository.GetRepository();
         }
 
         public IEnumerable<StatusItem> GetAll()
