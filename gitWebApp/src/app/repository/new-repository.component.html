@@ -1,0 +1,13 @@
+<h2 md-dialog-title>Map your repository</h2>
+<md-dialog-content>
+    <md-tab-group>
+        <md-tab label="Map existing">
+            <directory-list></directory-list>
+        </md-tab>
+        <md-tab label="Clone">to be supplied</md-tab>
+    </md-tab-group>
+</md-dialog-content>
+<md-dialog-actions>
+    <button md-button md-dialog-close>Cancel</button>
+    <button md-button [md-dialog-close]="true">Map</button>
+</md-dialog-actions>

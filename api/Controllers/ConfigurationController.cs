@@ -1,4 +1,5 @@
-﻿using api.core.Features.Configuration;
+﻿using api.core;
+using api.core.Features.Configuration;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -7,10 +8,12 @@ namespace api.Controllers
     public class ConfigurationController : Controller
     {
         private readonly IRepositoryOptionsProvider _optionsProvider;
+        private readonly SystemConfigurationStorage _systemConfiguration;
 
-        public ConfigurationController(IRepositoryOptionsProvider optionsProvider)
+        public ConfigurationController(IRepositoryOptionsProvider optionsProvider, SystemConfigurationStorage systemConfiguration)
         {
             _optionsProvider = optionsProvider;
+            _systemConfiguration = systemConfiguration;
         }
 
         [HttpGet("")]
@@ -18,5 +21,23 @@ namespace api.Controllers
         {
             return Ok(_optionsProvider.GetRepositoryConfiguration());
         }
+
+        [HttpPost("system/mappedRepositories")]
+        public IActionResult MapRepository([FromBody] RepositoryMapParams repositoryToMap)
+        {
+            _systemConfiguration.MapRepository(repositoryToMap.RepositoryToMap);
+            return Ok();
+        }
+
+        [HttpGet("system")]
+        public IActionResult GetSystemConfiguration()
+        {
+            return Ok(_systemConfiguration.GetSystemConfiguration());
+        }
+    }
+
+    public class RepositoryMapParams
+    {
+        public string RepositoryToMap { get; set; }
     }
 }

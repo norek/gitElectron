@@ -19,18 +19,23 @@ import { NotificationService } from './services/notification.service';
 import { HeaderToolbarComponent } from './toolbar/header-toolbar.component';
 import { RepositoryOptionsService } from './services/repository-options.service';
 import { GravatarService } from './services/external/gravatar.service';
+import { NewRepositoryComponent } from './repository/new-repository.component';
+import { DirectoryService } from './services/directory.service';
+import { DirectoryListComponent } from './repository/directory-list.component';
+import { SystemOptionsService } from './services/system-options.service';
 
 @NgModule({
   declarations: [
-    AppComponent, BranchListComponent, StatusListComponent, CommitFormComponent, NewBranchComponent, HeaderToolbarComponent
+    AppComponent, BranchListComponent, StatusListComponent, CommitFormComponent,
+    NewBranchComponent, HeaderToolbarComponent, NewRepositoryComponent, DirectoryListComponent
   ],
   imports: [
     BrowserModule, FormsModule, BrowserAnimationsModule,
     HttpModule, MaterialModule,
   ],
   providers: [BranchService, StatusService, CommitService, CommitBusService, NotificationService,
-    RepositoryOptionsService, GravatarService],
+    RepositoryOptionsService, GravatarService, DirectoryService, SystemOptionsService],
   bootstrap: [AppComponent],
-  entryComponents: [NewBranchComponent]
+  entryComponents: [NewBranchComponent, NewRepositoryComponent]
 })
 export class AppModule { }
