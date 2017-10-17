@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibGit2Sharp;
-using api.core;
 
-namespace Core.Features.Branch
+namespace api.core.Features.Branch
 {
     public class BranchProvider : IBranchProvider
     {

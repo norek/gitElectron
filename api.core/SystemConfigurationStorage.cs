@@ -1,5 +1,4 @@
-﻿using LibGit2Sharp;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -60,7 +59,7 @@ namespace api.core
 
             if (configuration.MappedRepositories.Select(repo => repo.Path).Contains(repositoryToMap)) return;
 
-            configuration.MappedRepositories.Add(new MappedRepository(repositoryToMap, false));
+            configuration.MappedRepositories.Add(new MappedRepository(repositoryToMap, !configuration.MappedRepositories.Any()));
             File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(configuration));
         }
 

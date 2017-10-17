@@ -1,7 +1,7 @@
 ﻿using System;
 using LibGit2Sharp;
 
-namespace Core.Features.Branch
+namespace api.core.Features.Branch
 {
     public class Branch
     {
@@ -23,10 +23,5 @@ namespace Core.Features.Branch
         public bool IsRemote { get; set; }
         public bool IsHead { get; internal set; }
         public string Tip { get; internal set; }
-
-        public static implicit operator Branch(LibGit2Sharp.Branch v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

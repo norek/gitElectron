@@ -1,13 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { settings } from '../../environments/environment';
+import { MdDialog } from '@angular/material';
 
 @Injectable()
 export class SystemOptionsService {
-    constructor(private http: Http) {
+
+    private systemCOnfiguration: SystemConfiguration;
+    public dialog: MdDialog;
+    constructor(private http: Http, injector: Injector) {
     }
 
     public getSystemConfiguration(): Observable<SystemConfiguration> {
@@ -25,6 +29,7 @@ export class SystemOptionsService {
 
 export interface SystemConfiguration {
     mappedRepositories: MappedRepository[];
+    isFirstUsage: boolean;
 }
 
 export interface MappedRepository {

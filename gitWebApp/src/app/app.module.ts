@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BranchListComponent } from './branch/branch-list.component';
@@ -34,7 +34,8 @@ import { SystemOptionsService } from './services/system-options.service';
     HttpModule, MaterialModule,
   ],
   providers: [BranchService, StatusService, CommitService, CommitBusService, NotificationService,
-    RepositoryOptionsService, GravatarService, DirectoryService, SystemOptionsService],
+    RepositoryOptionsService, GravatarService, DirectoryService, SystemOptionsService
+  ],
   bootstrap: [AppComponent],
   entryComponents: [NewBranchComponent, NewRepositoryComponent]
 })

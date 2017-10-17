@@ -11,6 +11,8 @@ export class StatusListComponent implements OnInit {
 
     private statusList: StatusItem[] = [];
 
+    private isRepositoryLoaded = false;
+
     @Output() onStatusSelected = new EventEmitter<StatusItem>();
 
     constructor(private statusService: StatusService, private systemBus: CommitBusService) {
@@ -19,7 +21,10 @@ export class StatusListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadStatusList();
+
+        if (this.isRepositoryLoaded) {
+            this.loadStatusList();
+        }
     }
 
     private loadStatusList(): void {

@@ -1,4 +1,3 @@
-using Core.Features.Branch;
 using LibGit2Sharp;
 using System.Linq;
 using Xunit;

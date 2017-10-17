@@ -8,16 +8,14 @@ namespace api.core
     public class RepositoryFactory
     {
         private readonly SystemConfigurationStorage _systemConfiguration;
-        private readonly string _defautlRout;
         private object _object = new object();
 
         private IRepository _currentRepository;
         private Dictionary<string, IRepository> _repositoryContainer = new Dictionary<string, IRepository>();
 
-        public RepositoryFactory(SystemConfigurationStorage systemConfiguration, string defautlRout)
+        public RepositoryFactory(SystemConfigurationStorage systemConfiguration)
         {
             _systemConfiguration = systemConfiguration;
-            _defautlRout = defautlRout;
         }
 
         public IRepository GetRepository()
@@ -28,7 +26,7 @@ namespace api.core
 
                 if (string.IsNullOrEmpty(repositoryPath))
                 {
-                    repositoryPath = _defautlRout;
+                    return new Repository(); ;
                 }
 
                 IRepository newCurrentRepository = null;

@@ -42,21 +42,28 @@ export class HeaderToolbarComponent implements OnInit {
     }
 
     ngOnInit() {
-
-        this.systemConfigurationService.getSystemConfiguration()
-            .subscribe(configuration => this.mappedRepositories = configuration.mappedRepositories);
-        this.repositoryOptionsService.fetchConfiguration();
+        this.fetchSystemConfiguration();
     }
 
     mapNewRepository(): void {
-        this.dialog.open(NewRepositoryComponent, {
-            width: '600px',
-        });
+        this.dialog.open(NewRepositoryComponent, { width: '600px' })
+            .afterClosed().subscribe(() => this.fetchSystemConfiguration());
     }
 
     switchToSelectedRepository(repository: MappedRepository): void {
         this.systemConfigurationService.switchToRepository(repository.path)
             .subscribe(result => this.systemBus.repositoryChanged());
+    }
+
+    private fetchSystemConfiguration() {
+        this.systemConfigurationService.getSystemConfiguration()
+            .subscribe(configuration => {
+                this.mappedRepositories = configuration.mappedRepositories;
+
+                if (this.mappedRepositories.length > 0) {
+                    this.repositoryOptionsService.fetchConfiguration();
+                }
+            });
     }
 
     private get currentRepository(): string {

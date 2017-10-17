@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Core.Features.Branch
+namespace api.core.Features.Branch
 {
     public interface IBranchProvider
     {

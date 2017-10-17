@@ -1,11 +1,10 @@
 using api.core;
+using api.core.Features.Branch;
 using api.core.Features.Commit;
 using api.core.Features.Configuration;
 using api.core.Features.Diff.ContentParsers.Utils;
 using api.core.Features.Diff.FileChangeInfoProvider;
 using api.core.Features.Status;
-using Core.Features.Branch;
-using LibGit2Sharp;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,7 +16,7 @@ namespace api
         {
             collection
                 .AddSingleton<SystemConfigurationStorage>()
-                .AddSingleton((sp) => new RepositoryFactory(sp.GetService<SystemConfigurationStorage>(), configuration["repositoryPath"]))
+                .AddSingleton((sp) => new RepositoryFactory(sp.GetService<SystemConfigurationStorage>()))
                 .AddScoped<IBranchProvider, BranchProvider>()
                 .AddScoped<IRepositoryStatusService, RepositoryStatusService>()
                 .AddScoped<ICommitProvider, CommitProvider>()
