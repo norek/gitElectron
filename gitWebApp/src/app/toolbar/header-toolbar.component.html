@@ -20,5 +20,5 @@
             <md-icon class="md-24">build</md-icon>
     </button>
     <span class="navbar-text">Welcome {{userName}}</span>
-    <img *ngIf="avatarExists" src="{{avatarUrl}}">
+    <img *ngIf="repository.user.hasAvatar" src="{{repository.user.avatarUrl}}">
 </div>

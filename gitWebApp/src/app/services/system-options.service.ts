@@ -9,8 +9,6 @@ import { MdDialog } from '@angular/material';
 @Injectable()
 export class SystemOptionsService {
 
-    private systemCOnfiguration: SystemConfiguration;
-    public dialog: MdDialog;
     constructor(private http: Http, injector: Injector) {
     }
 
@@ -29,7 +27,6 @@ export class SystemOptionsService {
 
 export interface SystemConfiguration {
     mappedRepositories: MappedRepository[];
-    isFirstUsage: boolean;
 }
 
 export interface MappedRepository {

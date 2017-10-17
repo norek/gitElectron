@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
 
   title = 'app';
 
-  constructor(private systemConfigurationService: SystemOptionsService) {
+  constructor() {
   }
 
   ngOnInit(): void {

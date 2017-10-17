@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { RepositoryOptionsService, RepositoryConfiguration } from '../services/repository-options.service';
-import { GravatarService } from '../services/external/gravatar.service';
 import { MdDialog } from '@angular/material';
 import { NewRepositoryComponent } from '../repository/new-repository.component';
-import { SystemOptionsService, MappedRepository } from '../services/system-options.service';
-import { CommitBusService } from '../services/commit.bus.service';
+import { MappedRepository } from '../services/system-options.service';
+import { SystemOptionsStore } from '../store/system-options.store';
+import { RepositoryConfiguration } from '../services/repository-options.service';
 
 @Component({
     selector: 'header-toolbar',
@@ -13,76 +12,39 @@ import { CommitBusService } from '../services/commit.bus.service';
 })
 
 export class HeaderToolbarComponent implements OnInit {
+
     private avatarUrl: string;
     private avatarExists: boolean;
 
-    private mappedRepositories: MappedRepository[];
-
-    private repositoryConfiguration: RepositoryConfiguration;
-
-    constructor(public dialog: MdDialog, private repositoryOptionsService: RepositoryOptionsService,
-        private gravatarService: GravatarService,
-        private systemConfigurationService: SystemOptionsService, private systemBus: CommitBusService) {
-
-        systemBus.repositoryChanged$.subscribe((branchName) => this.repositoryOptionsService.fetchConfiguration());
-
-        this.repositoryOptionsService.configurationLoaded$.subscribe(configuration => {
-            this.repositoryConfiguration = configuration;
-            if (configuration.user.email && configuration.user.email !== '') {
-                this.gravatarService.getAvatar(configuration.user.email).subscribe(result => {
-                    if (result.status === 200) {
-                        this.avatarExists = true;
-                        this.avatarUrl = result.url;
-                    } else {
-                        this.avatarExists = false;
-                    }
-                });
-            }
-        });
+    constructor(public dialog: MdDialog, private systemOptionsStore: SystemOptionsStore) {
     }
 
     ngOnInit() {
-        this.fetchSystemConfiguration();
+        this.systemOptionsStore.fetchSystemConfiguration();
     }
 
     mapNewRepository(): void {
         this.dialog.open(NewRepositoryComponent, { width: '600px' })
-            .afterClosed().subscribe(() => this.fetchSystemConfiguration());
+            .afterClosed().subscribe(() => this.systemOptionsStore.fetchSystemConfiguration());
     }
 
     switchToSelectedRepository(repository: MappedRepository): void {
-        this.systemConfigurationService.switchToRepository(repository.path)
-            .subscribe(result => this.systemBus.repositoryChanged());
+        this.systemOptionsStore.switchCurrentRepositoryTo(repository.path);
     }
 
-    private fetchSystemConfiguration() {
-        this.systemConfigurationService.getSystemConfiguration()
-            .subscribe(configuration => {
-                this.mappedRepositories = configuration.mappedRepositories;
-
-                if (this.mappedRepositories.length > 0) {
-                    this.repositoryOptionsService.fetchConfiguration();
-                }
-            });
+    private get repository(): RepositoryConfiguration {
+        return this.systemOptionsStore.currentRepository;
     }
 
     private get currentRepository(): string {
-        if (this.repositoryConfiguration) {
-            return this.repositoryConfiguration.currentRepository;
-        }
-
-        return '';
+        return this.repository.currentRepository;
     }
 
     private get userName(): string {
-        if (this.repositoryConfiguration) {
-            return this.repositoryConfiguration.user.name;
-        }
-
-        return '';
+        return this.systemOptionsStore.repositoryUser.name;
     }
 
     private get getMappedRepositories(): MappedRepository[] {
-        return this.mappedRepositories;
+        return this.systemOptionsStore.mappedRepositories;
     }
 }

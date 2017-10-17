@@ -23,6 +23,7 @@ import { NewRepositoryComponent } from './repository/new-repository.component';
 import { DirectoryService } from './services/directory.service';
 import { DirectoryListComponent } from './repository/directory-list.component';
 import { SystemOptionsService } from './services/system-options.service';
+import { SystemOptionsStore } from './store/system-options.store';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { SystemOptionsService } from './services/system-options.service';
     HttpModule, MaterialModule,
   ],
   providers: [BranchService, StatusService, CommitService, CommitBusService, NotificationService,
-    RepositoryOptionsService, GravatarService, DirectoryService, SystemOptionsService
+    RepositoryOptionsService, GravatarService, DirectoryService, SystemOptionsService, SystemOptionsStore
   ],
   bootstrap: [AppComponent],
   entryComponents: [NewBranchComponent, NewRepositoryComponent]
