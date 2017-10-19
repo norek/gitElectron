@@ -20,7 +20,8 @@ export class DirectoryListComponent implements OnInit {
     }
 
     private mapRepository(directory: SubDirectoryInfo): void {
-        this.systemOptionsService.mapRepository(directory.path).subscribe(d => console.log(d));
+        this.systemOptionsService.mapRepository(directory.path)
+            .subscribe(d => directory.isMapped = true);
     }
 
     private getChildDirectories(directory: DirectoryInfo) {

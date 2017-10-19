@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { SystemOptionsService, SystemConfiguration, MappedRepository } from '../services/system-options.service';
+import {
+    SystemOptionsService, SystemConfiguration,
+    MappedRepository, RepositoryConfiguration, UserInfo
+} from '../services/system-options.service';
 import { Observable } from 'rxjs/Observable';
 import { CommitBusService } from '../services/commit.bus.service';
-import { RepositoryOptionsService, RepositoryConfiguration, UserInfo } from '../services/repository-options.service';
 import { GravatarService } from '../services/external/gravatar.service';
 
 @Injectable()
@@ -15,7 +17,7 @@ export class SystemOptionsStore {
 
     private _systemConfiguration: SystemConfiguration = { mappedRepositories: [] };
 
-    constructor(private optionsService: SystemOptionsService, private currentRepositoryConfiguration: RepositoryOptionsService,
+    constructor(private optionsService: SystemOptionsService,
         private systemServiceBus: CommitBusService, private gravatarService: GravatarService) {
 
     }
@@ -24,7 +26,12 @@ export class SystemOptionsStore {
         this.optionsService.getSystemConfiguration()
             .subscribe(configuration => {
                 this._systemConfiguration = configuration;
-                this.getCurrentRepositoryInfo();
+
+                if (this.mappedRepositories && this.mappedRepositories.filter(repository => repository.isCurrent).length > 0) {
+                    this.getCurrentRepositoryInfo();
+                } else {
+                    this.systemServiceBus.emptyEnviromentLoaded();
+                }
             });
     }
 
@@ -51,6 +58,10 @@ export class SystemOptionsStore {
         return this._currentRepository.user;
     }
 
+    public get isRepositoryLoaded(): boolean {
+        return this._currentRepository !== undefined;
+    }
+
     private getAvatar(user: UserInfo) {
         if (user && user.email && user.email !== '') {
             this.gravatarService.getAvatar(user.email).subscribe(result => {
@@ -63,7 +74,7 @@ export class SystemOptionsStore {
     }
 
     private getCurrentRepositoryInfo() {
-        this.currentRepositoryConfiguration.fetchConfiguration()
+        this.optionsService.getCurrentRepositoryCOnfiguration()
             .subscribe(repositoryConfiguration => {
                 this._currentRepository = repositoryConfiguration;
                 this.systemServiceBus.repositoryChanged();

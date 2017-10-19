@@ -3,7 +3,8 @@ import { MdDialogRef } from '@angular/material';
 
 @Component({
     selector: 'new-repository',
-    templateUrl: 'new-repository.component.html'
+    templateUrl: 'new-repository.component.html',
+    styleUrls: ['new-repository.component.scss']
 })
 
 export class NewRepositoryComponent implements OnInit {

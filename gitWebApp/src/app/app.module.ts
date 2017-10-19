@@ -17,13 +17,13 @@ import { CommitBusService } from './services/commit.bus.service';
 import { NewBranchComponent } from './branch/new-branch.component';
 import { NotificationService } from './services/notification.service';
 import { HeaderToolbarComponent } from './toolbar/header-toolbar.component';
-import { RepositoryOptionsService } from './services/repository-options.service';
 import { GravatarService } from './services/external/gravatar.service';
 import { NewRepositoryComponent } from './repository/new-repository.component';
 import { DirectoryService } from './services/directory.service';
 import { DirectoryListComponent } from './repository/directory-list.component';
 import { SystemOptionsService } from './services/system-options.service';
 import { SystemOptionsStore } from './store/system-options.store';
+import { DialogService } from './services/dialog.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,8 @@ import { SystemOptionsStore } from './store/system-options.store';
     HttpModule, MaterialModule,
   ],
   providers: [BranchService, StatusService, CommitService, CommitBusService, NotificationService,
-    RepositoryOptionsService, GravatarService, DirectoryService, SystemOptionsService, SystemOptionsStore
+    GravatarService, DirectoryService, SystemOptionsService, SystemOptionsStore,
+    DialogService
   ],
   bootstrap: [AppComponent],
   entryComponents: [NewBranchComponent, NewRepositoryComponent]

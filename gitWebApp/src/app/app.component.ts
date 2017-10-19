@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StatusItem } from './status/status.service';
 import { CommitBusService } from './services/commit.bus.service';
-import { RepositoryOptionsService } from './services/repository-options.service';
 import { SystemOptionsService } from './services/system-options.service';
+import { SystemOptionsStore } from './store/system-options.store';
 
 @Component({
   selector: 'app-root',
@@ -11,12 +11,11 @@ import { SystemOptionsService } from './services/system-options.service';
 })
 export class AppComponent implements OnInit {
 
-  title = 'app';
-
-  constructor() {
+  constructor(private systemOptionsStore: SystemOptionsStore) {
   }
 
   ngOnInit(): void {
+    this.systemOptionsStore.fetchSystemConfiguration();
   }
 
   onStatusSelected(status: StatusItem): void {
