@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommitService } from './commit.service';
 import 'rxjs/add/operator/finally';
-import { CommitBusService } from '../services/commit.bus.service';
+import { SystemBusService } from '../services/system-bus.service';
 
 @Component({
     selector: 'commit-form',
@@ -16,7 +16,7 @@ export class CommitFormComponent implements OnInit {
 
     @ViewChild('commitMessageInput') child: any;
 
-    constructor(private commitService: CommitService, private systemBus: CommitBusService) {
+    constructor(private commitService: CommitService, private systemBus: SystemBusService) {
         systemBus.repositoryChanged$.subscribe((branchName) => this.commitMessage = '');
     }
 

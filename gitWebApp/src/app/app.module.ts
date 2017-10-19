@@ -13,7 +13,6 @@ import { StatusListComponent } from './status/status-list.component';
 import { CommitFormComponent } from './commit/commit-form.component';
 import { CommitService } from './commit/commit.service';
 import { FormsModule } from '@angular/forms';
-import { CommitBusService } from './services/commit.bus.service';
 import { NewBranchComponent } from './branch/new-branch.component';
 import { NotificationService } from './services/notification.service';
 import { HeaderToolbarComponent } from './toolbar/header-toolbar.component';
@@ -24,6 +23,7 @@ import { DirectoryListComponent } from './repository/directory-list.component';
 import { SystemOptionsService } from './services/system-options.service';
 import { SystemOptionsStore } from './store/system-options.store';
 import { DialogService } from './services/dialog.service';
+import { SystemBusService } from './services/system-bus.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import { DialogService } from './services/dialog.service';
     BrowserModule, FormsModule, BrowserAnimationsModule,
     HttpModule, MaterialModule,
   ],
-  providers: [BranchService, StatusService, CommitService, CommitBusService, NotificationService,
+  providers: [BranchService, StatusService, CommitService, SystemBusService, NotificationService,
     GravatarService, DirectoryService, SystemOptionsService, SystemOptionsStore,
     DialogService
   ],

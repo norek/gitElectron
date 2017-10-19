@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
-export class CommitBusService {
+export class SystemBusService {
 
     private commitCompletedSource = new Subject();
     private branchCompletedSource = new Subject<string>();

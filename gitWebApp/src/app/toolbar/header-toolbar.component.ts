@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MappedRepository, RepositoryConfiguration } from '../services/system-options.service';
 import { SystemOptionsStore } from '../store/system-options.store';
-import { CommitBusService } from '../services/commit.bus.service';
 import { DialogService } from '../services/dialog.service';
+import { SystemBusService } from '../services/system-bus.service';
 
 @Component({
     selector: 'header-toolbar',
@@ -13,7 +13,7 @@ import { DialogService } from '../services/dialog.service';
 export class HeaderToolbarComponent implements OnInit {
 
     constructor(private dialogService: DialogService, private systemOptionsStore: SystemOptionsStore,
-        private systemServiceBus: CommitBusService) {
+        private systemServiceBus: SystemBusService) {
         this.systemServiceBus.emptyEnviromentLoaded$.subscribe(() => this.mapNewRepository());
     }
 

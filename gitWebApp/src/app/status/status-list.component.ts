@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { StatusService, StatusItem, FileStatus } from './status.service';
-import { CommitBusService } from '../services/commit.bus.service';
+import { SystemBusService } from '../services/system-bus.service';
 
 @Component({
     selector: 'status-list',
@@ -15,7 +15,7 @@ export class StatusListComponent implements OnInit {
 
     @Output() onStatusSelected = new EventEmitter<StatusItem>();
 
-    constructor(private statusService: StatusService, private systemBus: CommitBusService) {
+    constructor(private statusService: StatusService, private systemBus: SystemBusService) {
         systemBus.comitCompleted$.subscribe(() => this.loadStatusList());
         systemBus.repositoryChanged$.subscribe((branchName) => this.loadStatusList());
     }

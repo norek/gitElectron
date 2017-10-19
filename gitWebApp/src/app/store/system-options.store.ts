@@ -4,8 +4,8 @@ import {
     MappedRepository, RepositoryConfiguration, UserInfo
 } from '../services/system-options.service';
 import { Observable } from 'rxjs/Observable';
-import { CommitBusService } from '../services/commit.bus.service';
 import { GravatarService } from '../services/external/gravatar.service';
+import { SystemBusService } from '../services/system-bus.service';
 
 @Injectable()
 export class SystemOptionsStore {
@@ -18,7 +18,7 @@ export class SystemOptionsStore {
     private _systemConfiguration: SystemConfiguration = { mappedRepositories: [] };
 
     constructor(private optionsService: SystemOptionsService,
-        private systemServiceBus: CommitBusService, private gravatarService: GravatarService) {
+        private systemServiceBus: SystemBusService, private gravatarService: GravatarService) {
 
     }
 

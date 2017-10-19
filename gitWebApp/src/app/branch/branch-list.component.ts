@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Branch, BranchService } from '../services/branch.service';
 import { MdDialog } from '@angular/material';
 import { NewBranchComponent } from './new-branch.component';
-import { CommitBusService } from '../services/commit.bus.service';
 import { NotificationService } from '../services/notification.service';
+import { SystemBusService } from '../services/system-bus.service';
 
 @Component({
     selector: 'branch-list',
@@ -14,7 +14,7 @@ export class BranchListComponent implements OnInit {
 
     private branchList: Branch[] = [];
 
-    constructor(public dialog: MdDialog, private branchService: BranchService, private systemBus: CommitBusService,
+    constructor(public dialog: MdDialog, private branchService: BranchService, private systemBus: SystemBusService,
         private notificationService: NotificationService) {
 
         this.systemBus.branchCompleted$.subscribe((branchName) => this.loadBranchList());

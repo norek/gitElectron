@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MdDialogRef } from '@angular/material';
-import { CommitBusService } from '../services/commit.bus.service';
 import { BranchService } from '../services/branch.service';
+import { SystemBusService } from '../services/system-bus.service';
 
 @Component({
     selector: 'new-branch',
@@ -13,7 +13,7 @@ export class NewBranchComponent implements OnInit {
     private newBranchName: string;
     private isCreating: boolean;
 
-    constructor(public dialogRef: MdDialogRef<NewBranchComponent>, private systemBus: CommitBusService,
+    constructor(public dialogRef: MdDialogRef<NewBranchComponent>, private systemBus: SystemBusService,
         private branchService: BranchService) { }
 
     ngOnInit() { }

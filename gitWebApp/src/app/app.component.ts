@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { StatusItem } from './status/status.service';
-import { CommitBusService } from './services/commit.bus.service';
 import { SystemOptionsService } from './services/system-options.service';
 import { SystemOptionsStore } from './store/system-options.store';
 
