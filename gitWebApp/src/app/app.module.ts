@@ -25,11 +25,14 @@ import { SystemOptionsStore } from './store/system-options.store';
 import { DialogService } from './services/dialog.service';
 import { SystemBusService } from './services/system-bus.service';
 import { RepositoryWatcherService } from './services/repository-watcher';
+import { CommitListComponent } from './commit/commit-list.component';
+import { CommitStoreService } from './store/commit.store';
 
 @NgModule({
   declarations: [
     AppComponent, BranchListComponent, StatusListComponent, CommitFormComponent,
     NewBranchComponent, HeaderToolbarComponent, NewRepositoryComponent, DirectoryListComponent
+    , CommitListComponent
   ],
   imports: [
     BrowserModule, FormsModule, BrowserAnimationsModule,
@@ -37,7 +40,7 @@ import { RepositoryWatcherService } from './services/repository-watcher';
   ],
   providers: [BranchService, StatusService, CommitService, SystemBusService, NotificationService,
     GravatarService, DirectoryService, SystemOptionsService, SystemOptionsStore,
-    DialogService, RepositoryWatcherService
+    DialogService, RepositoryWatcherService, CommitStoreService
   ],
   bootstrap: [AppComponent],
   entryComponents: [NewBranchComponent, NewRepositoryComponent]

@@ -23,5 +23,11 @@ namespace api.Controllers
             commitProvider.Create(commitParameters);
             return Ok();
         }
+
+        [HttpGet("{branchName}")]
+        public IActionResult GetAllFromTip(string branchName)
+        {
+            return Ok(commitProvider.GetAllFromTip(branchName));
+        }
     }
 }

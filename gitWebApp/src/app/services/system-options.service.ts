@@ -42,6 +42,7 @@ export interface MappedRepository {
 export interface RepositoryConfiguration {
     user: UserInfo;
     currentRepository: string;
+    currentBranch: string;
 }
 
 export interface UserInfo {

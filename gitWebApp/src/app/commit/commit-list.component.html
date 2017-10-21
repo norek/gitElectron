@@ -1,0 +1,5 @@
+<div id="commit-list-container">
+    <md-nav-list id="commit-list">
+        <a class="commit-list-item" md-list-item *ngFor="let commit of commitStore.commits">{{commit.message}} </a>
+    </md-nav-list>
+</div>

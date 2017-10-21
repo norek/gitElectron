@@ -12,6 +12,7 @@ export class SystemOptionsStore {
 
     private _currentRepository: RepositoryConfiguration = {
         currentRepository: '',
+        currentBranch: '',
         user: { email: '', name: '', avatarUrl: '', hasAvatar: false }
     };
 
