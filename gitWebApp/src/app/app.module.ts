@@ -24,6 +24,7 @@ import { SystemOptionsService } from './services/system-options.service';
 import { SystemOptionsStore } from './store/system-options.store';
 import { DialogService } from './services/dialog.service';
 import { SystemBusService } from './services/system-bus.service';
+import { RepositoryWatcherService } from './services/repository-watcher';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { SystemBusService } from './services/system-bus.service';
   ],
   providers: [BranchService, StatusService, CommitService, SystemBusService, NotificationService,
     GravatarService, DirectoryService, SystemOptionsService, SystemOptionsStore,
-    DialogService
+    DialogService, RepositoryWatcherService
   ],
   bootstrap: [AppComponent],
   entryComponents: [NewBranchComponent, NewRepositoryComponent]
