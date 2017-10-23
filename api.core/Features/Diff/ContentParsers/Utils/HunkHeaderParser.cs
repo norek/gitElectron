@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace api.core.Features.Diff.ContentParsers.Utils
@@ -9,7 +8,7 @@ namespace api.core.Features.Diff.ContentParsers.Utils
         HunkHeader ParseHeader(string headerString);
     }
 
-    public class HunkHeaderParser
+    public class HunkHeaderParser : IHunkHeaderParser
     {
         private const char _afterPrefix = '+';
         private const char _beforePrefix = '-';
@@ -19,10 +18,10 @@ namespace api.core.Features.Diff.ContentParsers.Utils
         public HunkHeader ParseHeader(string headerString)
         {
             var header = new HunkHeader();
-
             if (!IsValid(headerString))
                 throw new FormatException();
 
+            header.RawHeader = headerString;
             var headerParts = SplitParts(headerString);
             header.Before = GetHunkDiffInfo(headerParts[0]);    //Before
             header.After = GetHunkDiffInfo(headerParts[1]);     //After
@@ -35,8 +34,8 @@ namespace api.core.Features.Diff.ContentParsers.Utils
             var info = new HunkDiffInfo();
             var headerData = header.Split(_infoSplitter);
 
-            info.StartingLineNumber = Convert.ToInt32(headerData[0]);
-            info.NumberOfLines = Convert.ToInt32(headerData[1]);
+            info.StartingLineNumber = Convert.ToInt32(headerData[0].Trim());
+            info.NumberOfLines = Convert.ToInt32(headerData[1].Trim());
 
             return info;
         }
@@ -60,6 +59,12 @@ namespace api.core.Features.Diff.ContentParsers.Utils
 
     public class HunkHeader
     {
+        public string RawHeader
+        {
+            get;
+            set;
+        }
+
         public HunkDiffInfo Before
         {
             get;

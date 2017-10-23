@@ -2,6 +2,7 @@ using api.core;
 using api.core.Features.Branch;
 using api.core.Features.Commit;
 using api.core.Features.Configuration;
+using api.core.Features.Diff.ContentParsers.DirectDiffContentParser;
 using api.core.Features.Diff.ContentParsers.Utils;
 using api.core.Features.Diff.FileChangeInfoProvider;
 using api.core.Features.Status;
@@ -34,7 +35,8 @@ namespace api
                 .AddSingleton<IFileChangeInfoProvider, FileChangeInfoProvider>()
                 .AddTransient<IContentLineSplitter, ContentLineSplitter>()
                 .AddTransient<IHunkSplitter, HunkSplitter>()
-                ;
+                .AddTransient<IHunkHeaderParser, HunkHeaderParser>()
+                .AddTransient<IDirectDiffContentParser, DirectDiffContentParser>();
         }
     }
 }
