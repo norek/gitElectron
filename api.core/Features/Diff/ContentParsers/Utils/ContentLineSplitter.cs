@@ -2,6 +2,11 @@
 
 namespace api.core.Features.Diff.ContentParsers.Utils
 {
+    public interface IContentLineSplitter
+    {
+        string[] GetContentLines(string content);
+    }
+
     public class ContentLineSplitter : IContentLineSplitter
     {
         public string[] GetContentLines(string content)

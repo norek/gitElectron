@@ -28,6 +28,11 @@ namespace api.core.Features.Diff.ContentParsers.DirectDiffContentParser
             var lines = _contentLineSplitter.GetContentLines(content);
             var hunkDictionary = _hunkSplitter.GetHunks(lines);
 
+            foreach (var hunkKey in hunkDictionary)
+            {
+
+            }
+
             return hunks;
         }
     }

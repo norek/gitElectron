@@ -4,6 +4,11 @@ using LibGit2Sharp;
 
 namespace api.core.Features.Diff.FileChangeInfoProvider
 {
+    public interface IFileChangeInfoProvider
+    {
+        FileChangeInfo GetFileChangeInfo(string filePath);
+    }
+
     public class FileChangeInfoProvider : IFileChangeInfoProvider
     {
         private readonly IRepository _repository;
