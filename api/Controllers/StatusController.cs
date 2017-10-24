@@ -32,5 +32,26 @@ namespace api.Controllers
             statusService.Unstage(statusItem);
             return Ok();
         }
+
+        [HttpPost("stageAll")]
+        public IActionResult StageAll()
+        {
+            statusService.StageAll();
+            return Ok();
+        }
+
+        [HttpPost("unstageAll")]
+        public IActionResult UnStageAll()
+        {
+            statusService.UnstageAll();
+            return Ok();
+        }
+
+        [HttpPost("discard")]
+        public IActionResult DiscardChanges([FromBody] StatusItem statusItem)
+        {
+            statusService.DiscardChanges(statusItem);
+            return Ok();
+        }
     }
 }

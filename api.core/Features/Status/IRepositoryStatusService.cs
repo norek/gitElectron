@@ -9,5 +9,11 @@ namespace api.core.Features.Status
         void Stage(StatusItem statusItem);
 
         void Unstage(StatusItem statusItem);
+
+        void StageAll();
+
+        void UnstageAll();
+
+        void DiscardChanges(StatusItem statusItem);
     }
 }

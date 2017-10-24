@@ -28,6 +28,7 @@ import { DiffService } from './services/diff.service';
 import { RepositoryWatcherService } from './services/repository-watcher';
 import { CommitListComponent } from './commit/commit-list.component';
 import { CommitStoreService } from './store/commit.store';
+import { QuestionDialogComponent } from './dialogs/question/question-dialog.component';
 
 import { DirectDiffComponent } from './diff/direct-diff.component';
 
@@ -35,7 +36,7 @@ import { DirectDiffComponent } from './diff/direct-diff.component';
   declarations: [
     AppComponent, BranchListComponent, StatusListComponent, CommitFormComponent,
     NewBranchComponent, HeaderToolbarComponent, NewRepositoryComponent, DirectoryListComponent, 
-    CommitListComponent, DirectDiffComponent
+      CommitListComponent, DirectDiffComponent, QuestionDialogComponent
   ],
   imports: [
     BrowserModule, FormsModule, BrowserAnimationsModule,
@@ -46,6 +47,6 @@ import { DirectDiffComponent } from './diff/direct-diff.component';
     DialogService, RepositoryWatcherService, CommitStoreService, DiffService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [NewBranchComponent, NewRepositoryComponent, DirectDiffComponent]
+  entryComponents: [NewBranchComponent, NewRepositoryComponent, DirectDiffComponent, QuestionDialogComponent]
 })
 export class AppModule { }

@@ -2,6 +2,8 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { StatusService, StatusItem, FileStatus } from './status.service';
 import { SystemBusService } from '../services/system-bus.service';
 import { RepositoryWatcherService } from '../services/repository-watcher';
+import { DialogService } from '../services/dialog.service';
+import { discardQuestion } from '../utils/message.resource';
 import { DiffService } from '../services/diff.service';
 
 @Component({
@@ -19,7 +21,8 @@ export class StatusListComponent implements OnInit {
     constructor(private statusService: StatusService, 
     private systemBus: SystemBusService, 
     private watcher: RepositoryWatcherService,
-    private diffService: DiffService) {
+    private diffService: DiffService,
+    private dialogService: DialogService) {
         systemBus.comitCompleted$.subscribe(() => this.loadStatusList());
         systemBus.repositoryChanged$.subscribe((branchName) => this.loadStatusList());
 
@@ -47,8 +50,24 @@ export class StatusListComponent implements OnInit {
         this.statusService.stage(file).subscribe(resp => this.loadStatusList());
     }
 
+    private stageAll(): void {
+        this.statusService.stageAll().subscribe(resp => this.loadStatusList());
+    }
+
+    private unstageAll(): void {
+        this.statusService.unstageAll().subscribe(resp => this.loadStatusList());
+    }
+
     private unStageFile(file: StatusItem): void {
-        this.statusService.unStage(file).subscribe(resp => this.loadStatusList());
+        this.statusService.unstage(file).subscribe(resp => this.loadStatusList());
+    }
+
+    private discardChanges(file: StatusItem): void {
+        this.dialogService.showQuestion(discardQuestion).afterClosed().subscribe(result => {
+            if (result.confirmed) {
+                this.statusService.discardChanges(file).subscribe(resp => this.loadStatusList());
+            }
+        });
     }
 
     private get stagedFiles(): StatusItem[] {

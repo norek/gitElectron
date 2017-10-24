@@ -20,9 +20,24 @@ export class StatusService {
             .post(settings.baseApi + '/statuses/stage', file);
     }
 
-    public unStage(file: StatusItem): Observable<Response> {
+    public stageAll(): Observable<Response> {
+        return this.http
+            .post(settings.baseApi + '/statuses/stageAll', {});
+    }
+
+    public unstage(file: StatusItem): Observable<Response> {
         return this.http
             .post(settings.baseApi + '/statuses/unstage', file);
+    }
+
+    public unstageAll(): Observable<Response> {
+        return this.http
+            .post(settings.baseApi + '/statuses/unstageAll', {});
+    }
+
+    public discardChanges(file: StatusItem): Observable<Response> {
+        return this.http
+            .post(settings.baseApi + '/statuses/discard', file);
     }
 }
 
