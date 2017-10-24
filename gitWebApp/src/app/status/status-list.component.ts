@@ -50,6 +50,10 @@ export class StatusListComponent implements OnInit {
         this.statusService.unstage(file).subscribe(resp => this.loadStatusList());
     }
 
+    private discardChanges(file: StatusItem): void {
+        this.statusService.discardChanges(file).subscribe(resp => this.loadStatusList());
+    }
+
     private get stagedFiles(): StatusItem[] {
         return this.statusList.filter((s) => this.isStaged(s));
     }

@@ -10,22 +10,29 @@
     <md-divider></md-divider>
 
     <md-list *ngIf="stagedFiles.length > 0">
-        <button md-raised-button color="warn" (click)="unstageAll()">Unstage all</button>
+        <button md-button color="warn" (click)="unstageAll()">Unstage all</button>
         <md-list-item *ngFor="let file of stagedFiles" (click)=statusSelected(file)>
             <md-icon md-list-icon>{{getIconName(file)}}</md-icon>
             <h4 md-line> {{file.path}}</h4>
-            <button md-raised-button color="warn" (click)="unStageFile(file)">-</button>
+            <button md-icon-button color="warn" (click)="unStageFile(file)">
+                <md-icon aria-label="Example icon-button with a heart icon">remove</md-icon>
+            </button>
         </md-list-item>
     </md-list>
 
     <md-divider *ngIf="unStagedFiles.length > 0 && stagedFiles.length > 0"></md-divider>
 
     <md-list *ngIf="unStagedFiles.length > 0">
-        <button md-raised-button color="accent" (click)="stageAll()">Stage all</button>
+        <button md-button color="accent" (click)="stageAll()">Stage all</button>
         <md-list-item *ngFor="let file of unStagedFiles" (click)=statusSelected(file)>
             <md-icon md-list-icon>{{getIconName(file)}}</md-icon>
             <h4 md-line> {{file.path}}</h4>
-            <button md-raised-button color="accent" (click)="stageFile(file)">+</button>
+            <button md-icon-button color="accent" (click)="stageFile(file)">
+                <md-icon aria-label="Example icon-button with a heart icon">add</md-icon>
+            </button>
+            <button md-icon-button color="warn" (click)="discardChanges(file)">
+                <md-icon aria-label="Example icon-button with a heart icon">undo</md-icon>
+            </button>
         </md-list-item>
     </md-list>
 

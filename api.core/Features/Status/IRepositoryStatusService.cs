@@ -13,5 +13,7 @@ namespace api.core.Features.Status
         void StageAll();
 
         void UnstageAll();
+
+        void DiscardChanges(StatusItem statusItem);
     }
 }

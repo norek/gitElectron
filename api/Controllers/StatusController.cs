@@ -46,5 +46,12 @@ namespace api.Controllers
             statusService.UnstageAll();
             return Ok();
         }
+
+        [HttpPost("discard")]
+        public IActionResult DiscardChanges([FromBody] StatusItem statusItem)
+        {
+            statusService.DiscardChanges(statusItem);
+            return Ok();
+        }
     }
 }

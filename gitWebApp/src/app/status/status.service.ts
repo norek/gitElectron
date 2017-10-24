@@ -34,6 +34,11 @@ export class StatusService {
         return this.http
             .post(settings.baseApi + '/statuses/unstageAll', {});
     }
+
+    public discardChanges(file: StatusItem): Observable<Response> {
+        return this.http
+            .post(settings.baseApi + '/statuses/discard', file);
+    }
 }
 
 export class StatusItem {
