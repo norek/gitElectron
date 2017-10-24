@@ -8,21 +8,16 @@ Go to Api folder. In console run:
 `dotnet restore`
 `dotnet build`
 `dotnet run`
-Application should start.
 
-This is git gui so we need git repository to test our application. Recomended (for this moment) to use a separate repository. Create new empty repository on you computer and apply path to it in `application secrets` of API project eg. 
-
-`{
-  "repositoryPath": "C:\\Projects\\Repositories\\Simple"
-}`
+Server should start.
 
 # Angular section
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.3.
+Go to gitWebApp folder. In second console run:
+`npm install`
+`ng serve`
 
-## Development server
-
-After clone navigate to `gitWebApp` folder and run `npm install` after it run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+ Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Build
 
