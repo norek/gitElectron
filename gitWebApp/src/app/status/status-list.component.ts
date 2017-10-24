@@ -2,10 +2,12 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { StatusService, StatusItem, FileStatus } from './status.service';
 import { SystemBusService } from '../services/system-bus.service';
 import { RepositoryWatcherService } from '../services/repository-watcher';
+import { DiffService } from '../services/diff.service';
 
 @Component({
     selector: 'status-list',
-    templateUrl: 'status-list.component.html'
+    templateUrl: 'status-list.component.html',
+    styleUrls: ['status-list.component.scss']
 })
 
 export class StatusListComponent implements OnInit {
@@ -14,7 +16,10 @@ export class StatusListComponent implements OnInit {
 
     @Output() onStatusSelected = new EventEmitter<StatusItem>();
 
-    constructor(private statusService: StatusService, private systemBus: SystemBusService, private watcher: RepositoryWatcherService) {
+    constructor(private statusService: StatusService, 
+    private systemBus: SystemBusService, 
+    private watcher: RepositoryWatcherService,
+    private diffService: DiffService) {
         systemBus.comitCompleted$.subscribe(() => this.loadStatusList());
         systemBus.repositoryChanged$.subscribe((branchName) => this.loadStatusList());
 
@@ -24,6 +29,10 @@ export class StatusListComponent implements OnInit {
         this.watcher.ticker.subscribe(t => {
             this.loadStatusList();
         });
+    }
+
+    private viewChanges(file: StatusItem) {
+        this.diffService.showDiff(file.path);
     }
 
     private loadStatusList(): void {

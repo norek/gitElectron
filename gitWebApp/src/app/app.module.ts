@@ -24,15 +24,18 @@ import { SystemOptionsService } from './services/system-options.service';
 import { SystemOptionsStore } from './store/system-options.store';
 import { DialogService } from './services/dialog.service';
 import { SystemBusService } from './services/system-bus.service';
+import { DiffService } from './services/diff.service';
 import { RepositoryWatcherService } from './services/repository-watcher';
 import { CommitListComponent } from './commit/commit-list.component';
 import { CommitStoreService } from './store/commit.store';
 
+import { DirectDiffComponent } from './diff/direct-diff.component';
+
 @NgModule({
   declarations: [
     AppComponent, BranchListComponent, StatusListComponent, CommitFormComponent,
-    NewBranchComponent, HeaderToolbarComponent, NewRepositoryComponent, DirectoryListComponent
-    , CommitListComponent
+    NewBranchComponent, HeaderToolbarComponent, NewRepositoryComponent, DirectoryListComponent, 
+    CommitListComponent, DirectDiffComponent
   ],
   imports: [
     BrowserModule, FormsModule, BrowserAnimationsModule,
@@ -40,9 +43,9 @@ import { CommitStoreService } from './store/commit.store';
   ],
   providers: [BranchService, StatusService, CommitService, SystemBusService, NotificationService,
     GravatarService, DirectoryService, SystemOptionsService, SystemOptionsStore,
-    DialogService, RepositoryWatcherService, CommitStoreService
+    DialogService, RepositoryWatcherService, CommitStoreService, DiffService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [NewBranchComponent, NewRepositoryComponent]
+  entryComponents: [NewBranchComponent, NewRepositoryComponent, DirectDiffComponent]
 })
 export class AppModule { }

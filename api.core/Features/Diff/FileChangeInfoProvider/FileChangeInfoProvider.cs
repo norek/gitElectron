@@ -13,9 +13,9 @@ namespace api.core.Features.Diff.FileChangeInfoProvider
     {
         private readonly IRepository _repository;
 
-        public FileChangeInfoProvider(IRepository repository)
+        public FileChangeInfoProvider(RepositoryFactory repoFactory)
         {
-            _repository = repository;
+            _repository = repoFactory.GetRepository();
         }
 
         public FileChangeInfo GetFileChangeInfo(string filePath)

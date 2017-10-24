@@ -43,6 +43,7 @@ namespace api.core.Features.Diff.ContentParsers.Utils
         private string[] SplitParts(string headerString)
         {
             return headerString
+                .Split(_hunkSeparator.ToCharArray())[2]
                 .Replace(_hunkSeparator, string.Empty)
                 .Replace(_beforePrefix.ToString(), string.Empty)
                 .Split(_afterPrefix);

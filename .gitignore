@@ -198,3 +198,6 @@ src/gitWeb.Web/dist/build.js
 src/gitWeb.Web/npm-debug.*
 .vs/*
 .vs/gitWeb2/v15/sqlite3/storage.ide
+
+#RIDER
+.idea/

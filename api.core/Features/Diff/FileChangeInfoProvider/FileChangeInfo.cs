@@ -1,4 +1,4 @@
-﻿namespace api.core.Features.Diff
+﻿namespace api.core.Features.Diff.FileChangeInfoProvider
 {
     public class FileChangeInfo
     {
