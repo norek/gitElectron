@@ -18,7 +18,6 @@ export class CommitStoreService {
     private fetchCommitList(branchName: string) {
         this.commitSerivce.getAllFromTip(branchName)
             .subscribe(commits => {
-                console.log(commits);
                 this._commits = commits;
             });
     }

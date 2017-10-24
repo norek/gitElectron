@@ -38,8 +38,16 @@ export class StatusListComponent implements OnInit {
         this.statusService.stage(file).subscribe(resp => this.loadStatusList());
     }
 
+    private stageAll(): void {
+        this.statusService.stageAll().subscribe(resp => this.loadStatusList());
+    }
+
+    private unstageAll(): void {
+        this.statusService.unstageAll().subscribe(resp => this.loadStatusList());
+    }
+
     private unStageFile(file: StatusItem): void {
-        this.statusService.unStage(file).subscribe(resp => this.loadStatusList());
+        this.statusService.unstage(file).subscribe(resp => this.loadStatusList());
     }
 
     private get stagedFiles(): StatusItem[] {
