@@ -27,12 +27,13 @@ import { SystemBusService } from './services/system-bus.service';
 import { RepositoryWatcherService } from './services/repository-watcher';
 import { CommitListComponent } from './commit/commit-list.component';
 import { CommitStoreService } from './store/commit.store';
+import { QuestionDialogComponent } from './dialogs/question/question-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent, BranchListComponent, StatusListComponent, CommitFormComponent,
     NewBranchComponent, HeaderToolbarComponent, NewRepositoryComponent, DirectoryListComponent
-    , CommitListComponent
+    , CommitListComponent, QuestionDialogComponent
   ],
   imports: [
     BrowserModule, FormsModule, BrowserAnimationsModule,
@@ -43,6 +44,6 @@ import { CommitStoreService } from './store/commit.store';
     DialogService, RepositoryWatcherService, CommitStoreService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [NewBranchComponent, NewRepositoryComponent]
+  entryComponents: [NewBranchComponent, NewRepositoryComponent, QuestionDialogComponent]
 })
 export class AppModule { }

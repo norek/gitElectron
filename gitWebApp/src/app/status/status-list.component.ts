@@ -2,6 +2,8 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { StatusService, StatusItem, FileStatus } from './status.service';
 import { SystemBusService } from '../services/system-bus.service';
 import { RepositoryWatcherService } from '../services/repository-watcher';
+import { DialogService } from '../services/dialog.service';
+import { discardQuestion } from '../utils/message.resource';
 
 @Component({
     selector: 'status-list',
@@ -14,7 +16,8 @@ export class StatusListComponent implements OnInit {
 
     @Output() onStatusSelected = new EventEmitter<StatusItem>();
 
-    constructor(private statusService: StatusService, private systemBus: SystemBusService, private watcher: RepositoryWatcherService) {
+    constructor(private statusService: StatusService, private systemBus: SystemBusService,
+        private watcher: RepositoryWatcherService, private dialogService: DialogService) {
         systemBus.comitCompleted$.subscribe(() => this.loadStatusList());
         systemBus.repositoryChanged$.subscribe((branchName) => this.loadStatusList());
 
@@ -51,7 +54,11 @@ export class StatusListComponent implements OnInit {
     }
 
     private discardChanges(file: StatusItem): void {
-        this.statusService.discardChanges(file).subscribe(resp => this.loadStatusList());
+        this.dialogService.showQuestion(discardQuestion).afterClosed().subscribe(result => {
+            if (result.confirmed) {
+                this.statusService.discardChanges(file).subscribe(resp => this.loadStatusList());
+            }
+        });
     }
 
     private get stagedFiles(): StatusItem[] {
