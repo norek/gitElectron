@@ -1,6 +1,6 @@
-<h2 md-dialog-title>File changes</h2>
+<h2 md-dialog-title>File changes: {{filePath}}</h2>
 <md-dialog-content>
-    Changes for file {{filePath}}
+    <direct-diff-hunk-list [hunks]="hunks"></direct-diff-hunk-list>
 </md-dialog-content>
 <md-dialog-actions>
   <button md-button color='accent' (click)="closeDialog()">Close</button>

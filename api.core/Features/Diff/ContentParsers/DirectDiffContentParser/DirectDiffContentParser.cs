@@ -43,34 +43,42 @@ namespace api.core.Features.Diff.ContentParsers.DirectDiffContentParser
                 var hunk = new DirectDiffHunk { Header = _hunkHeaderParser.ParseHeader(rawHunk.Key) };
                 var lineNumberBefore = hunk.Header.Before.StartingLineNumber;
                 var lineNumberAfter = hunk.Header.After.StartingLineNumber;
+                var hunkLineNumber = 1;
                 bool addEmptyLine = false;
                 foreach (var rawLine in rawHunk.Value)
                 {
                     if (rawLine.StartsWith(_addedLinePrefix))
                     {
-                        lineNumberAfter = AddLine(hunk.LinesAfter, rawLine, lineNumberAfter, LineDiffType.Added);
+                        lineNumberAfter = AddLine(hunk.LinesAfter, rawLine, lineNumberAfter, hunkLineNumber, LineDiffType.Added);
+                        AddNonexistingLine(hunk.LinesBefore, hunkLineNumber);
                     }
                     else if (rawLine.StartsWith(_removedLinePrefix))
                     {
-                        lineNumberBefore = AddLine(hunk.LinesBefore, rawLine, lineNumberBefore, LineDiffType.Removed);
+                        lineNumberBefore = AddLine(hunk.LinesBefore, rawLine, lineNumberBefore, hunkLineNumber, LineDiffType.Removed);
+                        AddNonexistingLine(hunk.LinesAfter, hunkLineNumber);
                     }
                     else if (rawLine.StartsWith(_noNewLineAtEoFPrefix))
                     {
                         if (rawHunk.Value.IndexOf(_noNewLineAtEoFPrefix) == rawHunk.Key.Length - 1) //last line
                         {
-                            lineNumberBefore = AddLine(hunk.LinesBefore, rawLine, lineNumberBefore, LineDiffType.Removed);
+                            lineNumberBefore = AddLine(hunk.LinesBefore, rawLine, lineNumberBefore, hunkLineNumber, LineDiffType.Removed);
+                            AddNonexistingLine(hunk.LinesAfter, hunkLineNumber);
                         }
                         else
                             addEmptyLine = true;
                     }
                     else
                     {
-                        lineNumberAfter = AddLine(hunk.LinesAfter, rawLine, lineNumberAfter, LineDiffType.Unchanged);
-                        lineNumberBefore = AddLine(hunk.LinesBefore, rawLine, lineNumberBefore, LineDiffType.Unchanged);
+                        lineNumberAfter = AddLine(hunk.LinesAfter, rawLine, lineNumberAfter, hunkLineNumber, LineDiffType.Unchanged);
+                        lineNumberBefore = AddLine(hunk.LinesBefore, rawLine, lineNumberBefore, hunkLineNumber, LineDiffType.Unchanged);
                     }
+                    hunkLineNumber++;
                 }
                 if (addEmptyLine)
-                    hunk.LinesAfter.Add(CreateEmptyLine(lineNumberAfter, LineDiffType.Added));
+                {
+                    hunk.LinesAfter.Add(CreateEmptyLine(lineNumberAfter, hunkLineNumber, LineDiffType.Added));
+                    AddNonexistingLine(hunk.LinesBefore, hunkLineNumber);
+                }
 
                 hunks.Add(hunk);
             }
@@ -78,32 +86,39 @@ namespace api.core.Features.Diff.ContentParsers.DirectDiffContentParser
             return hunks;
         }
 
-        private int AddLine(List<DirectDiffLine> list, string content, int lineNum, LineDiffType type)
+        private void AddNonexistingLine(List<DirectDiffLine> list, int hunkLineNumber)
         {
-            list.Add(CreateLine(content, lineNum, type));
+            list.Add(CreateEmptyLine(0, hunkLineNumber, LineDiffType.Nonexistent));
+        }
+
+        private int AddLine(List<DirectDiffLine> list, string content, int lineNum, int hunkLineNum, LineDiffType type)
+        {
+            list.Add(CreateLine(content, lineNum, hunkLineNum, type));
 
             return ++lineNum;
         }
 
-        private DirectDiffLine CreateLine(string rawContent, int lineNum, LineDiffType type)
+        private DirectDiffLine CreateLine(string rawContent, int lineNum, int hunkLineNum, LineDiffType type)
         {
             if (rawContent == string.Empty)
-                return CreateEmptyLine(lineNum, type);
+                return CreateEmptyLine(lineNum, hunkLineNum, type);
 
             return new DirectDiffLine
             {
                 Content = rawContent.Substring(1),
                 LineNumber = lineNum,
+                HunkLineNumber = hunkLineNum,
                 Type = type
             };
         }
 
-        private DirectDiffLine CreateEmptyLine(int lineNum, LineDiffType type)
+        private DirectDiffLine CreateEmptyLine(int lineNum, int hunkLineNum, LineDiffType type)
         {
             return new DirectDiffLine
             {
                 Content = string.Empty,
                 LineNumber = lineNum,
+                HunkLineNumber = hunkLineNum,
                 Type = type
             };
         }

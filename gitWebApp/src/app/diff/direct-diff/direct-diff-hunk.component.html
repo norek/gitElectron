@@ -1,0 +1,15 @@
+<div>
+  <div class="hunk-header">{{hunk.header | json}}</div>
+  <div class="hunk-container">
+    <div class="hunk">
+        <div *ngFor="let line of hunk.linesBefore">
+            <span>{{line.content}}</span>
+        </div>
+    </div>
+    <div class="hunk">
+        <div *ngFor="let line of hunk.linesAfter">
+            <span>{{line.content}}</span>
+        </div>
+    </div>
+  </div>
+</div>

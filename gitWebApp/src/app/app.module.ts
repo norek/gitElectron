@@ -30,13 +30,16 @@ import { CommitListComponent } from './commit/commit-list.component';
 import { CommitStoreService } from './store/commit.store';
 import { QuestionDialogComponent } from './dialogs/question/question-dialog.component';
 
+
 import { DirectDiffComponent } from './diff/direct-diff.component';
+import { DirectDiffHunkListComponent } from './diff/direct-diff/direct-diff-hunk-list.component';
+import { DirectDiffHunkComponent } from './diff/direct-diff/direct-diff-hunk.component';
 
 @NgModule({
   declarations: [
     AppComponent, BranchListComponent, StatusListComponent, CommitFormComponent,
     NewBranchComponent, HeaderToolbarComponent, NewRepositoryComponent, DirectoryListComponent, 
-      CommitListComponent, DirectDiffComponent, QuestionDialogComponent
+      CommitListComponent, DirectDiffComponent, QuestionDialogComponent, DirectDiffHunkListComponent, DirectDiffHunkComponent
   ],
   imports: [
     BrowserModule, FormsModule, BrowserAnimationsModule,

@@ -25,6 +25,7 @@ export class DialogService {
 
     public showFileDiff(filePath: string, hunks: DirectDiffHunk[]): MdDialogRef<DirectDiffComponent> {
         return this.dialog.open(DirectDiffComponent, {
+            width: "70%",
             data: {
                 filePath: filePath,
                 hunks: hunks
