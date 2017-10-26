@@ -8,5 +8,7 @@ namespace api.core.Features.Commit
         void Create(CommitParameters commitParameters);
 
         IEnumerable<Commit> GetAllFromTip(string branchName);
+
+        CommitDetails GetDetails(string sha);
     }
 }

@@ -1,5 +1,14 @@
 <div id="commit-list-container">
     <md-nav-list id="commit-list">
-        <a class="commit-list-item" md-list-item *ngFor="let commit of commitStore.commits">{{commit.message}} </a>
+        <md-list-item class="commit-list-item" *ngFor="let commit of commitStore.commits">
+            <div class="commit-list-item-components">
+                <a mdline>
+                    {{commit.message}}
+                </a>
+                <button class="show-details-button" md-icon-button color="warn" (click)="showDetails(commit)">
+                    <md-icon>visibility</md-icon>
+                </button>
+            </div>
+        </md-list-item>
     </md-nav-list>
 </div>

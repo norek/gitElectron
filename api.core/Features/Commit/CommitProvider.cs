@@ -1,6 +1,7 @@
 ﻿using LibGit2Sharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace api.core.Features.Commit
@@ -36,5 +37,58 @@ namespace api.core.Features.Commit
 
             return commits;
         }
+
+        public CommitDetails GetDetails(string sha)
+        {
+            if (string.IsNullOrEmpty(sha)) throw new ArgumentNullException();
+
+            var commit = _repository.Lookup<LibGit2Sharp.Commit>(sha);
+
+            var commitParent = commit.Parents.Last();
+
+            TreeChanges treeChanges = _repository.Diff.Compare<TreeChanges>(commitParent.Tree, commit.Tree);
+
+            CommitDetails commitDetails = new CommitDetails(sha, commit.Message, commit.Author.Name, commit.Author.When.Date);
+            commitDetails.Changes.AddRange(treeChanges.Select(s => new CommitChange((int)s.Status, s.Path, Path.GetFileName(s.Path))));
+
+
+            return commitDetails;
+        }
+    }
+
+    public class CommitDetails
+    {
+
+        public CommitDetails(string sha, string message, string author, DateTime date)
+        {
+            Sha = sha;
+            Message = message;
+            Author = author;
+            Date = date;
+
+            Changes = new List<CommitChange>();
+        }
+
+        public string Sha { get; set; }
+        public string Message { get; set; }
+        public string Author { get; set; }
+        public DateTime Date { get; set; }
+
+        public List<CommitChange> Changes { get; }
+    }
+
+    public class CommitChange
+    {
+
+        public CommitChange(int status, string path, string name)
+        {
+            Type = status;
+            Path = path;
+            Name = name;
+        }
+
+        public string Path { get; }
+        public int Type { get; }
+        public string Name { get; }
     }
 }

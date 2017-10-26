@@ -1,0 +1,23 @@
+<md-expansion-panel *ngIf="isOpen">
+    <md-expansion-panel-header>
+        <md-panel-title>
+            Details
+        </md-panel-title>
+    </md-expansion-panel-header>
+    <div *ngIf="!isLoading">
+        <p>{{commitDetails.message}}</p>
+
+        <md-divider></md-divider>
+        <p>{{commitDetails.author}}</p>
+        <p>{{commitDetails.date}}</p>
+        <md-divider></md-divider>
+        
+        <md-list>
+            <md-list-item *ngFor="let change of commitDetails.changes">
+                <md-icon md-list-icon>{{change.type}}</md-icon>
+                <h4 md-line> {{change.path}}</h4>
+            </md-list-item>
+        </md-list>
+    </div>
+    <md-spinner *ngIf="isLoading" color="warn"></md-spinner>
+</md-expansion-panel>

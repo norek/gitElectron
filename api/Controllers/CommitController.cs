@@ -1,9 +1,5 @@
 ﻿using api.core.Features.Commit;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace api.Controllers
 {
@@ -28,6 +24,12 @@ namespace api.Controllers
         public IActionResult GetAllFromTip(string branchName)
         {
             return Ok(commitProvider.GetAllFromTip(branchName));
+        }
+
+        [HttpGet("{sha}/details")]
+        public IActionResult GetDetails(string sha)
+        {
+            return Ok(commitProvider.GetDetails(sha));
         }
     }
 }

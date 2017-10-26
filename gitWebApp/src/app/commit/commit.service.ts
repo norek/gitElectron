@@ -17,6 +17,23 @@ export class CommitService {
     public getAllFromTip(branchName: string): Observable<Commit[]> {
         return this.http.get(settings.baseApi + '/commits/' + branchName).map(res => res.json());
     }
+
+    public getDetails(sha: string): Observable<CommitDetails> {
+        return this.http.get(settings.baseApi + '/commits/' + sha + '/details/').map(res => res.json());
+    }
+}
+
+export class CommitDetails {
+    sha: string;
+    message: string;
+    date: Date;
+    author: string;
+    changes: CommitChanges[];
+}
+
+class CommitChanges {
+    type: number;
+    path: string;
 }
 
 export class Commit {
