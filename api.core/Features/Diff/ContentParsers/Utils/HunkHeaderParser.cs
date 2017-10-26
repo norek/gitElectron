@@ -19,7 +19,7 @@ namespace api.core.Features.Diff.ContentParsers.Utils
         {
             var header = new HunkHeader();
             if (!IsValid(headerString))
-                throw new FormatException();
+                throw new FormatException("Header has invalid format");
 
             header.RawHeader = headerString;
             var headerParts = SplitParts(headerString);
@@ -35,7 +35,8 @@ namespace api.core.Features.Diff.ContentParsers.Utils
             var headerData = header.Split(_infoSplitter);
 
             info.StartingLineNumber = Convert.ToInt32(headerData[0].Trim());
-            info.NumberOfLines = Convert.ToInt32(headerData[1].Trim());
+            if (headerData.Length > 1)
+                info.NumberOfLines = Convert.ToInt32(headerData[1].Trim());
 
             return info;
         }
@@ -53,8 +54,7 @@ namespace api.core.Features.Diff.ContentParsers.Utils
         {
             return (headerString.Length - headerString.Replace(_hunkSeparator, string.Empty).Length) / 2 == 2 &&
                    headerString.Count(s => s == _afterPrefix) == 1 &&
-                   headerString.Count(s => s == _beforePrefix) == 1 &&
-                   headerString.Count(s => s == _infoSplitter) == 2;
+                   headerString.Count(s => s == _beforePrefix) == 1;
         }
     }
 
