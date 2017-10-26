@@ -3,9 +3,11 @@ import { SystemBusService } from '../../services/system-bus.service';
 import { CommitStoreService } from '../../store/commit.store';
 import { CommitService, CommitDetails } from '../commit.service';
 
+
 @Component({
     selector: 'commit-details',
-    templateUrl: 'commit-details.component.html'
+    templateUrl: 'commit-details.component.html',
+    styleUrls: ['commit-details.component.scss']
 })
 
 export class CommitDetailsComponent {
@@ -25,5 +27,8 @@ export class CommitDetailsComponent {
                     this.commitDetails = details;
                 }, error => this.isOpen = false);
         });
+
+        this.systemBus.repositoryChanged$.subscribe(() => this.isOpen = false);
+        this.systemBus.branchCheckoutCompletedSource$.subscribe(() => this.isOpen = false);
     }
 }

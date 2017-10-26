@@ -35,13 +35,14 @@ import { DirectDiffComponent } from './diff/direct-diff.component';
 import { DirectDiffHunkListComponent } from './diff/direct-diff/direct-diff-hunk-list.component';
 import { DirectDiffHunkComponent } from './diff/direct-diff/direct-diff-hunk.component';
 import { CommitDetailsComponent } from './commit/details/commit-details.component';
+import { CommitChangeTypeToIconPipe } from './commit/details/commit-changetype-to-icon.pipe';
 
 @NgModule({
   declarations: [
     AppComponent, BranchListComponent, StatusListComponent, CommitFormComponent,
     NewBranchComponent, HeaderToolbarComponent, NewRepositoryComponent, DirectoryListComponent,
     CommitListComponent, DirectDiffComponent, QuestionDialogComponent, DirectDiffHunkListComponent,
-    DirectDiffHunkComponent, CommitDetailsComponent
+    DirectDiffHunkComponent, CommitDetailsComponent, CommitChangeTypeToIconPipe
   ],
   imports: [
     BrowserModule, FormsModule, BrowserAnimationsModule,

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { settings } from '../../environments/environment';
+import { CommitChangeType } from './details/commit-change-type.enum';
 
 @Injectable()
 export class CommitService {
@@ -32,7 +33,7 @@ export class CommitDetails {
 }
 
 class CommitChanges {
-    type: number;
+    type: CommitChangeType;
     path: string;
 }
 

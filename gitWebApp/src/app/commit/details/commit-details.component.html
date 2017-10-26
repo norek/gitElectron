@@ -5,16 +5,26 @@
         </md-panel-title>
     </md-expansion-panel-header>
     <div *ngIf="!isLoading">
-        <p>{{commitDetails.message}}</p>
+        <div id="commit-message">
+            <label>Message:</label>
+            <p>{{commitDetails.message}}</p>
+        </div>
 
         <md-divider></md-divider>
-        <p>{{commitDetails.author}}</p>
-        <p>{{commitDetails.date}}</p>
+
+        <div id="commit-information">
+            <label>Info:</label>
+            <p>{{commitDetails.author}}</p>
+            <p>{{commitDetails.date | date}}</p>
+        </div>
+
         <md-divider></md-divider>
-        
+
         <md-list>
             <md-list-item *ngFor="let change of commitDetails.changes">
-                <md-icon md-list-icon>{{change.type}}</md-icon>
+                <md-icon md-list-icon>
+                    {{change.type | commitChangeTypeToIcon}}
+                </md-icon>
                 <h4 md-line> {{change.path}}</h4>
             </md-list-item>
         </md-list>
