@@ -36,6 +36,7 @@ namespace api.core.Features.Diff.ContentParsers.DirectDiffContentParser
             var hunks = new List<DirectDiffHunk>();
 
             var lines = _contentLineSplitter.GetContentLines(content);
+            
             var rawHunkDictionary = _hunkSplitter.GetHunks(lines);
 
             foreach (var rawHunk in rawHunkDictionary)
@@ -43,41 +44,36 @@ namespace api.core.Features.Diff.ContentParsers.DirectDiffContentParser
                 var hunk = new DirectDiffHunk { Header = _hunkHeaderParser.ParseHeader(rawHunk.Key) };
                 var lineNumberBefore = hunk.Header.Before.StartingLineNumber;
                 var lineNumberAfter = hunk.Header.After.StartingLineNumber;
-                var hunkLineNumber = 1;
-                bool addEmptyLine = false;
+                var removedLinesCount = 0;
                 foreach (var rawLine in rawHunk.Value)
                 {
-                    if (rawLine.StartsWith(_addedLinePrefix))
+                    if (rawLine.StartsWith(_removedLinePrefix))
                     {
-                        lineNumberAfter = AddLine(hunk.LinesAfter, rawLine, lineNumberAfter, hunkLineNumber, LineDiffType.Added);
-                        AddNonexistingLine(hunk.LinesBefore, hunkLineNumber);
+                        lineNumberBefore = AddLine(hunk.LinesBefore, rawLine, lineNumberBefore, LineDiffType.Removed);
+                        removedLinesCount++;
                     }
-                    else if (rawLine.StartsWith(_removedLinePrefix))
+                    else if(rawLine.StartsWith(_addedLinePrefix))
                     {
-                        lineNumberBefore = AddLine(hunk.LinesBefore, rawLine, lineNumberBefore, hunkLineNumber, LineDiffType.Removed);
-                        AddNonexistingLine(hunk.LinesAfter, hunkLineNumber);
-                    }
-                    else if (rawLine.StartsWith(_noNewLineAtEoFPrefix))
-                    {
-                        if (rawHunk.Value.IndexOf(_noNewLineAtEoFPrefix) == rawHunk.Key.Length - 1) //last line
-                        {
-                            lineNumberBefore = AddLine(hunk.LinesBefore, rawLine, lineNumberBefore, hunkLineNumber, LineDiffType.Removed);
-                            AddNonexistingLine(hunk.LinesAfter, hunkLineNumber);
-                        }
+                        lineNumberAfter = AddLine(hunk.LinesAfter, rawLine, lineNumberAfter, LineDiffType.Added);
+                        if (removedLinesCount > 0)
+                            removedLinesCount--;
                         else
-                            addEmptyLine = true;
+                            AddNonexistingLine(hunk.LinesBefore);
                     }
+                    else if (rawLine.StartsWith(_noNewLineAtEoFPrefix)) continue;
                     else
                     {
-                        lineNumberAfter = AddLine(hunk.LinesAfter, rawLine, lineNumberAfter, hunkLineNumber, LineDiffType.Unchanged);
-                        lineNumberBefore = AddLine(hunk.LinesBefore, rawLine, lineNumberBefore, hunkLineNumber, LineDiffType.Unchanged);
+                        if (removedLinesCount > 0)
+                        {
+                            while (removedLinesCount > 0)
+                            {
+                                AddNonexistingLine(hunk.LinesAfter);
+                                removedLinesCount--;
+                            }
+                        }
+                        lineNumberAfter = AddLine(hunk.LinesAfter, rawLine, lineNumberAfter, LineDiffType.Unchanged);
+                        lineNumberBefore = AddLine(hunk.LinesBefore, rawLine, lineNumberBefore, LineDiffType.Unchanged);
                     }
-                    hunkLineNumber++;
-                }
-                if (addEmptyLine)
-                {
-                    hunk.LinesAfter.Add(CreateEmptyLine(lineNumberAfter, hunkLineNumber, LineDiffType.Added));
-                    AddNonexistingLine(hunk.LinesBefore, hunkLineNumber);
                 }
 
                 hunks.Add(hunk);
@@ -86,40 +82,38 @@ namespace api.core.Features.Diff.ContentParsers.DirectDiffContentParser
             return hunks;
         }
 
-        private void AddNonexistingLine(List<DirectDiffLine> list, int hunkLineNumber)
+        private void AddNonexistingLine(List<DirectDiffLine> list)
         {
-            list.Add(CreateEmptyLine(0, hunkLineNumber, LineDiffType.Nonexistent));
+            list.Add(CreateEmptyLine(0, LineDiffType.Nonexistent));
         }
 
-        private int AddLine(List<DirectDiffLine> list, string content, int lineNum, int hunkLineNum, LineDiffType type)
+        private int AddLine(List<DirectDiffLine> list, string content, int lineNum, LineDiffType type)
         {
-            list.Add(CreateLine(content, lineNum, hunkLineNum, type));
+            list.Add(CreateLine(content, lineNum, type));
 
             return ++lineNum;
         }
 
-        private DirectDiffLine CreateLine(string rawContent, int lineNum, int hunkLineNum, LineDiffType type)
+        private DirectDiffLine CreateLine(string rawContent, int lineNum, LineDiffType type)
         {
             if (rawContent == string.Empty)
-                return CreateEmptyLine(lineNum, hunkLineNum, type);
+                return CreateEmptyLine(lineNum, type);
 
             return new DirectDiffLine
             {
                 Content = rawContent.Substring(1),
                 LineNumber = lineNum,
-                HunkLineNumber = hunkLineNum,
-                Type = type
+                Type = type.ToString().ToLower()
             };
         }
 
-        private DirectDiffLine CreateEmptyLine(int lineNum, int hunkLineNum, LineDiffType type)
+        private DirectDiffLine CreateEmptyLine(int lineNum, LineDiffType type)
         {
             return new DirectDiffLine
             {
                 Content = string.Empty,
                 LineNumber = lineNum,
-                HunkLineNumber = hunkLineNum,
-                Type = type
+                Type = type.ToString().ToLower()
             };
         }
     }

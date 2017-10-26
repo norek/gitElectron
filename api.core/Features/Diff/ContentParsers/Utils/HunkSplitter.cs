@@ -35,6 +35,12 @@ namespace api.core.Features.Diff.ContentParsers.Utils
 
                     hunkLines.Add(currentLine);
                 }
+
+                if (i == lines.Length - 1)
+                {
+                    if(string.IsNullOrEmpty(currentLine))
+                        hunkLines.RemoveAt(hunkLines.Count - 1);
+                }
             }
 
             return hunkDictionary;

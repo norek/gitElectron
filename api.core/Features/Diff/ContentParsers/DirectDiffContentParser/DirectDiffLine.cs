@@ -8,19 +8,13 @@
             set;
         }
 
-        public LineDiffType Type
+        public string Type
         {
             get;
             set;
         }
 
         public int LineNumber
-        {
-            get;
-            set;
-        }
-
-        public int HunkLineNumber
         {
             get;
             set;
