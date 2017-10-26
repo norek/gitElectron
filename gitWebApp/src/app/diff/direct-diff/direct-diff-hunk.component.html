@@ -3,12 +3,12 @@
   <div class="hunk-container">
     <div class="hunk">
         <div *ngFor="let line of hunk.linesBefore">
-            <span>{{line.content}}</span>
+            <span>{{line | json}}</span>
         </div>
     </div>
     <div class="hunk">
         <div *ngFor="let line of hunk.linesAfter">
-            <span>{{line.content}}</span>
+            <span>{{line | json}}</span>
         </div>
     </div>
   </div>
