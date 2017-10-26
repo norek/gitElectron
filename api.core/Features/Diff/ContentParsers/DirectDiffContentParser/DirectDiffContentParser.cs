@@ -36,7 +36,7 @@ namespace api.core.Features.Diff.ContentParsers.DirectDiffContentParser
             var hunks = new List<DirectDiffHunk>();
 
             var lines = _contentLineSplitter.GetContentLines(content);
-            
+
             var rawHunkDictionary = _hunkSplitter.GetHunks(lines);
 
             foreach (var rawHunk in rawHunkDictionary)
@@ -45,14 +45,19 @@ namespace api.core.Features.Diff.ContentParsers.DirectDiffContentParser
                 var lineNumberBefore = hunk.Header.Before.StartingLineNumber;
                 var lineNumberAfter = hunk.Header.After.StartingLineNumber;
                 var removedLinesCount = 0;
-                foreach (var rawLine in rawHunk.Value)
+                var emptyLineRemoved = false;
+                var emptyLineAdded = false;
+                var noNewLineHandled = false;
+                //foreach (var rawLine in rawHunk.Value)
+                for (int i = 0; i < rawHunk.Value.Count; i++)
                 {
+                    var rawLine = rawHunk.Value[i];
                     if (rawLine.StartsWith(_removedLinePrefix))
                     {
                         lineNumberBefore = AddLine(hunk.LinesBefore, rawLine, lineNumberBefore, LineDiffType.Removed);
                         removedLinesCount++;
                     }
-                    else if(rawLine.StartsWith(_addedLinePrefix))
+                    else if (rawLine.StartsWith(_addedLinePrefix))
                     {
                         lineNumberAfter = AddLine(hunk.LinesAfter, rawLine, lineNumberAfter, LineDiffType.Added);
                         if (removedLinesCount > 0)
@@ -60,7 +65,17 @@ namespace api.core.Features.Diff.ContentParsers.DirectDiffContentParser
                         else
                             AddNonexistingLine(hunk.LinesBefore);
                     }
-                    else if (rawLine.StartsWith(_noNewLineAtEoFPrefix)) continue;
+                    else if (rawLine.StartsWith(_noNewLineAtEoFPrefix))
+                    {
+                        if(noNewLineHandled) continue;
+
+                        noNewLineHandled = true;
+
+                        if (i == rawHunk.Value.Count - 1)
+                            emptyLineRemoved = true;
+                        else
+                            emptyLineAdded = true;
+                    }
                     else
                     {
                         if (removedLinesCount > 0)
@@ -74,6 +89,16 @@ namespace api.core.Features.Diff.ContentParsers.DirectDiffContentParser
                         lineNumberAfter = AddLine(hunk.LinesAfter, rawLine, lineNumberAfter, LineDiffType.Unchanged);
                         lineNumberBefore = AddLine(hunk.LinesBefore, rawLine, lineNumberBefore, LineDiffType.Unchanged);
                     }
+                }
+                if (emptyLineAdded)
+                {
+                    AddNonexistingLine(hunk.LinesBefore);
+                    AddLine(hunk.LinesAfter, string.Empty, lineNumberAfter, LineDiffType.Added);
+                }
+                if (emptyLineRemoved)
+                {
+                    AddLine(hunk.LinesBefore, string.Empty, lineNumberBefore, LineDiffType.Removed);
+                    AddNonexistingLine(hunk.LinesAfter);
                 }
 
                 hunks.Add(hunk);

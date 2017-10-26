@@ -12,7 +12,6 @@ namespace api.core.tests.Diff.ContentParsers.Utils
         [InlineData("@@ 28,8 +29,8 @@")]
         [InlineData("@@ -28,8 29,8 @@")]
         [InlineData("@@ -28,8 29,8 @@")]
-        [InlineData("@@ -28 8 +29,8 @@")]
         public void Throws_For_Invalid_Header(string header)
         {
             var parser = new HunkHeaderParser();
@@ -35,6 +34,20 @@ namespace api.core.tests.Diff.ContentParsers.Utils
             Assert.Equal(28, result.Before.StartingLineNumber);
             Assert.Equal(9, result.After.NumberOfLines);
             Assert.Equal(29, result.After.StartingLineNumber);
+        }
+
+        [Fact]
+        public void Can_Parse_Valid_Header_Without_Lines_Before()
+        {
+            var header = "@@ -1 +1,4 @@";
+            var parser = new HunkHeaderParser();
+
+            var result = parser.ParseHeader(header);
+
+            Assert.Equal(0, result.Before.NumberOfLines);
+            Assert.Equal(1, result.Before.StartingLineNumber);
+            Assert.Equal(4, result.After.NumberOfLines);
+            Assert.Equal(1, result.After.StartingLineNumber);
         }
     }
 }
