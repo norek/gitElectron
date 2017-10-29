@@ -10,14 +10,12 @@ export class RepositoryWatcherService {
     public ticker: Observable<number>;
 
     public startWatching() {
-        this.ticker = TimerObservable.create(0, 3000);
+        this.ticker = TimerObservable.create(0, 300000);
         this.subscription = this.ticker.subscribe(t => {
 
         });
     }
-
-
-
+    
     public stopWatching() {
         this.subscription.unsubscribe();
     }

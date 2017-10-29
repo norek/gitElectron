@@ -5,6 +5,7 @@ import { RepositoryWatcherService } from '../services/repository-watcher';
 import { discardQuestion } from '../utils/message.resource';
 import { DiffService } from '../services/diff.service';
 import { DialogService } from '../dialogs/dialog.service';
+import { StatusTypeDescriptorService, StatusTypeDescription, StatusListItem } from './service/status-type-descriptor.service';
 
 @Component({
     selector: 'status-list',
@@ -14,15 +15,17 @@ import { DialogService } from '../dialogs/dialog.service';
 
 export class StatusListComponent implements OnInit {
 
-    private statusList: StatusItem[] = [];
+    private stagedItems: StatusListItem[] = [];
+    private unstagedItems: StatusListItem[] = [];
 
     @Output() onStatusSelected = new EventEmitter<StatusItem>();
 
     constructor(private statusService: StatusService,
-    private systemBus: SystemBusService,
-    private watcher: RepositoryWatcherService,
-    private diffService: DiffService,
-    private dialogService: DialogService) {
+        private systemBus: SystemBusService,
+        private watcher: RepositoryWatcherService,
+        private diffService: DiffService,
+        private dialogService: DialogService,
+        private statusDescriptor: StatusTypeDescriptorService) {
         systemBus.comitCompleted$.subscribe(() => this.loadStatusList());
         systemBus.repositoryChanged$.subscribe((branchName) => this.loadStatusList());
 
@@ -34,20 +37,23 @@ export class StatusListComponent implements OnInit {
         });
     }
 
-    private viewChanges(file: StatusItem) {
-        this.diffService.showDiff(file.path);
+    private viewChanges(item: StatusListItem) {
+        this.diffService.showDiff(item.status.path);
     }
 
     private loadStatusList(): void {
-        this.statusService.get().subscribe(statusListResult => this.statusList = statusListResult);
+        this.statusService.get().subscribe(statusListResult => {
+            this.stagedItems = this.statusDescriptor.getStagedItems(statusListResult);
+            this.unstagedItems = this.statusDescriptor.getUnstagedItems(statusListResult);
+        });
     }
 
-    private statusSelected(status: StatusItem): void {
-        this.onStatusSelected.emit(status);
+    private statusSelected(item: StatusListItem): void {
+        this.onStatusSelected.emit(item.status);
     }
 
-    private stageFile(file: StatusItem): void {
-        this.statusService.stage(file).subscribe(resp => this.loadStatusList());
+    private stageFile(item: StatusListItem): void {
+        this.statusService.stage(item.status).subscribe(resp => this.loadStatusList());
     }
 
     private stageAll(): void {
@@ -58,47 +64,23 @@ export class StatusListComponent implements OnInit {
         this.statusService.unstageAll().subscribe(resp => this.loadStatusList());
     }
 
-    private unStageFile(file: StatusItem): void {
-        this.statusService.unstage(file).subscribe(resp => this.loadStatusList());
+    private unStageFile(item: StatusListItem): void {
+        this.statusService.unstage(item.status).subscribe(resp => this.loadStatusList());
     }
 
-    private discardChanges(file: StatusItem): void {
+    private discardChanges(item: StatusListItem): void {
         this.dialogService.showQuestion(discardQuestion).afterClosed().subscribe(result => {
             if (result.confirmed) {
-                this.statusService.discardChanges(file).subscribe(resp => this.loadStatusList());
+                this.statusService.discardChanges(item.status).subscribe(resp => this.loadStatusList());
             }
         });
     }
 
-    private get stagedFiles(): StatusItem[] {
-        return this.statusList.filter((s) => this.isStaged(s));
+    private getIconName(status: StatusListItem): string {
+        return status.description.icon;
     }
 
-    private isStaged(statusItem: StatusItem): boolean {
-        return statusItem.status === FileStatus.ModifiedInIndex
-            || statusItem.status === FileStatus.DeletedFromIndex
-            || statusItem.status === FileStatus.NewInIndex
-            || statusItem.status === FileStatus.RenamedInIndex
-            || statusItem.status === FileStatus.TypeChangeInIndex;
-    }
-
-    private get unStagedFiles(): StatusItem[] {
-        return this.statusList.filter((s) => !this.isStaged(s));
-    }
-
-    private getIconName(status: StatusItem): string {
-        switch (status.status) {
-            case FileStatus.NewInIndex:
-            case FileStatus.NewInWorkdir:
-                return 'add box';
-            case FileStatus.ModifiedInIndex:
-            case FileStatus.ModifiedInWorkdir:
-                return 'create';
-            case FileStatus.DeletedFromIndex:
-            case FileStatus.DeletedFromWorkdir:
-                return 'remove box';
-            default:
-                return 'alarm on';
-        }
+    private getTooltip(status: StatusListItem): string {
+        return status.description.name;
     }
 }

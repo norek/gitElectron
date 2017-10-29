@@ -15,11 +15,11 @@
 }
 
 .show-details-button{
-    opacity: 0.1;
+    display: none
 }
 
 .commit-list-item:hover .show-details-button{
-    opacity: 1;
+    display: block;
 }
 
 .commit-list-item-components{

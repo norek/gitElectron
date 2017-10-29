@@ -44,6 +44,10 @@ export class StatusService {
 export class StatusItem {
     path: string;
     status: FileStatus;
+    // prabobly remove, display properties
+    name: string;
+    color: string;
+    icon: string;
 }
 
 export enum FileStatus {

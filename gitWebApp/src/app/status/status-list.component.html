@@ -9,30 +9,32 @@
 
     <md-divider></md-divider>
 
-    <md-list *ngIf="stagedFiles.length > 0">
+    <md-list *ngIf="stagedItems.length > 0">
         <button md-button color="warn" (click)="unstageAll()">Unstage all</button>
-        <md-list-item *ngFor="let file of stagedFiles" (click)=statusSelected(file)>
-            <md-icon md-list-icon>{{getIconName(file)}}</md-icon>
-            <h4 md-line> {{file.path}}</h4>
-            <button md-icon-button color="warn" (click)="unStageFile(file)">
-                <md-icon aria-label="Example icon-button with a heart icon">remove</md-icon>
+        <md-list-item *ngFor="let item of stagedItems" (click)=statusSelected(item)>
+            <md-icon md-list-icon md-tooltip="{{getTooltip(item)}}">{{getIconName(item)}}</md-icon>
+            <h4 md-line> {{item.status.path}}</h4>
+            <button md-icon-button color="warn" (click)="unStageFile(item)">
+                <md-icon>remove</md-icon>
             </button>
         </md-list-item>
     </md-list>
 
-    <md-divider *ngIf="unStagedFiles.length > 0 && stagedFiles.length > 0"></md-divider>
+    <md-divider *ngIf="unstagedItems.length > 0 && stagedItems.length > 0"></md-divider>
 
-    <md-list *ngIf="unStagedFiles.length > 0">
+    <md-list *ngIf="unstagedItems.length > 0">
         <button md-button color="accent" (click)="stageAll()">Stage all</button>
-        <md-list-item *ngFor="let file of unStagedFiles" (click)=statusSelected(file)>
-            <!--<md-icon md-list-icon>{{getIconName(file)}}</md-icon>-->
-          <md-icon class="changes-button" md-list-icon (click)="viewChanges(file)" md-tooltip="View changes">pageview</md-icon>
-            <h4 md-line md-tooltip="file.path"> {{file.path}}</h4>
-            <button md-icon-button color="accent" (click)="stageFile(file)">
-                <md-icon aria-label="Example icon-button with a heart icon">add</md-icon>
+        <md-list-item *ngFor="let item of unstagedItems" (click)=statusSelected(item)>
+            <md-icon md-list-icon md-tooltip="{{getTooltip(item)}}">{{getIconName(item)}}</md-icon>
+            <h4 md-line md-tooltip={{item.status.path}}>{{item.status.path}}</h4>
+            <button md-icon-button color="primary" (click)="viewChanges(item)">
+                <md-icon md-tooltip="View changes">zoom_in</md-icon>
             </button>
-            <button md-icon-button color="warn" (click)="discardChanges(file)">
-                <md-icon aria-label="Example icon-button with a heart icon">undo</md-icon>
+            <button md-icon-button color="accent" (click)="stageFile(item)">
+                <md-icon md-tooltip="Stage file">add</md-icon>
+            </button>
+            <button md-icon-button color="warn" (click)="discardChanges(item)">
+                <md-icon md-tooltip="Discard changes">undo</md-icon>
             </button>
         </md-list-item>
     </md-list>

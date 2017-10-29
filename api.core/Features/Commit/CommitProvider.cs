@@ -43,15 +43,20 @@ namespace api.core.Features.Commit
             if (string.IsNullOrEmpty(sha)) throw new ArgumentNullException();
 
             var commit = _repository.Lookup<LibGit2Sharp.Commit>(sha);
-
-            var commitParent = commit.Parents.Last();
-
-            TreeChanges treeChanges = _repository.Diff.Compare<TreeChanges>(commitParent.Tree, commit.Tree);
-
             CommitDetails commitDetails = new CommitDetails(sha, commit.Message, commit.Author.Name, commit.Author.When.Date);
-            commitDetails.Changes.AddRange(treeChanges.Select(s => new CommitChange((int)s.Status, s.Path, Path.GetFileName(s.Path))));
 
+            var commitParent = commit.Parents.LastOrDefault();
 
+            if (commitParent != null)
+            {
+                TreeChanges treeChanges = _repository.Diff.Compare<TreeChanges>(commitParent.Tree, commit.Tree);
+                commitDetails.Changes.AddRange(treeChanges.Select(s => new CommitChange(s.Status, s.Path, Path.GetFileName(s.Path))));
+            }
+            else
+            {
+                commitDetails.Changes.AddRange(commit.Tree.Select(s => new CommitChange(ChangeKind.Added, s.Path, Path.GetFileName(s.Name))));
+            }
+            
             return commitDetails;
         }
     }
@@ -80,9 +85,9 @@ namespace api.core.Features.Commit
     public class CommitChange
     {
 
-        public CommitChange(int status, string path, string name)
+        public CommitChange(ChangeKind status, string path, string name)
         {
-            Type = status;
+            Type = (int)status;
             Path = path;
             Name = name;
         }
