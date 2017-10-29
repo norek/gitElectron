@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { NewRepositoryComponent } from '../repository/new-repository.component';
 import { DirectDiffComponent } from '../diff/direct-diff.component';
-import { DiffService, DirectDiffHunk } from './diff.service';
 import { QuestionDialogComponent } from '../dialogs/question/question-dialog.component';
+import { DirectDiffHunk } from '../services/diff.service';
 
 @Injectable()
 export class DialogService {
@@ -25,7 +25,7 @@ export class DialogService {
 
     public showFileDiff(filePath: string, hunks: DirectDiffHunk[]): MdDialogRef<DirectDiffComponent> {
         return this.dialog.open(DirectDiffComponent, {
-            width: "70%",
+            width: '70%',
             data: {
                 filePath: filePath,
                 hunks: hunks

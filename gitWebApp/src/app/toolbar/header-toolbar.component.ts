@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MappedRepository, RepositoryConfiguration } from '../services/system-options.service';
 import { SystemOptionsStore } from '../store/system-options.store';
-import { DialogService } from '../services/dialog.service';
 import { SystemBusService } from '../services/system-bus.service';
+import { DialogService } from '../dialogs/dialog.service';
 
 @Component({
     selector: 'header-toolbar',

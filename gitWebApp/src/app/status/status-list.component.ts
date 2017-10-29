@@ -2,9 +2,9 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { StatusService, StatusItem, FileStatus } from './status.service';
 import { SystemBusService } from '../services/system-bus.service';
 import { RepositoryWatcherService } from '../services/repository-watcher';
-import { DialogService } from '../services/dialog.service';
 import { discardQuestion } from '../utils/message.resource';
 import { DiffService } from '../services/diff.service';
+import { DialogService } from '../dialogs/dialog.service';
 
 @Component({
     selector: 'status-list',
@@ -18,8 +18,8 @@ export class StatusListComponent implements OnInit {
 
     @Output() onStatusSelected = new EventEmitter<StatusItem>();
 
-    constructor(private statusService: StatusService, 
-    private systemBus: SystemBusService, 
+    constructor(private statusService: StatusService,
+    private systemBus: SystemBusService,
     private watcher: RepositoryWatcherService,
     private diffService: DiffService,
     private dialogService: DialogService) {

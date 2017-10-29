@@ -3,10 +3,10 @@ import { Http, Response, RequestOptionsArgs } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { settings } from '../../environments/environment';
 import { MdDialog } from '@angular/material';
-import { DialogService } from '../services/dialog.service';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { DialogService } from '../dialogs/dialog.service';
 
 @Injectable()
 export class DiffService {
@@ -19,7 +19,7 @@ export class DiffService {
     public showDiff(filePath: string) {
         this.getDiff(filePath)
             .subscribe((res: DirectDiffHunk[]) => {
-                var ref = this.dialogService.showFileDiff(filePath, res);                    
+                const ref = this.dialogService.showFileDiff(filePath, res);
             });
     }
 

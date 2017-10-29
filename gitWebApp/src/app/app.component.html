@@ -1,15 +1,13 @@
 <header-toolbar></header-toolbar>
 <div class="row">
-  <div class="col-md-3">
+  <div id="right-panel" class="col-md-3">
     <branch-list></branch-list>
   </div>
   <div class="col-md-6">
     <commit-list></commit-list>
   </div>
-  <div class="col-md-3">
-    <div id="left-panel">
-      <status-list (onStatusSelected)="onStatusSelected($event)"></status-list>
-      <commit-details></commit-details>
-    </div>
+  <div id="left-panel" class="col-md-3">
+    <status-list (onStatusSelected)="onStatusSelected($event)"></status-list>
+    <commit-details></commit-details>
   </div>
 </div>
