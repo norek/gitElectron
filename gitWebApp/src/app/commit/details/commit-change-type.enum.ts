@@ -1,4 +1,5 @@
 export enum CommitChangeType {
+    Undefined = -1,
     //
     // Summary:
     //     No changes detected.

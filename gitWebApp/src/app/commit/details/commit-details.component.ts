@@ -19,8 +19,8 @@ export class CommitDetailsComponent {
 
     constructor(private systemBus: SystemBusService, private commitStore: CommitService) {
         this.systemBus.showCommitDetailsRequested$.subscribe((sha: string) => {
-            this.isOpen = true;
             this.isLoading = true;
+            this.isOpen = true;
             this.commitStore.getDetails(sha)
                 .finally(() => this.isLoading = false)
                 .subscribe((details: CommitDetails) => {

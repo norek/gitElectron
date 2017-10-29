@@ -27,7 +27,7 @@
         <md-list-item *ngFor="let file of unStagedFiles" (click)=statusSelected(file)>
             <!--<md-icon md-list-icon>{{getIconName(file)}}</md-icon>-->
           <md-icon class="changes-button" md-list-icon (click)="viewChanges(file)" md-tooltip="View changes">pageview</md-icon>
-            <h4 md-line> {{file.path}}</h4>
+            <h4 md-line md-tooltip="file.path"> {{file.path}}</h4>
             <button md-icon-button color="accent" (click)="stageFile(file)">
                 <md-icon aria-label="Example icon-button with a heart icon">add</md-icon>
             </button>

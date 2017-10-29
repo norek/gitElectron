@@ -1,4 +1,4 @@
-<md-expansion-panel *ngIf="isOpen">
+<md-expansion-panel *ngIf="isOpen" [expanded]="isOpen">
     <md-expansion-panel-header>
         <md-panel-title>
             Details
@@ -22,10 +22,10 @@
 
         <md-list>
             <md-list-item *ngFor="let change of commitDetails.changes">
-                <md-icon md-list-icon>
+                <md-icon md-list-icon md-tooltip="{{change.type | commitChangeTypeToTooltip}}">
                     {{change.type | commitChangeTypeToIcon}}
                 </md-icon>
-                <h4 md-line> {{change.path}}</h4>
+                <h4 md-line  md-tooltip="{{change.path}}"> {{change.path}}</h4>
             </md-list-item>
         </md-list>
     </div>
