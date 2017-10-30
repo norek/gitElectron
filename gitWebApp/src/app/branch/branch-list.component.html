@@ -1,22 +1,42 @@
-<md-expansion-panel>
-    <md-expansion-panel-header>
-        <md-panel-title>
-            Branches
-        </md-panel-title>
-    </md-expansion-panel-header>
+<md-accordion>
+    <md-expansion-panel>
+        <md-expansion-panel-header>
+            <md-panel-title>
+                Locals
+            </md-panel-title>
+        </md-expansion-panel-header>
 
-    <md-list>
-        <md-list-item *ngFor="let branch of branchList">
-            <md-icon *ngIf="branch.isHead" md-list-icon>label</md-icon>
-            <h4 md-line> {{branch.name}}</h4>
-            <button md-icon-button *ngIf="!branch.isHead" (click)="checkout(branch.name)">
-                    <md-icon class="md-24">favorite</md-icon>
-            </button>
-        </md-list-item>
-    </md-list>
+        <md-list dense>
+            <md-list-item *ngFor="let branch of localBranchList">
+                <md-icon *ngIf="branch.isHead" md-list-icon mdTooltip="this is current branch">label</md-icon>
+                <md-icon *ngIf="branch.isTracking" md-list-icon mdTooltip="tracking remote branch">visibility</md-icon>
+                <h4 md-line> {{branch.name}}</h4>
+                <button md-icon-button *ngIf="!branch.isHead" (click)="checkout(branch.name)">
+                    <md-icon class="md-24" mdTooltip="Checkout">get_app</md-icon>
+                </button>
+            </md-list-item>
+        </md-list>
 
-    <md-action-row>
-        <button md-button color="primary" (click)="createNew()">Create new</button>
-    </md-action-row>
+        <md-action-row>
+            <button md-button color="primary" (click)="createNew()">Create new</button>
+        </md-action-row>
+    </md-expansion-panel>
 
-</md-expansion-panel>
+    <md-expansion-panel>
+        <md-expansion-panel-header>
+            <md-panel-title>
+                Remotes
+            </md-panel-title>
+        </md-expansion-panel-header>
+
+        <md-list dense>
+            <md-list-item *ngFor="let branch of remoteBranchList">
+                <md-icon *ngIf="branch.isHead" md-list-icon>label</md-icon>
+                <h4 md-line> {{branch.name}}</h4>
+                <button md-icon-button *ngIf="!branch.isHead && !branch.isTrackedByLocal" (click)="checkout(branch.name)" mdTooltip="Checkout">
+                    <md-icon class="md-24">get_app</md-icon>
+                </button>
+            </md-list-item>
+        </md-list>
+    </md-expansion-panel>
+</md-accordion>

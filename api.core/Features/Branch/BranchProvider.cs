@@ -24,14 +24,25 @@ namespace api.core.Features.Branch
         public IEnumerable<Branch> GetAllBranches()
         {
             return _repository.Branches
-                              .Select(b => new Branch() { IsRemote = b.IsRemote, Name = b.FriendlyName, IsHead = b.IsCurrentRepositoryHead, Tip = b.Tip.Sha })
+                               //Ignore HEAD branch
+                              .Where(branch => !(branch.IsRemote && branch.CanonicalName.Contains("refs/remotes/origin/HEAD")))
+                              .Select(b => new Branch()
+                              {
+                                  CannonicalName = b.CanonicalName,
+                                  IsRemote = b.IsRemote,
+                                  Name = b.FriendlyName,
+                                  IsHead = b.IsCurrentRepositoryHead,
+                                  Tip = b.Tip.Sha,
+                                  IsTracking = b.IsTracking,
+                                  TrackingDetails = new TrackingDetails(b.TrackedBranch?.CanonicalName, b.TrackingDetails)
+                              })
                               .ToList();
         }
 
         public void Checkout(string name)
         {
             LibGit2Sharp.Branch branchToCheckout = _repository.Branches[name];
-       
+
             Commands.Checkout(_repository, branchToCheckout);
         }
     }

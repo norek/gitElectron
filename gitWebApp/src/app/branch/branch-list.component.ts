@@ -13,6 +13,8 @@ import { SystemBusService } from '../services/system-bus.service';
 export class BranchListComponent implements OnInit {
 
     private branchList: Branch[] = [];
+    private localBranchList: Branch[] = [];
+    private remoteBranchList: Branch[] = [];
 
     constructor(public dialog: MdDialog, private branchService: BranchService, private systemBus: SystemBusService,
         private notificationService: NotificationService) {
@@ -26,7 +28,15 @@ export class BranchListComponent implements OnInit {
     }
 
     private loadBranchList(): void {
-        this.branchService.getAll().subscribe((branchList) => this.branchList = branchList);
+        this.branchService.getAll().subscribe((branchList) => {
+            this.branchList = branchList;
+            this.localBranchList = this.branchList.filter(branch => !branch.isRemote);
+            this.remoteBranchList = this.branchList.filter(branch => branch.isRemote);
+
+            this.remoteBranchList.forEach(remoteBranch => remoteBranch.isTrackedByLocal = this.isTrackedByLocal(remoteBranch));
+
+
+        });
     }
 
     private createNew(): void {
@@ -42,5 +52,12 @@ export class BranchListComponent implements OnInit {
             }, (error) => {
                 this.notificationService.error(error, 'checkout operation');
             });
+    }
+
+    private isTrackedByLocal(remote: Branch): boolean {
+        console.log('call');
+        const localTracking = this.localBranchList.filter(branch => branch.isTracking && branch.trackingDetails.cannonicalName == remote.cannonicalName);
+
+        return localTracking && localTracking.length > 0;
     }
 }

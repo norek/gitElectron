@@ -20,6 +20,11 @@ namespace api.core.Features.Configuration
 
             var signature = _repository.Config.BuildSignature(DateTime.Now);
 
+            if (signature == null)
+            {
+                throw new SignatureNotFoundException();
+            }
+
             UserInfo userInfo = new UserInfo(signature.Name, signature.Email);
             repositoryConfiguration.User = userInfo;
             repositoryConfiguration.CurrentRepository = _repository.Info.WorkingDirectory;

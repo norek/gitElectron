@@ -26,6 +26,18 @@ export class BranchService {
 }
 
 export class Branch {
+    cannonicalName: string;
     name: string;
+    isRemote: boolean;
+    isTracking: boolean;
+    isHead: boolean;
+    trackingDetails: TrackingDetails;
+    isTrackedByLocal: boolean;
+}
+
+export class TrackingDetails {
+    aheadBy: number
+    behindBy: number
+    cannonicalName: string
 }
 
