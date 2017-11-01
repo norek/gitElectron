@@ -11,9 +11,11 @@
                 <md-icon *ngIf="branch.isHead" md-list-icon mdTooltip="this is current branch">label</md-icon>
                 <md-icon *ngIf="branch.isTracking" md-list-icon mdTooltip="tracking remote branch">visibility</md-icon>
                 <h4 md-line> {{branch.name}}</h4>
-                <button md-icon-button *ngIf="!branch.isHead" (click)="checkout(branch.name)">
+                <button md-icon-button *ngIf="!branch.isHead && !isCheckouting(branch.name)" (click)="checkout(branch.name)">
                     <md-icon class="md-24" mdTooltip="Checkout">get_app</md-icon>
                 </button>
+                <md-spinner class="checkout-spinner" *ngIf="isCheckouting(branch.name)" color="warn"></md-spinner>
+                
             </md-list-item>
         </md-list>
 
@@ -33,7 +35,7 @@
             <md-list-item *ngFor="let branch of remoteBranchList">
                 <md-icon *ngIf="branch.isHead" md-list-icon>label</md-icon>
                 <h4 md-line> {{branch.name}}</h4>
-                <button md-icon-button *ngIf="!branch.isHead && !branch.isTrackedByLocal" (click)="checkout(branch.name)" mdTooltip="Checkout">
+                <button md-icon-button [disabled]="branch.isHead || branch.isTrackedByLocal" (click)="checkout(branch.name)" mdTooltip="Checkout">
                     <md-icon class="md-24">get_app</md-icon>
                 </button>
             </md-list-item>

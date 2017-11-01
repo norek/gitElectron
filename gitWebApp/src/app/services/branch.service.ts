@@ -20,7 +20,7 @@ export class BranchService {
 
     public checkout(name: string): Observable<Response> {
         return this.http
-            .post(settings.baseApi + '/branches/' + name + '/checkout', {})
+            .post(settings.baseApi + '/branches/checkout', { name: name })
             .map((res) => res.text() ? res.json() : {});
     }
 }
@@ -36,8 +36,8 @@ export class Branch {
 }
 
 export class TrackingDetails {
-    aheadBy: number
-    behindBy: number
-    cannonicalName: string
+    aheadBy: number;
+    behindBy: number;
+    cannonicalName: string;
 }
 

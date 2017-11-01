@@ -7,7 +7,8 @@ import { SystemBusService } from '../services/system-bus.service';
 
 @Component({
     selector: 'branch-list',
-    templateUrl: 'branch-list.component.html'
+    templateUrl: 'branch-list.component.html',
+    styleUrls: ['branch-list.component.scss']
 })
 
 export class BranchListComponent implements OnInit {
@@ -15,6 +16,8 @@ export class BranchListComponent implements OnInit {
     private branchList: Branch[] = [];
     private localBranchList: Branch[] = [];
     private remoteBranchList: Branch[] = [];
+    private isCheckoutingInternal: boolean;
+    private checkoutedBranchName: string;
 
     constructor(public dialog: MdDialog, private branchService: BranchService, private systemBus: SystemBusService,
         private notificationService: NotificationService) {
@@ -34,8 +37,6 @@ export class BranchListComponent implements OnInit {
             this.remoteBranchList = this.branchList.filter(branch => branch.isRemote);
 
             this.remoteBranchList.forEach(remoteBranch => remoteBranch.isTrackedByLocal = this.isTrackedByLocal(remoteBranch));
-
-
         });
     }
 
@@ -44,20 +45,28 @@ export class BranchListComponent implements OnInit {
     }
 
     private checkout(name: string): void {
+        this.checkoutedBranchName = name;
+        this.isCheckoutingInternal = true;
         this.branchService.checkout(name)
+            .finally(() => this.isCheckoutingInternal = false)
             .subscribe(
             () => {
                 this.systemBus.branchCheckoutCompleted(name);
+                this.notificationService.success('checkout', 'checkout completed');
+
                 this.loadBranchList();
             }, (error) => {
                 this.notificationService.error(error, 'checkout operation');
             });
     }
 
-    private isTrackedByLocal(remote: Branch): boolean {
-        console.log('call');
-        const localTracking = this.localBranchList.filter(branch => branch.isTracking && branch.trackingDetails.cannonicalName == remote.cannonicalName);
+    private isCheckouting(name: string): boolean {
+        return this.isCheckoutingInternal && this.checkoutedBranchName === name;
+    }
 
+    private isTrackedByLocal(remote: Branch): boolean {
+        const localTracking = this.localBranchList.filter(branch => branch.isTracking
+            && branch.trackingDetails.cannonicalName === remote.cannonicalName);
         return localTracking && localTracking.length > 0;
     }
 }

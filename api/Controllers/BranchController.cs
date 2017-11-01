@@ -26,11 +26,12 @@ namespace api
             return Ok();
         }
 
-        [HttpPost("{branchName}/checkout")]
-        public IActionResult Checkout(string branchName)
+        [HttpPost("checkout")]
+        public IActionResult Checkout([FromBody]BranchCheckout checkoutParams)
         {
-            _branchProvider.Checkout(branchName);
+            _branchProvider.Checkout(checkoutParams);
             return Ok();
         }
+
     }
 }
