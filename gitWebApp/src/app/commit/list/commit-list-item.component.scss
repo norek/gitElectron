@@ -1,0 +1,26 @@
+.show-details-button{
+    margin-left: auto;
+}
+
+.show-details-button{
+    display: none
+}
+
+.commit-item-content:hover .show-details-button{
+    display: block;
+}
+
+.commit-item-content{
+    display: flex;
+    width: 100%;
+    height: 40px;
+    align-items: center;
+    position: relative;
+}
+
+.commit-item-message{
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

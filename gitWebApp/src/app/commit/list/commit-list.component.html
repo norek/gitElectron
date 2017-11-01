@@ -1,0 +1,6 @@
+<div id="commit-list-container">
+    <virtual-scroll id="commit-list" [items]="commitStore.commits" (update)="viewPortItems = $event">
+        <list-item *ngFor="let commit of viewPortItems" [commit]="commit">
+        </list-item>
+    </virtual-scroll>
+</div>
