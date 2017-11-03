@@ -17,15 +17,14 @@ namespace api.core.Features.Commit
 
         public void Create(CommitParameters commitParameters)
         {
-            //TODO: fix this hard coded signature
-            var author = new Signature("norek", "norekzal@gmail.com", DateTime.Now);
-
-            _repository.Commit(commitParameters.Message, author, author);
+            Signature signature = _repository.Config.BuildSignature(DateTime.UtcNow);
+            _repository.Commit(commitParameters.Message, signature, signature);
         }
 
         public IEnumerable<Commit> GetAllFromTip(string branchName)
         {
-            var commits = _repository.Branches[branchName].Commits
+            var repositoryBranch = _repository.Branches[branchName];
+            var commits = repositoryBranch.Commits
                 .Select(d =>
                     new Commit()
                     {
@@ -56,7 +55,7 @@ namespace api.core.Features.Commit
             {
                 commitDetails.Changes.AddRange(commit.Tree.Select(s => new CommitChange(ChangeKind.Added, s.Path, Path.GetFileName(s.Name))));
             }
-            
+
             return commitDetails;
         }
     }
