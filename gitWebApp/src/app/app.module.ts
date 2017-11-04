@@ -21,6 +21,7 @@ import { NewRepositoryModule } from './repository/new-repository.module';
 import { DirectDiffModule } from './diff/direct-diff.module';
 import { DialogModule } from './dialogs/dialog.module';
 import { StatusModule } from './status/status.module';
+import { RepositoryConfigurationModule } from './repository/configuration/repository-configuration.module';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { StatusModule } from './status/status.module';
     NewRepositoryModule,
     StatusModule,
     DialogModule,
+    RepositoryConfigurationModule,
     HttpModule,
   ],
   providers: [SystemBusService, NotificationService,

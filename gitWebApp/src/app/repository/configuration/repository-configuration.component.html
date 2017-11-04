@@ -1,0 +1,35 @@
+<div id="remote-container">
+
+    <h1 md-dialog-title>Remotes</h1>
+    <div md-dialog-content>
+        <div id="remote-form-container" *ngIf="isCreateMode">
+            <form id="remote-form" #newRemote="ngForm" (ngSubmit)="onSubmit()">
+                <md-form-field>
+                    <input mdInput type="text" placeholder="Name" name="newRemoteName" [(ngModel)]="remote.name" required>
+                </md-form-field>
+                <md-form-field>
+                    <input mdInput type="url" placeholder="Url" name="newRemoteUrl" [(ngModel)]="remote.url" required>
+                </md-form-field>
+                <button md-button type="submit" color="accent" [disabled]="!newRemote.form.valid">Add</button>
+                <button md-button type="reset" color="warn" (click)="onCancel()">Cancel</button>
+                <p>{{name}}</p>
+            </form>
+            <md-divider></md-divider>
+        </div>
+        <div id="remote-list">
+            <md-list>
+                <md-list-item class="remote-list-item" *ngFor="let remote of remotes">
+                    <h4 md-line> {{remote.name}}</h4>
+                    <h4 md-line> {{remote.url}}</h4>
+                    <button md-icon-button class="remote-remove-button" md-tooltip="remove remote">
+                        <md-icon color="warn" (click)="remove(remote)">remove</md-icon>
+                    </button>
+                </md-list-item>
+            </md-list>
+
+        </div>
+    </div>
+    <div md-dialog-actions *ngIf="!isCreateMode">
+        <button id="remote-new-button" md-fab color="accent" (click)="showAddPanel()">Add</button>
+    </div>
+</div>

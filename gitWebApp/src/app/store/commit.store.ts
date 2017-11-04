@@ -16,6 +16,11 @@ export class CommitStoreService {
     }
 
     private fetchCommitList(branchName: string) {
+
+        if (!branchName || branchName === '') {
+            return;
+        }
+
         this.commitSerivce.getAllFromTip(branchName)
             .subscribe(commits => {
                 this._commits = commits;

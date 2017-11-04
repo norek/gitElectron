@@ -22,6 +22,26 @@ namespace api.Controllers
             return Ok(_optionsProvider.GetRepositoryConfiguration());
         }
 
+        [HttpGet("remotes")]
+        public IActionResult GetAllRemotes()
+        {
+            return Ok(_optionsProvider.GetRemotes());
+        }
+
+        [HttpPost("remotes")]
+        public IActionResult AddNewRemote([FromBody] Remote remote)
+        {
+            _optionsProvider.AddNewRemote(remote);
+            return Ok();
+        }
+
+        [HttpDelete("remotes/{name}")]
+        public IActionResult RemoteRemote(string name)
+        {
+            _optionsProvider.RemoveRemote(name);
+            return Ok();
+        }
+
         [HttpPost("system/mappedRepositories")]
         public IActionResult MapRepository([FromBody] RepositoryMapParams repositoryToMap)
         {

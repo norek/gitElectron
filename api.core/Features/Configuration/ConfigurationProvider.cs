@@ -1,7 +1,7 @@
-﻿using LibGit2Sharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using LibGit2Sharp;
 
 namespace api.core.Features.Configuration
 {
@@ -16,21 +16,36 @@ namespace api.core.Features.Configuration
 
         public RepositoryConfiguration GetRepositoryConfiguration()
         {
-            RepositoryConfiguration repositoryConfiguration = new RepositoryConfiguration();
+            var repositoryConfiguration = new RepositoryConfiguration();
 
             var signature = _repository.Config.BuildSignature(DateTime.Now);
 
             if (signature == null)
-            {
                 throw new SignatureNotFoundException();
-            }
 
-            UserInfo userInfo = new UserInfo(signature.Name, signature.Email);
+            var userInfo = new UserInfo(signature.Name, signature.Email);
             repositoryConfiguration.User = userInfo;
             repositoryConfiguration.CurrentRepository = _repository.Info.WorkingDirectory;
-            repositoryConfiguration.CurrentBranch = _repository.Head.FriendlyName;
+
+            if (_repository.Branches.Any())
+                repositoryConfiguration.CurrentBranch = _repository.Head.FriendlyName;
 
             return repositoryConfiguration;
+        }
+
+        public IEnumerable<Remote> GetRemotes()
+        {
+            return _repository.Network.Remotes.Select(remote => new Remote(remote.Name, remote.Url));
+        }
+
+        public void AddNewRemote(Remote remote)
+        {
+            _repository.Network.Remotes.Add(remote.Name, remote.Url);
+        }
+
+        public void RemoveRemote(string name)
+        {
+            _repository.Network.Remotes.Remove(name);
         }
     }
 }

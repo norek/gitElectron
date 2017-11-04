@@ -3,6 +3,8 @@ import { MappedRepository, RepositoryConfiguration } from '../services/system-op
 import { SystemOptionsStore } from '../store/system-options.store';
 import { SystemBusService } from '../services/system-bus.service';
 import { DialogService } from '../dialogs/dialog.service';
+import { MdDialog } from '@angular/material';
+import { RepositoryConfigurationComponent } from '../repository/configuration/repository-configuration.component';
 
 @Component({
     selector: 'header-toolbar',
@@ -12,7 +14,7 @@ import { DialogService } from '../dialogs/dialog.service';
 
 export class HeaderToolbarComponent implements OnInit {
 
-    constructor(private dialogService: DialogService, private systemOptionsStore: SystemOptionsStore,
+    constructor(public dialog: MdDialog, private dialogService: DialogService, private systemOptionsStore: SystemOptionsStore,
         private systemServiceBus: SystemBusService) {
         this.systemServiceBus.emptyEnviromentLoaded$.subscribe(() => this.mapNewRepository());
     }
@@ -29,6 +31,11 @@ export class HeaderToolbarComponent implements OnInit {
     switchToSelectedRepository(repository: MappedRepository): void {
         this.systemOptionsStore.switchCurrentRepositoryTo(repository.path);
     }
+
+    showRepositoryConfiguration(): void {
+        this.dialog.open(RepositoryConfigurationComponent, { width: ' 500px', height: '500px' });
+    }
+
 
     private get repository(): RepositoryConfiguration {
         return this.systemOptionsStore.currentRepository;

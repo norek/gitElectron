@@ -75,7 +75,7 @@ export class SystemOptionsStore {
     }
 
     private getCurrentRepositoryInfo() {
-        this.optionsService.getCurrentRepositoryCOnfiguration()
+        this.optionsService.getCurrentRepositoryConfiguration()
             .subscribe(repositoryConfiguration => {
                 this._currentRepository = repositoryConfiguration;
                 this.systemServiceBus.repositoryChanged();

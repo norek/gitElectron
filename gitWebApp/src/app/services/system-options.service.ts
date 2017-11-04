@@ -13,8 +13,20 @@ export class SystemOptionsService {
     constructor(private http: Http, injector: Injector) {
     }
 
-    public getCurrentRepositoryCOnfiguration(): Observable<RepositoryConfiguration> {
+    public getCurrentRepositoryConfiguration(): Observable<RepositoryConfiguration> {
         return this.http.get(settings.baseApi + '/options').map(res => res.json());
+    }
+
+    public getRepositoryRemotes(): Observable<Remote[]> {
+        return this.http.get(settings.baseApi + '/options/remotes').map(res => res.json());
+    }
+
+    public addRemote(remote: Remote): Observable<Response> {
+        return this.http.post(settings.baseApi + '/options/remotes', remote);
+    }
+
+    public removeRemote(remoteName: string): Observable<Response> {
+        return this.http.delete(settings.baseApi + '/options/remotes/' + remoteName);
     }
 
     public getSystemConfiguration(): Observable<SystemConfiguration> {
@@ -50,4 +62,9 @@ export interface UserInfo {
     email: string;
     hasAvatar: boolean;
     avatarUrl: string;
+}
+
+export interface Remote {
+    name: string;
+    url: string;
 }
