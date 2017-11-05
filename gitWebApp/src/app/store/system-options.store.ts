@@ -63,6 +63,10 @@ export class SystemOptionsStore {
         return this._currentRepository !== undefined;
     }
 
+    public get currentBranchName(): string {
+        return this._currentRepository.currentBranch;
+    }
+
     private getAvatar(user: UserInfo) {
         if (user && user.email && user.email !== '') {
             this.gravatarService.getAvatar(user.email).subscribe(result => {

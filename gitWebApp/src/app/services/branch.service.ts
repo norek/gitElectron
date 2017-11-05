@@ -23,6 +23,10 @@ export class BranchService {
             .post(settings.baseApi + '/branches/checkout', { name: name })
             .map((res) => res.text() ? res.json() : {});
     }
+
+    public push(name: string): Observable<Response> {
+        return this.http.post(settings.baseApi + '/branches/push', { name });
+    }
 }
 
 export class Branch {

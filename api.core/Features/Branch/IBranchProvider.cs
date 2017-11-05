@@ -9,5 +9,7 @@ namespace api.core.Features.Branch
         IEnumerable<Branch> GetAllBranches();
 
         void Checkout(BranchCheckout checkoutParams);
+
+        void Push(BranchPush branchName);
     }
 }

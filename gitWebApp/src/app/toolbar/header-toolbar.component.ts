@@ -5,6 +5,8 @@ import { SystemBusService } from '../services/system-bus.service';
 import { DialogService } from '../dialogs/dialog.service';
 import { MdDialog } from '@angular/material';
 import { RepositoryConfigurationComponent } from '../repository/configuration/repository-configuration.component';
+import { BranchService } from '../services/branch.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
     selector: 'header-toolbar',
@@ -14,8 +16,11 @@ import { RepositoryConfigurationComponent } from '../repository/configuration/re
 
 export class HeaderToolbarComponent implements OnInit {
 
+    private isPushing: boolean;
+
     constructor(public dialog: MdDialog, private dialogService: DialogService, private systemOptionsStore: SystemOptionsStore,
-        private systemServiceBus: SystemBusService) {
+        private systemServiceBus: SystemBusService, private branchService: BranchService,
+        private notificationService: NotificationService) {
         this.systemServiceBus.emptyEnviromentLoaded$.subscribe(() => this.mapNewRepository());
     }
 
@@ -36,6 +41,15 @@ export class HeaderToolbarComponent implements OnInit {
         this.dialog.open(RepositoryConfigurationComponent, { width: ' 500px', height: '500px' });
     }
 
+    push(): void {
+        this.isPushing = true;
+        this.branchService.push(this.systemOptionsStore.currentBranchName)
+            .subscribe(() => {
+                this.isPushing = false;
+                this.notificationService.success('push', 'push completed');
+            },
+            (error) => this.notificationService.error(error, 'push'));
+    }
 
     private get repository(): RepositoryConfiguration {
         return this.systemOptionsStore.currentRepository;

@@ -33,5 +33,12 @@ namespace api
             return Ok();
         }
 
+        [HttpPost("push")]
+        public IActionResult Push([FromBody] BranchPush branchPush)
+        {
+            _branchProvider.Push(branchPush);
+            return Ok();
+        }
+
     }
 }
