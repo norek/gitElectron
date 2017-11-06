@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using api.core.Features.Branch;
 using LibGit2Sharp;
 
 namespace api.core.Features.Configuration
@@ -28,7 +29,18 @@ namespace api.core.Features.Configuration
             repositoryConfiguration.CurrentRepository = _repository.Info.WorkingDirectory;
 
             if (_repository.Branches.Any())
-                repositoryConfiguration.CurrentBranch = _repository.Head.FriendlyName;
+            {
+                repositoryConfiguration.CurrentBranch = new Branch.Branch
+                {
+                    CannonicalName = _repository.Head.CanonicalName,
+                    IsRemote = _repository.Head.IsRemote,
+                    Name = _repository.Head.FriendlyName,
+                    IsHead = _repository.Head.IsCurrentRepositoryHead,
+                    Tip = _repository.Head.Tip.Sha,
+                    IsTracking = _repository.Head.IsTracking,
+                    TrackingDetails = new TrackingDetails(_repository.Head.TrackedBranch?.CanonicalName, _repository.Head.TrackingDetails)
+                };
+            }
 
             return repositoryConfiguration;
         }
@@ -46,6 +58,15 @@ namespace api.core.Features.Configuration
         public void RemoveRemote(string name)
         {
             _repository.Network.Remotes.Remove(name);
+        }
+
+        public string[] GetBranchesFromRemote(string remoteName)
+        {
+            var remote = _repository.Network.Remotes[remoteName];
+
+            if (remote == null) throw new ArgumentException("Remote doesnt exists");
+
+            return new string[0];
         }
     }
 }

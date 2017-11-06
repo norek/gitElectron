@@ -5,6 +5,6 @@
         public UserInfo User { get; set; }
 
         public string CurrentRepository { get; set; }
-        public string CurrentBranch { get; set; }
+        public Branch.Branch CurrentBranch { get; set; }
     }
 }

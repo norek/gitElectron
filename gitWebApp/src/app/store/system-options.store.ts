@@ -6,13 +6,14 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { GravatarService } from '../services/external/gravatar.service';
 import { SystemBusService } from '../services/system-bus.service';
+import { Branch } from '../services/branch.service';
 
 @Injectable()
 export class SystemOptionsStore {
 
     private _currentRepository: RepositoryConfiguration = {
         currentRepository: '',
-        currentBranch: '',
+        currentBranch: undefined,
         user: { email: '', name: '', avatarUrl: '', hasAvatar: false }
     };
 
@@ -63,8 +64,12 @@ export class SystemOptionsStore {
         return this._currentRepository !== undefined;
     }
 
-    public get currentBranchName(): string {
+    public get currentBranch(): Branch {
         return this._currentRepository.currentBranch;
+    }
+
+    public get currentBranchName(): string {
+        return this._currentRepository.currentBranch.name;
     }
 
     private getAvatar(user: UserInfo) {

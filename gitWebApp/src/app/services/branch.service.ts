@@ -27,6 +27,10 @@ export class BranchService {
     public push(name: string): Observable<Response> {
         return this.http.post(settings.baseApi + '/branches/push', { name });
     }
+
+    public assignRemote(branchName: string, remoteName: string) {
+        return this.http.post(settings.baseApi + '/branches/assignRemote', { branchName, remoteName });
+    }
 }
 
 export class Branch {

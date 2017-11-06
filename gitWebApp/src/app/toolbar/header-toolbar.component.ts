@@ -7,6 +7,7 @@ import { MdDialog } from '@angular/material';
 import { RepositoryConfigurationComponent } from '../repository/configuration/repository-configuration.component';
 import { BranchService } from '../services/branch.service';
 import { NotificationService } from '../services/notification.service';
+import { RemoteBranchAssignmentComponent } from '../branch/remote/remote-branch-assignment.component';
 
 @Component({
     selector: 'header-toolbar',
@@ -42,6 +43,19 @@ export class HeaderToolbarComponent implements OnInit {
     }
 
     push(): void {
+        if (this.systemOptionsStore.currentBranch.isTracking) {
+            this.makePush();
+        } else {
+            this.dialog.open(RemoteBranchAssignmentComponent, { width: ' 500px', height: '500px' })
+                .afterClosed().subscribe((result) => {
+                    if (result.success) {
+                        this.makePush();
+                    }
+                });
+        }
+    }
+
+    private makePush(): void {
         this.isPushing = true;
         this.branchService.push(this.systemOptionsStore.currentBranchName)
             .subscribe(() => {

@@ -11,5 +11,7 @@ namespace api.core.Features.Configuration
         void AddNewRemote(Remote remote);
 
         void RemoveRemote(string name);
+
+        string[] GetBranchesFromRemote(string remoteName);
     }
 }

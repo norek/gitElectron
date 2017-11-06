@@ -11,8 +11,8 @@ export class CommitStoreService {
     constructor(private commitSerivce: CommitService, private systemStore: SystemOptionsStore,
         private systemBus: SystemBusService) {
         this.systemBus.branchCheckoutCompletedSource$.subscribe((branchName) => this.fetchCommitList(branchName));
-        this.systemBus.repositoryChanged$.subscribe(() => this.fetchCommitList(this.systemStore.currentRepository.currentBranch));
-        this.systemBus.comitCompleted$.subscribe(() => this.fetchCommitList(this.systemStore.currentRepository.currentBranch));
+        this.systemBus.repositoryChanged$.subscribe(() => this.fetchCommitList(this.systemStore.currentBranchName));
+        this.systemBus.comitCompleted$.subscribe(() => this.fetchCommitList(this.systemStore.currentBranchName));
     }
 
     private fetchCommitList(branchName: string) {

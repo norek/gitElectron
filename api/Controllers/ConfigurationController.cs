@@ -42,6 +42,13 @@ namespace api.Controllers
             return Ok();
         }
 
+        [HttpGet("remotes/{name}/branches")]
+        public IActionResult GetBranchesFromRemote(string remoteName)
+        {
+            _optionsProvider.GetBranchesFromRemote(remoteName);
+            return Ok();
+        }
+
         [HttpPost("system/mappedRepositories")]
         public IActionResult MapRepository([FromBody] RepositoryMapParams repositoryToMap)
         {

@@ -11,5 +11,7 @@ namespace api.core.Features.Branch
         void Checkout(BranchCheckout checkoutParams);
 
         void Push(BranchPush branchName);
+
+        void AssignRemote(AssignRemote assignParams);
     }
 }

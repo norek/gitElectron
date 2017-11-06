@@ -6,6 +6,7 @@ import { MdDialog } from '@angular/material';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { Branch } from './branch.service';
 
 @Injectable()
 export class SystemOptionsService {
@@ -27,6 +28,10 @@ export class SystemOptionsService {
 
     public removeRemote(remoteName: string): Observable<Response> {
         return this.http.delete(settings.baseApi + '/options/remotes/' + remoteName);
+    }
+
+    public getRemoteBranches(remoteName: string): Observable<string[]> {
+        return this.http.get(settings.baseApi + '/branches/remotes/' + remoteName + '/branches').map(res => res.json());
     }
 
     public getSystemConfiguration(): Observable<SystemConfiguration> {
@@ -54,7 +59,7 @@ export interface MappedRepository {
 export interface RepositoryConfiguration {
     user: UserInfo;
     currentRepository: string;
-    currentBranch: string;
+    currentBranch: Branch;
 }
 
 export interface UserInfo {

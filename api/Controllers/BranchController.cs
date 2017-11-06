@@ -26,6 +26,13 @@ namespace api
             return Ok();
         }
 
+        [HttpPost("assignRemote")]
+        public IActionResult Create([FromBody] AssignRemote assignParams)
+        {
+            _branchProvider.AssignRemote(assignParams);
+            return Ok();
+        }
+
         [HttpPost("checkout")]
         public IActionResult Checkout([FromBody]BranchCheckout checkoutParams)
         {

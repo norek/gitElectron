@@ -82,6 +82,18 @@ namespace api.core.Features.Branch
             _repository.Network.Push(_repository.Branches[pushParams.Name]);
         }
 
+        public void AssignRemote(AssignRemote assignParams)
+        {
+            var branch = _repository.Branches[assignParams.BranchName];
+            var remote = _repository.Network.Remotes[assignParams.RemoteName];
+
+            _repository.Branches.Update(branch, b =>
+            {
+                b.Remote = remote.Name;
+                b.UpstreamBranch = branch.CanonicalName;
+            });
+        }
+
         public Branch Create(string branchName, string shaTip)
         {
             var newBranch = _repository.CreateBranch(branchName, shaTip);
