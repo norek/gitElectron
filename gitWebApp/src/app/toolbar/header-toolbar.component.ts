@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MappedRepository, RepositoryConfiguration } from '../services/system-options.service';
+import { MappedRepository, RepositoryConfiguration, SystemOptionsService } from '../services/system-options.service';
 import { SystemOptionsStore } from '../store/system-options.store';
 import { SystemBusService } from '../services/system-bus.service';
 import { DialogService } from '../dialogs/dialog.service';
@@ -8,6 +8,7 @@ import { RepositoryConfigurationComponent } from '../repository/configuration/re
 import { BranchService } from '../services/branch.service';
 import { NotificationService } from '../services/notification.service';
 import { RemoteBranchAssignmentComponent } from '../branch/remote/remote-branch-assignment.component';
+import { RepositoryService } from '../services/repository.service';
 
 @Component({
     selector: 'header-toolbar',
@@ -18,10 +19,11 @@ import { RemoteBranchAssignmentComponent } from '../branch/remote/remote-branch-
 export class HeaderToolbarComponent implements OnInit {
 
     private isPushing: boolean;
+    private isFetching: boolean;
 
     constructor(public dialog: MdDialog, private dialogService: DialogService, private systemOptionsStore: SystemOptionsStore,
         private systemServiceBus: SystemBusService, private branchService: BranchService,
-        private notificationService: NotificationService) {
+        private notificationService: NotificationService, private repositoryService: RepositoryService) {
         this.systemServiceBus.emptyEnviromentLoaded$.subscribe(() => this.mapNewRepository());
     }
 
@@ -55,13 +57,19 @@ export class HeaderToolbarComponent implements OnInit {
         }
     }
 
+    fetch(): void {
+        this.isFetching = true;
+        this.repositoryService.fetch()
+            .finally(() => this.isFetching = false)
+            .subscribe(() => this.notificationService.success('success', 'fetch'),
+            (error) => this.notificationService.error(error, 'fetch'));
+    }
+
     private makePush(): void {
         this.isPushing = true;
         this.branchService.push(this.systemOptionsStore.currentBranchName)
-            .subscribe(() => {
-                this.isPushing = false;
-                this.notificationService.success('push', 'push completed');
-            },
+            .finally(() => this.isFetching = false)
+            .subscribe(() => this.notificationService.success('push', 'push completed'),
             (error) => this.notificationService.error(error, 'push'));
     }
 

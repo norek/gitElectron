@@ -22,6 +22,7 @@ import { DirectDiffModule } from './diff/direct-diff.module';
 import { DialogModule } from './dialogs/dialog.module';
 import { StatusModule } from './status/status.module';
 import { RepositoryConfigurationModule } from './repository/configuration/repository-configuration.module';
+import { RepositoryService } from './services/repository.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import { RepositoryConfigurationModule } from './repository/configuration/reposi
   ],
   providers: [SystemBusService, NotificationService,
     GravatarService, SystemOptionsService, SystemOptionsStore,
-    RepositoryWatcherService
+    RepositoryWatcherService, RepositoryService
   ],
   bootstrap: [AppComponent]
 })

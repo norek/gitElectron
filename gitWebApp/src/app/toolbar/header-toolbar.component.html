@@ -1,11 +1,17 @@
 <div id="header-toolbar">
     <span>gitElectron</span>
     <span class="navbar-spacer"></span>
+    <button md-icon-button md-tooltip="Fetch" (click)="fetch()">
+        <md-icon class="md-24">cloud_done</md-icon>
+    </button>
+    <button md-icon-button md-tooltip="Pull" (click)="pull()">
+        <md-icon class="md-24">cloud_download</md-icon>
+    </button>
     <button md-icon-button md-tooltip="Push" (click)="push()">
-            <md-icon class="md-24">publish</md-icon>
+        <md-icon class="md-24">publish</md-icon>
     </button>
     <span class="navbar-spacer"></span>
-    
+
     <span>Working on: </span>
     <button md-button [mdMenuTriggerFor]="repositories">
         <md-icon class="md-24">menu</md-icon>
@@ -15,14 +21,14 @@
     <md-menu #repositories="mdMenu">
         <button md-menu-item *ngFor="let repository of getMappedRepositories" (click)="switchToSelectedRepository(repository)">{{repository.path}}</button>
         <button md-button color='warn' (click)="mapNewRepository()">
-                map new
-                <md-icon class="md-24">add</md-icon>
+            map new
+            <md-icon class="md-24">add</md-icon>
         </button>
     </md-menu>
 
     <span class="navbar-spacer"></span>
     <button md-icon-button (click)="showRepositoryConfiguration()">
-            <md-icon class="md-24">build</md-icon>
+        <md-icon class="md-24">build</md-icon>
     </button>
     <span class="navbar-text">Welcome {{userName}}</span>
     <img *ngIf="repository.user.hasAvatar" src="{{repository.user.avatarUrl}}">

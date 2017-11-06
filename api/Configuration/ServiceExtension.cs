@@ -6,6 +6,7 @@ using api.core.Features.Diff;
 using api.core.Features.Diff.ContentParsers.DirectDiffContentParser;
 using api.core.Features.Diff.ContentParsers.Utils;
 using api.core.Features.Diff.FileChangeInfoProvider;
+using api.core.Features.RepositoryOperations;
 using api.core.Features.Status;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,7 @@ namespace api
                 .AddScoped<ICommitProvider, CommitProvider>()
                 .AddScoped<IRepositoryOptionsProvider, RepositoryOptionsProvider>()
                 .AddScoped<IDirectoryProvider, DirectoryProvider>()
+                .AddScoped<IRepositoryOperationsManager, RepositoryOperationsManager>()
                 .RegisterDiffServices()
             ;
 
@@ -38,7 +40,7 @@ namespace api
                 .AddTransient<IHunkSplitter, HunkSplitter>()
                 .AddTransient<IHunkHeaderParser, HunkHeaderParser>()
                 .AddTransient<IDirectDiffContentParser, DirectDiffContentParser>()
-                .AddTransient< IDirectDiffProvider, DirectDiffProvider>();
+                .AddTransient<IDirectDiffProvider, DirectDiffProvider>();
         }
     }
 }
