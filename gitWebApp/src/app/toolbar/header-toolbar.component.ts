@@ -29,6 +29,8 @@ export class HeaderToolbarComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.systemServiceBus.fetchCompletedSource$.subscribe(() => this.isFetching = false);
+        this.systemServiceBus.pullCompletedSource$.subscribe(() => this.isPulling = false);
     }
 
     mapNewRepository(): void {
@@ -60,24 +62,18 @@ export class HeaderToolbarComponent implements OnInit {
 
     fetch(): void {
         this.isFetching = true;
-        this.repositoryService.fetch()
-            .finally(() => this.isFetching = false)
-            .subscribe(() => this.notificationService.success('success', 'fetch'),
-            (error) => this.notificationService.error(error, 'fetch'));
+        this.repositoryService.fetch();
     }
 
     pull(): void {
         this.isPulling = true;
-        this.repositoryService.pull()
-            .finally(() => this.isPulling = false)
-            .subscribe(() => this.notificationService.success('success', 'pull'),
-            (error) => this.notificationService.error(error, 'pull'));
+        this.repositoryService.pull();
     }
 
     private makePush(): void {
         this.isPushing = true;
         this.branchService.push(this.systemOptionsStore.currentBranchName)
-            .finally(() => this.isFetching = false)
+            .finally(() => this.isPushing = false)
             .subscribe(() => this.notificationService.success('push', 'push completed'),
             (error) => this.notificationService.error(error, 'push'));
     }

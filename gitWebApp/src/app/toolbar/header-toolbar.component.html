@@ -1,15 +1,33 @@
 <div id="header-toolbar">
     <span>gitElectron</span>
     <span class="navbar-spacer"></span>
-    <button md-icon-button md-tooltip="Fetch" (click)="fetch()">
-        <md-icon class="md-24">cloud_done</md-icon>
-    </button>
-    <button md-icon-button md-tooltip="Pull" (click)="pull()">
-        <md-icon class="md-24">cloud_download</md-icon>
-    </button>
-    <button md-icon-button md-tooltip="Push" (click)="push()">
-        <md-icon class="md-24">publish</md-icon>
-    </button>
+    <div>
+        <button md-icon-button md-tooltip="Fetch" *ngIf="!isFetching" (click)="fetch()">
+            <md-icon class="md-24">cloud_done</md-icon>
+        </button>
+        <div *ngIf="isFetching">
+            <md-spinner class="repository-operation-spinner"></md-spinner>
+        </div>
+    </div>
+
+    <div>
+        <button md-icon-button md-tooltip="Pull" *ngIf="!isPulling" (click)="pull()">
+            <md-icon class="md-24">cloud_download</md-icon>
+        </button>
+        <div *ngIf="isPulling">
+            <md-spinner class="repository-operation-spinner"></md-spinner>
+        </div>
+    </div>
+
+    <div>
+        <button md-icon-button md-tooltip="Push" *ngIf="!isPushing" (click)="push()">
+            <md-icon class="md-24">publish</md-icon>
+        </button>
+        <div *ngIf="isPushing">
+            <md-spinner class="repository-operation-spinner"></md-spinner>
+        </div>
+    </div>
+
     <span class="navbar-spacer"></span>
 
     <span>Working on: </span>

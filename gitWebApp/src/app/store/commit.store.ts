@@ -13,6 +13,7 @@ export class CommitStoreService {
         this.systemBus.branchCheckoutCompletedSource$.subscribe((branchName) => this.fetchCommitList(branchName));
         this.systemBus.repositoryChanged$.subscribe(() => this.fetchCommitList(this.systemStore.currentBranchName));
         this.systemBus.comitCompleted$.subscribe(() => this.fetchCommitList(this.systemStore.currentBranchName));
+        this.systemBus.pullCompletedSource$.subscribe(() => this.fetchCommitList(this.systemStore.currentBranchName));
     }
 
     private fetchCommitList(branchName: string) {

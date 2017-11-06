@@ -21,12 +21,14 @@ export class BranchListComponent implements OnInit {
 
     constructor(public dialog: MdDialog, private branchService: BranchService, private systemBus: SystemBusService,
         private notificationService: NotificationService) {
-
-        this.systemBus.branchCompleted$.subscribe((branchName) => this.loadBranchList());
-        this.systemBus.repositoryChanged$.subscribe((branchName) => this.loadBranchList());
     }
 
     ngOnInit() {
+        this.systemBus.branchCompleted$.subscribe((branchName) => this.loadBranchList());
+        this.systemBus.repositoryChanged$.subscribe((branchName) => this.loadBranchList());
+        this.systemBus.fetchCompletedSource$.subscribe((branchName) => this.loadBranchList());
+        this.systemBus.pullCompletedSource$.subscribe((branchName) => this.loadBranchList());
+
         this.loadBranchList();
     }
 

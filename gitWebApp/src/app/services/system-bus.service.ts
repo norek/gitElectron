@@ -13,12 +13,16 @@ export class SystemBusService {
     private repositoryChangedSource = new Subject();
     private emptyEnviromentLoadedSource = new Subject();
     private showCommitDetailsRequestedSource = new Subject<string>();
+    private fetchCompletedSource = new Subject<boolean>();
+    private pullCompletedSource = new Subject<boolean>();
 
     public comitCompleted$ = this.commitCompletedSource.asObservable();
     public branchCompleted$ = this.branchCompletedSource.asObservable();
     public branchCheckoutCompletedSource$ = this.branchCheckoutCompletedSource.asObservable();
     public repositoryChanged$ = this.repositoryChangedSource.asObservable();
     public showCommitDetailsRequested$ = this.showCommitDetailsRequestedSource.asObservable();
+    public fetchCompletedSource$ = this.fetchCompletedSource.asObservable();
+    public pullCompletedSource$ = this.pullCompletedSource.asObservable();
     /**
      * Handler for notification if application run on empty enviroments. No repositories are mapped.
      */
@@ -46,5 +50,13 @@ export class SystemBusService {
 
     public showCommitDetailsRequested(commitSha: string) {
         this.showCommitDetailsRequestedSource.next(commitSha);
+    }
+
+    public fetchCompleted(success: boolean) {
+        this.fetchCompletedSource.next(success);
+    }
+
+    public pullCompleted(success: boolean) {
+        this.pullCompletedSource.next(success);
     }
 }
