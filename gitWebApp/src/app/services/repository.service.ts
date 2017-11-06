@@ -13,4 +13,8 @@ export class RepositoryService {
     public fetch(): Observable<Response> {
         return this.http.post(settings.baseApi + '/repository/fetch', {});
     }
+
+    public pull(): Observable<Response> {
+        return this.http.post(settings.baseApi + '/repository/pull', {});
+    }
 }

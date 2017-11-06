@@ -19,5 +19,12 @@ namespace api.Controllers
             _operationsManager.Fetch();
             return Ok();
         }
+
+        [HttpPost("pull")]
+        public IActionResult Pull()
+        {
+            _operationsManager.Pull();
+            return Ok();
+        }
     }
 }

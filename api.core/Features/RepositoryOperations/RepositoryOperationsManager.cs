@@ -23,5 +23,12 @@ namespace api.core.Features.RepositoryOperations
                 Commands.Fetch((Repository)_repository, remote.Name, refSpecs, options, "log message " + DateTime.UtcNow);
             }
         }
+
+        public void Pull()
+        {
+            var signature = _repository.Config.BuildSignature(DateTimeOffset.UtcNow);
+            var pullOptions = new PullOptions();
+            Commands.Pull((Repository)_repository, signature, pullOptions);
+        }
     }
 }

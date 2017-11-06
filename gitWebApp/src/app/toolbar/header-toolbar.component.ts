@@ -20,6 +20,7 @@ export class HeaderToolbarComponent implements OnInit {
 
     private isPushing: boolean;
     private isFetching: boolean;
+    private isPulling: boolean;
 
     constructor(public dialog: MdDialog, private dialogService: DialogService, private systemOptionsStore: SystemOptionsStore,
         private systemServiceBus: SystemBusService, private branchService: BranchService,
@@ -63,6 +64,14 @@ export class HeaderToolbarComponent implements OnInit {
             .finally(() => this.isFetching = false)
             .subscribe(() => this.notificationService.success('success', 'fetch'),
             (error) => this.notificationService.error(error, 'fetch'));
+    }
+
+    pull(): void {
+        this.isPulling = true;
+        this.repositoryService.pull()
+            .finally(() => this.isPulling = false)
+            .subscribe(() => this.notificationService.success('success', 'pull'),
+            (error) => this.notificationService.error(error, 'pull'));
     }
 
     private makePush(): void {

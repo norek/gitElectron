@@ -3,5 +3,6 @@
     public interface IRepositoryOperationsManager
     {
         void Fetch();
+        void Pull();
     }
 }
