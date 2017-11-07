@@ -1,0 +1,6 @@
+<div *ngFor="let line of lines; let idx=index">
+    <div class="line-container">
+        <div class="line-number">{{getLineNumber(line)}}</div>
+        <div class="line-content" [ngClass]="getLineClass(line, idx)">{{getLineContent(line)}}</div>
+    </div>
+</div>
