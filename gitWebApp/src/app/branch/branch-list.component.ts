@@ -4,6 +4,7 @@ import { MdDialog } from '@angular/material';
 import { NewBranchComponent } from './new-branch.component';
 import { NotificationService } from '../services/notification.service';
 import { SystemBusService } from '../services/system-bus.service';
+import { Http } from '@angular/http';
 
 @Component({
     selector: 'branch-list',
@@ -19,7 +20,7 @@ export class BranchListComponent implements OnInit {
     private isCheckoutingInternal: boolean;
     private checkoutedBranchName: string;
 
-    constructor(public dialog: MdDialog, private branchService: BranchService, private systemBus: SystemBusService,
+    constructor(public http: Http, public dialog: MdDialog, private branchService: BranchService, private systemBus: SystemBusService,
         private notificationService: NotificationService) {
     }
 

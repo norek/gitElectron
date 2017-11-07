@@ -50,7 +50,11 @@ namespace api
             return collection.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins",
-                    builder => { builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin().AllowCredentials(); });
+                    builder =>
+                    {
+
+                        builder.WithOrigins("http://localhost:4200", "http://www.github.com").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin().AllowCredentials();
+                    });
             });
         }
 
