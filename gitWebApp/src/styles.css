@@ -12,12 +12,7 @@
     padding: 0;
     height: 100vh;
   }
-  
-  /* body{
-     background: #000;
-     color: white;
-  } */
-  
+   
   .ui-autocomplete, .ui-inputtext {
     width: 100%;
     margin: 0;
