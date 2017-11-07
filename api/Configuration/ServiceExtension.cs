@@ -10,16 +10,18 @@ using api.core.Features.RepositoryOperations;
 using api.core.Features.Status;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace api
 {
     public static class ServiceExtensions
     {
-        public static IServiceCollection RegisterServices(this IServiceCollection collection, IConfiguration configuration)
+        public static IServiceCollection RegisterServices(this IServiceCollection collection,
+            IConfiguration configuration)
         {
             collection
                 .AddSingleton<SystemConfigurationStorage>()
-                .AddSingleton((sp) => new RepositoryFactory(sp.GetService<SystemConfigurationStorage>()))
+                .AddSingleton(sp => new RepositoryFactory(sp.GetService<SystemConfigurationStorage>()))
                 .AddScoped<IBranchProvider, BranchProvider>()
                 .AddScoped<IRepositoryStatusService, RepositoryStatusService>()
                 .AddScoped<ICommitProvider, CommitProvider>()
@@ -27,7 +29,7 @@ namespace api
                 .AddScoped<IDirectoryProvider, DirectoryProvider>()
                 .AddScoped<IRepositoryOperationsManager, RepositoryOperationsManager>()
                 .RegisterDiffServices()
-            ;
+                ;
 
             return collection;
         }
@@ -41,6 +43,21 @@ namespace api
                 .AddTransient<IHunkHeaderParser, HunkHeaderParser>()
                 .AddTransient<IDirectDiffContentParser, DirectDiffContentParser>()
                 .AddTransient<IDirectDiffProvider, DirectDiffProvider>();
+        }
+
+        public static IServiceCollection ConfigureCors(this IServiceCollection collection)
+        {
+            return collection.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => { builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin().AllowCredentials(); });
+            });
+        }
+
+        public static IServiceCollection ConfigureSwagger(this IServiceCollection collection)
+        {
+            return collection
+                .AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "My API", Version = "v1"}); });
         }
     }
 }
