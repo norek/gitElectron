@@ -13,7 +13,7 @@
         <button md-button color="warn" (click)="unstageAll()">Unstage all</button>
         <md-list-item *ngFor="let item of stagedItems" (click)=statusSelected(item)>
             <md-icon md-list-icon md-tooltip="{{getTooltip(item)}}">{{getIconName(item)}}</md-icon>
-            <h4 md-line> {{item.status.path}}</h4>
+            <h4 md-line class="status-item-name"> {{item.status.name}}</h4>
             <button md-icon-button color="warn" (click)="unStageFile(item)">
                 <md-icon>remove</md-icon>
             </button>
@@ -26,7 +26,7 @@
         <button md-button color="accent" (click)="stageAll()">Stage all</button>
         <md-list-item *ngFor="let item of unstagedItems" (click)=statusSelected(item)>
             <md-icon md-list-icon md-tooltip="{{getTooltip(item)}}">{{getIconName(item)}}</md-icon>
-            <h4 md-line md-tooltip={{item.status.path}}>{{item.status.path}}</h4>
+            <h4 class="status-item-name" md-line md-tooltip={{item.status.path}}>{{item.status.name}}</h4>
             <button md-icon-button color="primary" (click)="viewChanges(item)">
                 <md-icon md-tooltip="View changes">zoom_in</md-icon>
             </button>

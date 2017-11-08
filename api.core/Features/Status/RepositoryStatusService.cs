@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using LibGit2Sharp;
 
@@ -17,7 +18,12 @@ namespace api.core.Features.Status
         {
             var retrivedStatus = _repository.RetrieveStatus();
             return retrivedStatus.Where(x => x.State != FileStatus.Ignored)
-                .Select(d => new StatusItem { Path = d.FilePath, Status = d.State }).ToList();
+                .Select(d => new StatusItem
+                {
+                    Path = d.FilePath,
+                    Status = d.State,
+                    Name = Path.GetFileName(d.FilePath)
+                }).ToList();
         }
 
         public void Stage(StatusItem statusItem)
@@ -42,8 +48,8 @@ namespace api.core.Features.Status
 
         public void DiscardChanges(StatusItem statusItem)
         {
-            var options = new CheckoutOptions { CheckoutModifiers = CheckoutModifiers.Force };
-            _repository.CheckoutPaths(_repository.Head.FriendlyName, new[] { statusItem.Path }, options);
+            var options = new CheckoutOptions {CheckoutModifiers = CheckoutModifiers.Force};
+            _repository.CheckoutPaths(_repository.Head.FriendlyName, new[] {statusItem.Path}, options);
         }
     }
 }
