@@ -23,6 +23,7 @@ import { DialogModule } from './dialogs/dialog.module';
 import { StatusModule } from './status/status.module';
 import { RepositoryConfigurationModule } from './repository/configuration/repository-configuration.module';
 import { RepositoryService } from './services/repository.service';
+import { NgReduxModule, NgRedux } from '@angular-redux/store';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { RepositoryService } from './services/repository.service';
     StatusModule,
     DialogModule,
     RepositoryConfigurationModule,
+    NgReduxModule,
     HttpModule,
   ],
   providers: [SystemBusService, NotificationService,
