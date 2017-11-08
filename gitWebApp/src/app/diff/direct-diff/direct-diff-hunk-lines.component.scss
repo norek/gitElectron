@@ -1,0 +1,33 @@
+.content {
+
+    &-nonexistent{
+        background-color: #373e3e;
+        cursor: not-allowed;
+    }
+
+    &-removed{
+        background-color: indianred;
+    }
+
+    &-added{
+        background-color: darkolivegreen;
+    }
+}
+
+.line {
+    &-container {
+        display: flex;
+    }
+
+    &-number {
+        flex: 0.05;
+        text-align: right;
+        color:darkgray;
+        margin-right: 5px;
+    }
+
+    &-content {
+        flex: 0.9;
+        padding-left:10px;
+    }
+}

@@ -1,15 +1,11 @@
 <div>
-  <div class="hunk-header">{{hunk.header | json}}</div>
+  <div class="hunk-header">Hunk: {{hunk.header.rawHeader}}</div>
   <div class="hunk-container">
     <div class="hunk">
-        <div *ngFor="let line of hunk.linesBefore">
-            <span>{{line | json}}</span>
-        </div>
+        <direct-diff-hunk-lines [lines]=hunk.linesBefore></direct-diff-hunk-lines>
     </div>
     <div class="hunk">
-        <div *ngFor="let line of hunk.linesAfter">
-            <span>{{line | json}}</span>
-        </div>
+        <direct-diff-hunk-lines [lines]=hunk.linesAfter></direct-diff-hunk-lines>
     </div>
   </div>
 </div>

@@ -1,6 +1,9 @@
 
 .hunk-header {
-    border: 1px solid blue;
+    background-color: darkslategray;
+    padding: 5px;
+    text-align: center;
+    margin: 3px;
 }
 
 .hunk-container {
@@ -9,5 +12,4 @@
 
 .hunk {
     flex: 1;
-    border: 1px solid red;
 }
