@@ -24,6 +24,8 @@ import { StatusModule } from './status/status.module';
 import { RepositoryConfigurationModule } from './repository/configuration/repository-configuration.module';
 import { RepositoryService } from './services/repository.service';
 import { NgReduxModule, NgRedux } from '@angular-redux/store';
+import { IAppState } from './store/IAppState';
+import { store } from './store/store';
 
 @NgModule({
   declarations: [
@@ -51,4 +53,8 @@ import { NgReduxModule, NgRedux } from '@angular-redux/store';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(ngRedux: NgRedux<IAppState>) {
+    ngRedux.provideStore(store);
+  }
+}

@@ -7,27 +7,27 @@
     <div *ngIf="!isLoading">
         <div id="commit-message">
             <label>Message:</label>
-            <p>{{commitDetails.message}}</p>
+            <p>{{commitDetails.message | async}}</p>
         </div>
 
         <md-divider></md-divider>
 
         <div id="commit-information">
             <label>Info:</label>
-            <p>{{commitDetails.author}}</p>
-            <p>{{commitDetails.date | date}}</p>
+            <p>{{commitDetails.author | async}}</p>
+            <!-- <p>{{commitDetails.date | date}}</p> -->
         </div>
 
-        <md-divider></md-divider>
+        <!-- <md-divider></md-divider>
 
         <md-list>
             <md-list-item *ngFor="let change of commitDetails.changes">
                 <md-icon md-list-icon md-tooltip="{{change.type | commitChangeTypeToTooltip}}">
                     {{change.type | commitChangeTypeToIcon}}
                 </md-icon>
-                <h4 md-line  md-tooltip="{{change.path}}"> {{change.path}}</h4>
+                <h4 md-line md-tooltip="{{change.path}}"> {{change.path}}</h4>
             </md-list-item>
-        </md-list>
+        </md-list> -->
     </div>
     <md-spinner *ngIf="isLoading" color="warn"></md-spinner>
 </md-expansion-panel>
